@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'GT Walsheim Pro Bold';
+    src: url('/static/fonts/GTWalsheimPro-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GT Walsheim Pro';
+    src: url('/static/fonts/GTWalsheimPro-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    background-color: #FAF8FF;
+    font-family: 'GT Walsheim Pro', sans-serif;
+    overflow-x: hidden;
+    margin: 0px;
+}
+a{
+    color: #070A1C;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+a img{
+    margin-right:10px;
+}
+
+
+#main-urls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 80px;
+    align-content: center;
+}
+
+#main-urls a{
+    margin-right: 22px;
+}
+
+#logo{
+    margin-left: 80px;
+    color: #543C52;
+    font-size: 18px;
+    text-align: center;
+    justify-content: center;
+    font-family: 'GT Walsheim Pro Bold', sans-serif;
+}
+#id_username_helptext{
+    display: none;
+}
+
+#header-links{
+    width: 100vw;
+    height: 88px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;   
+
+}
+header{
+    position: fixed;
+    top: 0;
+}
+#logout-form{
+    margin: 0px;
+}
+#logout-form button img{
+    margin-right:10px;
+}
+#exit{
+    width: 95px;
+    height: 40px;
+    color: #070A1C;
+    border-radius: 1234px;
+    background-color: #ffffff;
+    border: 1px solid #543C52;
+    color: #543C52;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#exit:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+header a:hover{
+    background-color: #E9E5EE;
+}

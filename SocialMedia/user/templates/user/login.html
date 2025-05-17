@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/registration/style.css' %}">
+{% endblock %}
+
+{% block title %}
+    Авторизація
+{% endblock %}
+
+{% block content %}
+    
+    <form action="" class = 'user-form' method="post">
+        <div id = 'form-links'>
+            <a href="{% url 'registration' %}" id = 'registration-link' style = 'color: #81818D; text-decoration: none; font-family: "GT Walsheim Pro", sans-serif; margin-right: 24px;'>Реєстрація</a>
+            <a href="{% url 'login' %}" id = 'login-link' style = "color: #000000; font-family: 'GT Walsheim Pro Bold', sans-serif;">Авторизація</a>
+        </div>
+        <h5>Раді тебе знову бачити!</h5>
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button type="submit" class="btn-btn-primary">Увійти</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

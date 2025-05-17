@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/main/mainStyle.css' %}">
+{% endblock %}
+
+{% block title %}
+    Головна сторінка
+{% endblock %}
+
+{% block content %}
+    <div id = 'main-page-content'>
+        <div id = "user-frames">
+            <div id = "user-frame">
+                <div id = "profile">
+                    <img src="{% static 'img/userPhoto.jpg' %}" alt="фото юзера" id = "user-photo">
+                    <div id = "nickname">
+                        <h3>{{ user.username }}</h3>
+                        <h4>@user3092w498ur4</h4>
+                    </div>
+                </div>
+                <div id = "profile-data">
+                    <div id = "subscribers">
+                        <h3>566</h3>
+                        <h4>Дописи</h4>
+                    </div>
+                    <div id = "readers">
+                        <h3>12.1К</h3>
+                        <h4>Читачі</h4>
+                    </div>
+                    <div id = "friends">
+                        <h3>222</h3>
+                        <h4>Друзі</h4>
+                    </div>
+                </div>
+            </div>
+            <div id = "friends-frame">
+                <div id = "search">
+                    <div id = "requests">
+                        <img src="{% static 'img/people.png' %}" alt="people" id = "people-icon">
+                        <h3>Запити</h3>
+                    </div>
+                    <button type='submit' id = "View-all-requests">Дивитись всі</button>
+                </div>
+                <div id = "other-users">
+                    <div id = "user1">
+                        <img src="{% static 'img/userPhoto.jpg' %}" alt="user" class = 'user'>
+                        <div id = "user-information1">
+                            <h4>Yehor Aung</h4>
+                            <h5>4.3к підписників</h5>
+                        </div>
+                    </div>
+                    <div id = "user2">
+                        <img src="{% static 'img/userPhoto.jpg' %}" alt="" class = 'user'>
+                        <div id = "user-information2">
+                            <h4>Ann Ann</h4>
+                            <h5>1.6к підписників</h5>
+                        </div>
+                    </div>
+                    <div id = "user3">
+                        <img src="{% static 'img/userPhoto.jpg' %}" alt="" class = 'user'>
+                        <div id = "user-information3">
+                            <h4>Yeugen Jenua</h4>
+                            <h5>10.3к підписників</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id = "messages-frame">
+                <div id = "notifications">
+                    <div id = "notification-icon">
+                        <img src="{% static 'img/chats.png' %}" alt="chat" id = "chat-icon">
+                        <h3>Повідомлення</h3>
+                    </div>
+                    <button type="submit" id = "View-all-notifications">Дивитись всі</button>
+                </div>
+                <div id = "chats">
+                    <div id = "chat1">
+                        <div id = "chat-with-user1">
+                            <img src="{% static 'img/userPhoto.jpg' %}" alt="" class="user">
+                            <div id = "name-and-message1">
+                                <div id = "name-and-time1">
+                                    <h4>Mona Lisa</h4>
+                                    <h5>09:41</h5>
+                                </div>
+                                <h5>Привіт!Як справи?</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div id = "chat2">
+                        <div id = "chat-with-user2">
+                            <img src="{% static 'img/userPhoto.jpg' %}" alt="" class="user">
+                            <div id = "name-and-message2">
+                                <div id = "name-and-time2">
+                                    <h4>Ann Ti</h4>
+                                    <h5>25.04.2025</h5>
+                                </div>
+                                <h5>Привіт!</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div id = "chat3">
+                        <div id = "chat-with-user3">
+                            <img src="{% static 'img/userPhoto.jpg' %}" alt="" class="user">
+                            <div id = "name-and-message3">
+                                <div id = "name-and-time3">
+                                    <h4>Ness Ty</h4>
+                                    <h5>25.04.2025</h5>
+                                </div>
+                                <h5>Привіт!</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id = "publications">
+            <div id="new-publication-container">
+                <textarea type="text" placeholder="Текст публікації" id="new-publication-input"></textarea>
+                <form method="post" id="new-publications-buttons">
+                    {% csrf_token %}
+                    <button type="submit" id="sticker-button">
+                        <img src="{% static 'img/smile.png' %}" alt="">
+                    </button>
+                    <button type="submit" id="publication-button">
+                        Перейти до оформлення <img src="" alt="">
+                    </button>
+                </form>
+            </div>
+            
+            <div id = 'create-publication-form-background'>
+                <form action="" method="post" id = 'create-publication-form' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button type="submit" id = 'close-button'>⨉</button>
+                    <h3>Створення публікації</h3>
+                    <div id = 'publication-form-inputs'>
+                        {{ form.as_p}}
+                    </div>
+                    <div id = 'publication-form-buttons'>
+                        <label id = "add-image-button" ><img src="{% static 'img/image.png' %}"></label>
+                        <button type="submit" id = "create-publication-button">Публікація<img src="" alt=""></button>
+                    </div>
+                </form>
+            </div>
+            
+            {% for pub in publications %}
+                <div class="publication-card">
+                    <div class="publication-header">
+                        <div id = 'creator-data'>
+                            <img src="{% static 'img/userPhoto.jpg' %}" alt="userPhoto" id = 'user-photo-publication'>
+                            <h4 id = 'user-name-publication'>{{ pub.user.username }}</h4>
+                        </div>
+                        <button class = 'publication-dots'><img src="{% static 'img/dots.png' %}"></button>
+                        <div id = 'dots-menu'>
+                            <div class = 'publication-dots-close'></div>
+                            <button id = 'edit-publication' class = 'dots-menu-button'>Редагувати допис</button>
+                            <hr>
+                            <form action="{% url 'delete_publication' pub.id %}" method="post" onsubmit="return confirm('Точно видалити?');">
+                                {% csrf_token %}
+                                <button type="submit" id = 'delete-publication' class = 'dots-menu-button'>Видалити публікацію</button>
+                            </form>
+
+                            
+                        </div>
+                    </div>
+                    <hr>
+                    {% if pub.title %}
+                        <h3>{{ pub.title }}</h3>
+                    {% endif %}
+
+                    {% if pub.theme %}
+                        <p>{{ pub.theme }}</p>
+                    {% endif %}
+
+                    {% if pub.tags %}
+                        <p class = 'tag-text'>{{ pub.tags }}</p>
+                    {% endif %}
+
+                    {% if pub.text %}
+                        <p>{{ pub.text }}</p>
+                    {% endif %}
+
+                    {% if pub.url %}
+                        <p><a href="{{ pub.url }}" target="_blank">{{ pub.url }}</a></p>
+                    {% endif %}
+
+                    {% if pub.images %}
+                        <img src="{{ pub.images.url }}" alt="Зображення публікації" class="publication-image">
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>Публікацій ще немає</p>
+            {% endfor %}
+
+            
+        </div>
+        
+    </div>
+
+    
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'js/main/mainScripts.js' %}"></script>
+{% endblock %}

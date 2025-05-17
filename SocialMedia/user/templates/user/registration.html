@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/registration/style.css' %}">
+{% endblock %}
+
+{% block title %}
+    Реєстрація
+{% endblock %}
+
+{% block content %}
+    
+    <form action="" class = 'user-form' method="post" id="registrationForm">
+        <div id = 'form-links'>
+            <a href="{% url 'registration' %}" id = 'registration-link' style = "color: #000000; margin-right: 24px; font-family: 'GT Walsheim Pro Bold', sans-serif;">Реєстрація</a>
+            <a href="{% url 'login' %}" id = 'login-link' style = 'color: #81818D; text-decoration: none; font-family: "GT Walsheim Pro", sans-serif;'>Авторизація</a>
+        </div>
+        <h5>Приєднуйся до World IT</h5>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" id="registerBtn">Зареєструватися</button>
+    </form>
+
+    <!-- Модальне вікно -->
+    <div id="overlay" class="modal-overlay {% if show_modal %}show{% endif %}">
+        <div id="codeModal" class="custom-modal {% if show_modal %}show{% endif %}">
+            <div class="modal-content-custom">
+                <form id="codeForm" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="confirm_code">
+                    <input type="hidden" name="email" value="{{ email }}">
+                    <h2>Підтвердження пошти</h2>
+                    <p>Ми надіслали 6-значний код на вашу пошту. Введіть його нижче, щоб підтвердити акаунт.</p>
+                    <label for="code">Код підтвердження:</label>
+                    <div id="inputs">
+                        {% for i in "123456" %}
+                        <input type="text" name="code{{ forloop.counter }}" maxlength="1" class="code-input" required>
+                        {% endfor %}
+                    </div>
+                    {% if code_error %}
+                        <p class="error">{{ code_error }}</p>
+                    {% endif %}
+                    <div class="modal-buttons">
+                        <button type="submit">Підтвердити</button>
+                        <button type="button" id="closeModal">Назад</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/registration/scripts.js' %}"></script>
+{% endblock %}
+
