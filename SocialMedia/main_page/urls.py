@@ -4,6 +4,6 @@ from . import views
 urlpatterns = [
     path('', views.render_main_page, name = 'main_page'),
     path('delete-publication/<int:pub_id>/', views.delete_publication, name='delete_publication'),
-
+    path('edit_publications/<int:pub_id>', views.edit_publication, name = 'edit_publication')
 ]
 

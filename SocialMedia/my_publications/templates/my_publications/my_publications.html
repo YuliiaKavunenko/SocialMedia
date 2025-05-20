@@ -41,6 +41,55 @@
                 <button type="submit" id = "sticker-button"><img src="{% static 'img/smile.png' %}" alt=""></button>
                 <button type="submit" id = "publication-button">Перейти до оформлення <img src="" alt=""></button>
             </form>
+            {% for pub in publications %}
+                <div class="publication-card">
+                    <div class="publication-header">
+                        <div id = 'creator-data'>
+                            <img src="{% static 'img/userPhoto.jpg' %}" alt="userPhoto" id = 'user-photo-publication'>
+                            <h4 id = 'user-name-publication'>{{ pub.user.username }}</h4>
+                        </div>
+                        <button class = 'publication-dots'><img src="{% static 'img/dots.png' %}"></button>
+                        <div id = 'dots-menu'>
+                            <div class = 'publication-dots-close'></div>
+                            <button id = 'edit-publication' class = 'dots-menu-button'>Редагувати допис</button>
+                            <hr>
+                            <form action="{% url 'delete_publication' pub.id %}" method="post" onsubmit="return confirm('Точно видалити?');">
+                                {% csrf_token %}
+                                <button type="submit" id = 'delete-publication' class = 'dots-menu-button'>Видалити публікацію</button>
+                            </form>
+
+                            
+                        </div>
+                    </div>
+                    <hr>
+                    {% if pub.title %}
+                        <h3>{{ pub.title }}</h3>
+                    {% endif %}
+
+                    {% if pub.theme %}
+                        <p>{{ pub.theme }}</p>
+                    {% endif %}
+
+                    {% if pub.tags %}
+                        <p class = 'tag-text'>{{ pub.tags }}</p>
+                    {% endif %}
+
+                    {% if pub.text %}
+                        <p>{{ pub.text }}</p>
+                    {% endif %}
+
+                    {% if pub.url %}
+                        <p><a href="{{ pub.url }}" target="_blank">{{ pub.url }}</a></p>
+                    {% endif %}
+
+                    {% if pub.images %}
+                        <img src="{{ pub.images.url }}" alt="Зображення публікації" class="publication-image">
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>Публікацій ще немає</p>
+            {% endfor %}
+
         </div>
     </div>
 {% endblock %}
