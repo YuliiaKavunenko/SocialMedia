@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main_page',
     'user',
     'my_publications',
+    'my_settings',
 ]
 
 MIDDLEWARE = [
@@ -131,8 +132,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'user' / 'static',
     BASE_DIR / 'main_page' / 'static',
     BASE_DIR / 'my_publications' / 'static',
+    BASE_DIR / 'my_settings' / 'static',
 ]
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type

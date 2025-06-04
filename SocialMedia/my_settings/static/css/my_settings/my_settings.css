@@ -1,0 +1,222 @@
+#personal-information{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#album{
+    color: #81818D;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#profile-card{
+    background-color: #FFFFFF;
+    width: 924px;
+    height: 263px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+
+#profile-header h4{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#edit-information-button1{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
+}
+
+#edit-information1{
+    color: #543C52;
+    font-size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+#nickname h3{
+    color: #070A1C;
+    size: 24px;
+    font-family: "GT Walsheim Pro";
+}
+
+#nickname h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+
+#editing-personal-information{
+    background-color: #FFFFFF;
+    width: 924px;
+    height: 490px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+
+#information-header h4{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#edit-information-button2{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
+}
+
+#edit-information2{
+    color: #543C52;
+    font-size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+#enter-name h4{
+    color: #070a1c;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#name{
+    background-color: #FFFFFF;
+    width: 313px;
+    height: 42px;
+    border: 1px solid #81818D;
+    border-radius: 10px;
+}
+#name::placeholder{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#enter-surname h4{
+    color: #070a1c;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#surname{
+    background-color: #FFFFFF;
+    width: 313px;
+    height: 42px;
+    border: 1px solid #81818D;
+    border-radius: 10px;
+}
+#surname::placeholder{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#enter-date h4{
+    color: #070a1c;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#date-of-birth{
+    background-color: #FFFFFF;
+    width: 313px;
+    height: 42px;
+    border: 1px solid #81818D;
+    border-radius: 10px;
+}
+#date-of-birth::placeholder{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#enter-email h4{
+    color: #070a1c;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#email{
+    background-color: #FFFFFF;
+    width: 313px;
+    height: 42px;
+    border: 1px solid #81818D;
+    border-radius: 10px;
+}
+#email::placeholder{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#enter-password h4{
+    color: #070a1c;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#password{
+    background-color: #FFFFFF;
+    width: 313px;
+    height: 42px;
+    border: 1px solid #81818D;
+    border-radius: 10px;
+}
+#password::placeholder{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+
+#signature-options{
+    background-color: #FFFFFF;
+    width: 924px;
+    height: 267px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+
+#header-signature h4{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#edit-information-button3{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
+}
+
+#edit-information3{
+    color: #543C52;
+    font-size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+#name-and-surname-button h4{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#name-and-surname{
+    color: #543C52;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#my-electronic-signature{
+    color: #543C52;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}

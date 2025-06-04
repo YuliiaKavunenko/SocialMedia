@@ -17,8 +17,9 @@ button{
     flex-direction: column;
     position: fixed;
     top: 104px;
-    left: 80px;
+    left: 5.55vw;
     gap: 8px;
+    
 }
 
 #user-frame{
@@ -420,24 +421,33 @@ button{
 }
 #main-page-content{
     width: 100%;
+    padding: 0 5.55vw;
+    box-sizing:border-box;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left: 88px;
-    margin-right: 88px;
+    align-items: flex-end;
+
 }
 #publications{
     display: flex;
     flex-direction: column;
-    margin-left:390px;
-    margin-top: 104px;
+    justify-content: flex-end;
+    align-items:flex-start;
+    width: 69vw;
+    margin-left: 390px;
+    margin-top: 16px;
     position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+
+    
 }
 
 #new-publication-input{
     background-color: #FFFFFF;
-    width: 97.7%;
+    width: 67vw;
     height: 120px;
     border: 1px solid #CDCED2;
     border-radius: 10px;
@@ -447,6 +457,7 @@ button{
     overflow-x: hidden;
     resize: none;
     padding: 16px;
+    margin-top: 0px;
     
 }
 #new-publication-input::placeholder{
@@ -487,6 +498,7 @@ button{
 #new-publication-container {
     position: relative;
     width: 100%;
+    box-sizing: border-box;
 }
 
 #sticker-button:hover{
@@ -623,7 +635,7 @@ button{
 }
 .publication-card{
     margin-top: 8px;
-    width: 97.3%;
+    width: 99.4%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -635,6 +647,7 @@ button{
     padding-left: 20px;
     padding-right: 20px;
     gap: 16px;
+    box-sizing: border-box;
 }
 .publication-card img{
     width: 433px;
@@ -646,6 +659,9 @@ button{
     font-size: 16px;
     color: #070A1C;
     margin: 0px;
+
+    justify-content: flex-start;
+    text-align: start;
 }
 #user-photo-publication{
     width: 46px;

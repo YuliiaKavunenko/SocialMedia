@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/my_settings/my_settings.css' %}">
+{% endblock %}
+
+{% block title %}
+    Налаштування
+{% endblock %}
+
+{% block content %}
+    <div id="sidebar">
+        <div id="information-tab">
+            <button type="submit" id="personal-information" >Особиста інформація</button>
+        </div>
+        <div id="albums-tab">
+            <button type="submit" id="album">Альбоми</button>
+        </div>
+    </div>
+    <div id="edit-panel">
+        <div id="profile-card">
+            <div id="profile-header">
+                <h4>Картка профілю</h4>
+                <div id="edit-information-button1">
+                    <button type="submit" id="edit-information1" ><img src="" alt="">Редагувати інформацію</button>
+                </div>
+            </div>
+            <div id="user">
+                <div id="avatar">
+                    <img src="" alt="">
+                </div>
+                <div id="nickname">
+                    <h3>Lina Li</h3>
+                    <h4>@thelili</h4>
+                </div>
+            </div>
+        </div>
+        <div id="editing-personal-information">
+            <div id="information-header">
+                <h4>Особиста інформація</h4>
+                <div id="edit-information-button2">
+                    <button type="submit" id="edit-information2"><img src="" alt="">Редагувати інформацію</button>
+                </div>
+            </div>
+            <div id="edit-personal-information">
+                <div id="enter-name">
+                    <h4>Ім'я</h4>
+                    <input type="text" name="" id="name" placeholder="Lina">
+                    <button type="submit" id="eye1"><img src="" alt=""></button>
+                </div>
+                <div id="enter-surname">
+                    <h4>Прізвище</h4>
+                    <input type="text" name="" id="surname" placeholder="Li">
+                    <button type="submit" id="eye2"><img src="" alt=""></button>
+                </div>
+                <div id="enter-date">
+                    <h4>Дата народження</h4>
+                    <input type="text" name="" id="date-of-birth" placeholder="15.04.2001">
+                    <button type="submit" id="eye3"><img src="" alt=""></button>
+                </div>
+                <div id="enter-email">
+                    <h4>Електронна адреса</h4>
+                    <input type="text" name="" id="email" placeholder="you@example.com">
+                    <button type="submit" id="eye4"><img src="" alt=""></button>
+                </div>
+                <div id="enter-password">
+                    <h4>Пароль</h4>
+                    <input type="text" name="" id="password" placeholder="**********">
+                    <button type="submit" id="eye5"><img src="" alt=""></button>
+                </div>
+            </div>
+        </div>
+        <div id="signature-options">
+            <div id="header-signature">
+                <h4>Варіанти підпису</h4>
+                <div id="edit-information-button3">
+                    <button type="submit" id="edit-information3"><img src="" alt="">Редагувати інформацію</button>
+                </div>
+            </div>
+            <div id="edit-signature">
+                <div id="name-and-surname-button">
+                    <button type="submit" id="name-and-surname"><img src="" alt="">Ім'я та прізвище</button>
+                    <h4>Lina Li</h4>
+                </div>
+                <div id="my-electronic-signature-button">
+                    <button type="submit" id="my-electronic-signature"><img src="" alt="">Мій електронний підпис</button>
+                    <img src="" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

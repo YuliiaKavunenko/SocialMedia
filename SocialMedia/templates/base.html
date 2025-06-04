@@ -13,38 +13,42 @@
     </head>
     <body>
         <header>
-            <div id = 'header-links'>
-                <div id = 'logo'>
-                    <img src="{% static 'img/logoIT.png' %}" alt="">
-                    WORLD IT
-                </div>
-                <div id = 'main-urls'>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'main_page' %}" id="main-page"><img src="{% static 'img/House.png' %}" alt="">Головна</a>
-                        <a href="{% url 'my_publications' %}" id="posts-url"><img src="{% static 'img/Picture.png' %}" alt="">Мої публікації</a>
-                        <a href="" id="friends-url"><img src="{% static 'img/Friends.png' %}" alt="">Друзі</a>
-                        <a href="" id="chat-url"><img src="{% static 'img/Chat.png' %}" alt="">Чати</a>
-                        <a href="{% url 'user' %}" id="settings"><img src="{% static 'img/Settings.png' %}" alt="">Налаштування</a>
-                        <form action="{% url 'logout' %}" method="post" id = 'logout-form'>
-                            {% csrf_token %}
-                            
-                            <button type="submit" class="btn btn-danger" id="exit"><img src="{% static 'img/Exit.png' %}" alt="">Вихід</button>
-                        </form>
-                    {% else %}
-                        <style>
-                            #logo{
-                                width: 100%;
-                                margin-left: 80px;
-                                color: #543C52;
-                                font-size: 18px;
-                                text-align: center;
-                                justify-content: center;
-                                display: flex;
-                                align-items: center;
-                                font-family: 'GT Walsheim Pro Bold', sans-serif;
-                            }
-                        </style>
-                    {% endif %}
+            <div id="header">
+                <div id = 'header-links'>
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div id = 'logo'>
+                            <img src="{% static 'img/logoIT.png' %}" alt="">
+                            WORLD IT
+                        </div>
+                        <div id = 'main-urls'>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'main_page' %}" id="main-page"><img src="{% static 'img/House.png' %}" alt="">Головна</a>
+                                <a href="{% url 'my_publications' %}" id="posts-url"><img src="{% static 'img/Picture.png' %}" alt="">Мої публікації</a>
+                                <a href="" id="friends-url"><img src="{% static 'img/Friends.png' %}" alt="">Друзі</a>
+                                <a href="" id="chat-url"><img src="{% static 'img/Chat.png' %}" alt="">Чати</a>
+                                <a href="{% url 'settings' %}" id="settings"><img src="{% static 'img/Settings.png' %}" alt="">Налаштування</a>
+                                <form action="{% url 'logout' %}" method="post" id = 'logout-form'>
+                                    {% csrf_token %}
+                                    
+                                    <button type="submit" class="btn btn-danger" id="exit"><img src="{% static 'img/Exit.png' %}" alt="">Вихід</button>
+                                </form>
+                            {% else %}
+                                <style>
+                                    #logo{
+                                        width: 100%;
+                                        margin-left: 80px;
+                                        color: #543C52;
+                                        font-size: 18px;
+                                        text-align: center;
+                                        justify-content: center;
+                                        display: flex;
+                                        align-items: center;
+                                        font-family: 'GT Walsheim Pro Bold', sans-serif;
+                                    }
+                                </style>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
             
