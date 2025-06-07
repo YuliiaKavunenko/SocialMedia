@@ -1,8 +1,60 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from main_page.models import UserPublications
+from main_page.forms import CreatePublicationsForm
 
-# Create your views here.
-def render_my_publications_page(request):
+@login_required
+def edit_publication(request, pub_id):
+    publication = get_object_or_404(UserPublications, id = pub_id)
+    if request.method == 'POST':
+        form = CreatePublicationsForm(request.POST, request.FILES, instance = publication)
+        if form.is_valid():
+            publication = form.save(commit = False)
+            publication.user = request.user
+            publication.views = 0
+            publication.likes = 0
+            publication.save()
+            return redirect('main_page')
+    else:
+        form = CreatePublicationsForm(instance = publication)
+    
     return render(
-        request = request,
-        template_name = "my_publications/my_publications.html"
+        request,
+        "main_page/main.page.html",
+        {
+            "user": request.user,
+            "form": form,
+            "publication": publication,
+        }
     )
+
+@login_required
+def delete_publication(request, pub_id):
+    publication = get_object_or_404(UserPublications, id = pub_id)
+
+    if request.method == "POST":
+        publication.delete()
+        return redirect('my_publications')
+    
+def render_my_publications_page(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = CreatePublicationsForm(request.POST, request.FILES)
+        if form.is_valid():
+            publication = form.save(commit=False)
+            publication.user = user
+            publication.views = 0
+            publication.likes = 0
+            publication.save()
+            return redirect('my_publications')
+    else:
+        form = CreatePublicationsForm()
+    user_publications_count = UserPublications.objects.filter(user=user).count()
+    return render(request, "my_publications/my_publications.html", {
+        "user": user,
+        "form": form,
+        "publications": UserPublications.objects.all(),
+        "user_publications_count": user_publications_count
+    })

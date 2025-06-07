@@ -1,0 +1,221 @@
+#friends-url{
+    background-color: #E9E5EE;
+
+}
+#friends-panel{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 75%;
+}
+#friends-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 5.55vw;
+    margin-right: 5.55vw;
+    margin-top: 16px
+}
+#request-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#recommendations-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#allfriends-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#home{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+#requests{
+    color: #81818D;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+#recommendations{
+    color: #81818D;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+#all-friends{
+    color: #81818D;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+#sidebar button{
+    background-color: #FAF8FF;
+    border: none;
+}
+#request-window{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 20px;
+}
+#requested-users{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+#recommended-users{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+#allfriends-users{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.request{
+    background-color: #FFFFFF;
+    width: 289px;
+    height: 263px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+.profile-information h3{
+    color: #070A1C;
+    size: 24px;
+    font-family: "GT Walsheim Pro";
+}
+.profile-information h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+.confirm-request{
+    background-color: #543C52;
+    width: 111px;
+    height: 40px;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+.delete-request{
+    background-color: #FFFFFF;
+    width: 94px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 1234px;
+    color: #543C52;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+#recommendations-window{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 20px;
+}
+.recommendation{
+    background-color: #FFFFFF;
+    width: 289px;
+    height: 263px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+.rec-profile-information h3{
+    color: #070A1C;
+    size: 24px;
+    font-family: "GT Walsheim Pro";
+}
+.rec-profile-information h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+.add-recommendation{
+    background-color: #543C52;
+    width: 79px;
+    height: 40px;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+.delete-recommendation{
+    background-color: #FFFFFF;
+    width: 94px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 1234px;
+    color: #543C52;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+#allfriends-window{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 20px;
+}
+.friend{
+    background-color: #FFFFFF;
+    width: 289px;
+    height: 263px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+.rec-friend-information h3{
+    color: #070A1C;
+    size: 24px;
+    font-family: "GT Walsheim Pro";
+}
+.rec-friend-information h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+.message-friend{
+    background-color: #543C52;
+    width: 123px;
+    height: 40px;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+.delete-friend{
+    background-color: #FFFFFF;
+    width: 94px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 1234px;
+    color: #543C52;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+.text{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+.button{
+    color: #543C52;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}

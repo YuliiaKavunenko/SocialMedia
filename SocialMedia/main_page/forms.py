@@ -1,5 +1,7 @@
 from .models import UserPublications
+from django.contrib.auth.models import User
 from django import forms
+from django.core.exceptions import ValidationError
 
 class CreatePublicationsForm(forms.ModelForm):
     class Meta:
@@ -51,4 +53,33 @@ class CreatePublicationsForm(forms.ModelForm):
             self.add_error('url', 'Посилання має починатись з "https://"')
 
         return cleaned_data
-        
+
+class UserProfileUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(
+        max_length=30,
+        required=True,
+        label='Ім’я',
+        widget=forms.TextInput(attrs={'placeholder': 'Введіть Ваше ім’я'})
+    )
+    last_name = forms.CharField(
+        max_length=30,
+        required=True,
+        label='Прізвище',
+        widget=forms.TextInput(attrs={'placeholder': 'Введіть Ваше прізвище'})
+    )
+    username = forms.CharField(
+        max_length=150,
+        required=True,
+        label='Ім’я користувача',
+        widget=forms.TextInput(attrs={'placeholder': '@'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
+            raise ValidationError('Це ім’я користувача вже зайняте.')
+        return username

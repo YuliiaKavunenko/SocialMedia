@@ -1,19 +1,47 @@
+#settings{
+    background-color: #E9E5EE;
+}
+#settings-page-content{
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 5.55vw;
+    margin-right: 5.55vw;
+    margin-top: 16px;
+}
+
 #personal-information{
     color: #070A1C;
     font-size: 16px;
     font-family: "GT Walsheim Pro";
+    background-color: #FAF8FF;
+    border: none;
+    font-weight: bold;
+    
 }
 
 #album{
     color: #81818D;
     font-size: 16px;
     font-family: "GT Walsheim Pro";
+    background-color: #FAF8FF;
+    border: none;
 }
-
+#edit-panel{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 75%;
+}
+.card{
+    padding: 16px;
+}
 #profile-card{
     background-color: #FFFFFF;
-    width: 924px;
-    height: 263px;
+    width: 100%;
+    height: auto;
     border: 1px solid #CDCED2;
     border-radius: 10px;
 }
@@ -23,7 +51,11 @@
     font-size: 16px;
     font-family: "GT Walsheim Pro";
 }
-
+#profile-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 #edit-information-button1{
     background-color: #FFFFFF;
     width: 203px;
@@ -42,19 +74,23 @@
     color: #070A1C;
     size: 24px;
     font-family: "GT Walsheim Pro";
+    width: 100%;
+    text-align: center;
 }
 
 #nickname h4{
     color: #070A1C;
     size: 16px;
     font-family: "GT Walsheim Pro";
+    width: 100%;
+    text-align: center;
 }
 
 
 #editing-personal-information{
     background-color: #FFFFFF;
-    width: 924px;
-    height: 490px;
+    width: 100%;
+    height: auto;
     border: 1px solid #CDCED2;
     border-radius: 10px;
 }
@@ -63,6 +99,11 @@
     color: #070A1C;
     font-size: 16px;
     font-family: "GT Walsheim Pro";
+}
+#information-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #edit-information-button2{
@@ -177,8 +218,8 @@
 
 #signature-options{
     background-color: #FFFFFF;
-    width: 924px;
-    height: 267px;
+    width: 100%;
+    height: auto;
     border: 1px solid #CDCED2;
     border-radius: 10px;
 }
@@ -188,7 +229,11 @@
     font-size: 16px;
     font-family: "GT Walsheim Pro";
 }
-
+#header-signature{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 #edit-information-button3{
     background-color: #FFFFFF;
     width: 203px;
@@ -219,4 +264,11 @@
     color: #543C52;
     font-size: 16px;
     font-family: "GT Walsheim Pro";
+}
+.button-edit-info{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
 }

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/friends/friends.css' %}">
+{% endblock %}
+
+{% block title %}
+    Друзі
+{% endblock %}
+
+{% block content %}
+    <div id = 'friends-content'>
+        <div id="sidebar">
+            <div id="home-button">
+                <button id="home">Головна</button>
+            </div>
+            <hr>
+            <div id="requests-button">
+                <button id="requests">Запити</button>
+            </div>
+            <div id="recommendations-button">
+                <button id="recommendations">Рекомендації</button>
+            </div>
+            <div id="all-friends-button">
+                <button id="all-friends">Всі друзі</button>
+            </div>
+        </div>
+        <div id="friends-panel">
+            <div id="request-window">
+                <div id="request-header" class="text">
+                    <h4>Запити</h4>
+                    <div id="watch-all-button1">
+                        <button id="watch-all1" class="button">Дивитись всі</button>
+                    </div>
+                </div>
+                <div id="requested-users">
+                    <div id="request1" class="request">
+                        <div id="request-profile1">
+                            <img src="" alt="">
+                            <div id="profile-information1" class="profile-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="request-buttons1">
+                            <button id="confirm-request1" class="confirm-request">Підтвердити</button>
+                            <button id="delete-request2" class="delete-request">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="request2" class="request">
+                        <div id="request-profile2">
+                            <img src="" alt="">
+                            <div id="profile-information2" class="profile-information">
+                                <h3>Ann Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="request-buttons2">
+                            <button id="confirm-request2" class="confirm-request">Підтвердити</button>
+                            <button id="delete-request2" class="delete-request">Видалити</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="recommendations-window">
+                <div id="recommendations-header" class="text">
+                    <h4>Рекомендації</h4>
+                    <div id="watch-all-button2">
+                        <button id="watch-all2" class="button">Дивитись всі</button>
+                    </div>
+                </div>
+                <div id="recommended-users">
+                    <div id="recommendation1" class="recommendation">
+                        <div id="recommendation-profile1">
+                            <img src="" alt="">
+                            <div id="rec-profile-information1" class="rec-profile-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="recommendation-buttons1">
+                            <button id="add-recommendation1" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation1" class="delete-recommendation">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="recommendation2" class="recommendation">
+                        <div id="recommendation-profile2">
+                            <img src="" alt="">
+                            <div id="rec-profile-information2" class="rec-profile-information">
+                                <h3>Ann Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="recommendation-buttons2">
+                            <button id="add-recommendation2" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation2" class="delete-recommendation">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="recommendation3" class="recommendation">
+                        <div id="recommendation-profile3">
+                            <img src="" alt="">
+                            <div id="rec-profile-information3" class="rec-profile-information">
+                                <h3>Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="recommendation-buttons3">
+                            <button id="add-recommendation3" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation3" class="delete-recommendation">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="recommendation4" class="recommendation">
+                        <div id="recommendation-profile4">
+                            <img src="" alt="">
+                            <div id="rec-profile-information4" class="rec-profile-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="recommendation-buttons4">
+                            <button id="add-recommendation4" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation4" class="delete-recommendation">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="recommendation5" class="recommendation">
+                        <div id="recommendation-profile5">
+                            <img src="" alt="">
+                            <div id="rec-profile-information5" class="rec-profile-information">
+                                <h3>Le Sya</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="recommendation-buttons5">
+                            <button id="add-recommendation5" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation5" class="delete-recommendation">Видалити</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="allfriends-window">
+                <div id="allfriends-header" class="text">
+                    <h4>Всі друзі</h4>
+                    <div id="watch-all-button3">
+                        <button id="watch-all3" class="button">Дивитись всі</button>
+                    </div>
+                </div>
+                <div id="allfriends-users">
+                    <div id="friend1" class="friend">
+                        <div id="friend-profile1">
+                            <img src="" alt="">
+                            <div id="rec-friend-information1" class="rec-friend-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="friend-buttons1">
+                            <button id="message-friend1" class="message-friend">Повідомлення</button>
+                            <button id="delete-friend1" class="delete-friend">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="friend2" class="friend">
+                        <div id="friend-profile2">
+                            <img src="" alt="">
+                            <div id="rec-friend-information2" class="rec-friend-information">
+                                <h3>Ann Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="friend-buttons2">
+                            <button id="message-friend2" class="message-friend">Повідомлення</button>
+                            <button id="delete-friend2" class="delete-friend">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="friend3" class="friend">
+                        <div id="friend-profile3">
+                            <img src="" alt="">
+                            <div id="rec-friend-information3" class="rec-friend-information">
+                                <h3>Ann Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="friend-buttons3">
+                            <button id="message-friend3" class="message-friend">Повідомлення</button>
+                            <button id="delete-friend3" class="delete-friend">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="friend4" class="friend">
+                        <div id="friend-profile4">
+                            <img src="" alt="">
+                            <div id="rec-friend-information4" class="rec-friend-information">
+                                <h3>Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="friend-buttons4">
+                            <button id="message-friend4" class="message-friend">Повідомлення</button>
+                            <button id="delete-friend4" class="delete-friend">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="friend5" class="friend">
+                        <div id="friend-profile5">
+                            <img src="" alt="">
+                            <div id="rec-friend-information5" class="rec-friend-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="friend-buttons5">
+                            <button id="message-friend5" class="message-friend">Повідомлення</button>
+                            <button id="delete-friend5" class="delete-friend">Видалити</button>
+                        </div>
+                    </div>
+                    <div id="friend6" class="friend">
+                        <div id="friend-profile6">
+                            <img src="" alt="">
+                            <div id="rec-friend-information6" class="rec-friend-information">
+                                <h3>Le Sya</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <div id="friend-buttons6">
+                            <button id="message-friend6" class="message-friend">Повідомлення</button>
+                            <button id="delete-friend6" class="delete-friend">Видалити</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

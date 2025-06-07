@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block link %}
+{% block links %}
     <link rel="stylesheet" href="{% static 'css/my_publications/publicationsStyle.css' %}">
 {% endblock %}
 
@@ -11,54 +11,94 @@
 
 {% block content %}
     <div id="publications-page-content">
-        <div id = "user-frame">
+        <div id = 'fixed-frame'>
+            <div id = "user-frame">
             <div id = "profile">
                 <img src="{% static 'img/userPhoto.jpg' %}" alt="фото юзера" id = "user-photo">
                 <div id = "nickname">
-                    <h3>{{ user.username }}</h3>
-                    <h4>@user3092w498ur4</h4>
+                    <h3>{{ user.first_name }}</h3>
+                    <h4>@{{ user.username }}</h4>
                 </div>
             </div>
             <div id = "profile-data">
                 <div id = "subscribers">
-                    <h3>566</h3>
+                    <h3>{{ user_publications_count }}</h3>
                     <h4>Дописи</h4>
                 </div>
                 <div id = "readers">
-                    <h3>12.1К</h3>
+                    <h3>0</h3>
                     <h4>Читачі</h4>
                 </div>
                 <div id = "friends">
-                    <h3>222</h3>
+                    <h3>0</h3>
                     <h4>Друзі</h4>
                 </div>
             </div>
         </div>
+        </div>
+        
         <div id = "publications">
-            <textarea type="text" placeholder="Текст публікації" id = "new-publication-input"></textarea>
-            <form method="post" id="new-publications-buttons">
-                {% csrf_token %}
-                <button type="submit" id = "sticker-button"><img src="{% static 'img/smile.png' %}" alt=""></button>
-                <button type="submit" id = "publication-button">Перейти до оформлення <img src="" alt=""></button>
-            </form>
+            <div id = 'new-publication-container'>
+                <textarea type="text" placeholder="Текст публікації" id = "new-publication-input"></textarea>
+                <form method="post" id="new-publications-buttons">
+                    {% csrf_token %}
+                    <button type="submit" id = "sticker-button"><img src="{% static 'img/smile.png' %}" alt=""></button>
+                    <button type="submit" id = "publication-button">Перейти до оформлення <img src="" alt=""></button>
+                </form>
+            </div>
+
+            <div id = 'create-publication-form-background'>
+                <form action="" method="post" id = 'create-publication-form' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button type="submit" id = 'close-button'>⨉</button>
+                    <h3>Створення публікації</h3>
+                    <div id = 'publication-form-inputs'>
+                        {{ form.as_p}}
+                    </div>
+                    <div id = 'publication-form-buttons'>
+                        <label id = "add-image-button" ><img src="{% static 'img/image.png' %}"></label>
+                        <button type="submit" id = "create-publication-button">Публікація<img src="" alt=""></button>
+                    </div>
+                </form>
+            </div>
+
             {% for pub in publications %}
-                <div class="publication-card">
+                <div id = 'edit-publication-form-background-{{ pub.id }}' class="edit-publication-form-background" style="display: none;">
+                    <form action = "{% url 'edit_publication' pub.id %}" method="post" class = 'edit-create-publication-form' enctype = "multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="content" id="create-pub-input">
+                        <button type = "submit" class = 'edit-close-button'>⨉</button>
+                        <h3>Створення публікації</h3>
+                        <div id = 'edit-publication-form-inputs'>
+                            {{ form.as_p}}
+                        </div>
+                        <div id = 'edit-publication-form-buttons'>
+                            <label id = "edit-add-image-button" ><img src = "{% static 'img/image.png' %}"></label>
+                            <button type = "submit" id = "edit-create-publication-button">Публікація<img src="" alt=""></button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="publication-card" data-id="{{ pub.id }}"
+                                              data-title="{{ pub.title|default:'' }}"
+                                              data-theme="{{ pub.theme|default:'' }}"
+                                              data-tags="{{ pub.tags|default:'' }}"
+                                              data-text="{{ pub.text|default:'' }}"
+                                              data-url="{{ pub.url|default:'' }}">
                     <div class="publication-header">
                         <div id = 'creator-data'>
                             <img src="{% static 'img/userPhoto.jpg' %}" alt="userPhoto" id = 'user-photo-publication'>
                             <h4 id = 'user-name-publication'>{{ pub.user.username }}</h4>
                         </div>
                         <button class = 'publication-dots'><img src="{% static 'img/dots.png' %}"></button>
-                        <div id = 'dots-menu'>
+                        <div class = 'dots-menu'>
                             <div class = 'publication-dots-close'></div>
-                            <button id = 'edit-publication' class = 'dots-menu-button'>Редагувати допис</button>
+                            <button id = 'edit-publication' class = 'dots-menu-button edit' data-id = "{{ pub.id }}">Редагувати допис</button>
                             <hr>
-                            <form action="{% url 'delete_publication' pub.id %}" method="post" onsubmit="return confirm('Точно видалити?');">
+                            <form action="{% url 'delete_publication' pub.id %}" method="post" onsubmit="return confirm('Точно видалити?');" id="delete-publication-form-{{ pub.id }}">
                                 {% csrf_token %}
-                                <button type="submit" id = 'delete-publication' class = 'dots-menu-button'>Видалити публікацію</button>
-                            </form>
-
-                            
+                                <button type="submit" id = 'delete-publication' class = 'dots-menu-button delete' data-id = "{{ pub.id }}">Видалити публікацію</button>
+                            </form>             
                         </div>
                     </div>
                     <hr>
@@ -89,7 +129,6 @@
             {% empty %}
                 <p>Публікацій ще немає</p>
             {% endfor %}
-
         </div>
     </div>
 {% endblock %}

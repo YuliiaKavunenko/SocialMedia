@@ -1,7 +1,5 @@
 #main-page{
-    
     background-color: #E9E5EE;
-
 }
 body{
     display: flex;
@@ -19,6 +17,7 @@ button{
     top: 104px;
     left: 5.55vw;
     gap: 8px;
+    width: 18.2%;
     
 }
 
@@ -879,4 +878,105 @@ button{
     right: 16px;
     margin: 0px;
     gap: 13px;
+}
+#add-info-modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+#add-info-modal {
+    background: white;
+    padding: 24px 44px 44px 44px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    text-align: center;
+}
+
+#add-info-modal h3 {
+    margin: 0;
+    font-size: 34px;
+}
+#add-info-form{
+    margin-top: 24px;
+    gap: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#add-info-form p{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#add-info-form p label{
+    font-size: 16px;
+}
+#add-info-form input{
+    width: 400px;
+    margin-top: 6px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    font-family: 'GT Walsheim Pro', sans-serif;
+    font-size: 18px;
+    color: #070A1C;
+    padding: 16px 10px 16px 10px ;
+    box-sizing: border-box;
+}
+#suggest-username-trigger{
+    color: #22C55E;
+    font-weight: normal;
+    margin: 0px;
+    font-size: 12px;
+}
+#suggest-container{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: flex-start;
+    width: 100%;
+}
+#another-text{
+    width:max-content;
+    font-weight: normal;
+    margin: 0px;
+    font-size: 12px;
+}
+#button-container{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+#button-container button{
+    padding: 10px 16px 10px 16px;
+    background-color: #543C52;
+    border: none;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    z-index: 9999;
+}
+#button-container button:hover{
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #543C52;
+    border: 1px solid #543C52;
+}
+#username-generation-error{
+    color: red;
+    font-size: 12px;
+    margin: 0px;
+    display: none;
 }
