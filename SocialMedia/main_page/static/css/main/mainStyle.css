@@ -433,7 +433,7 @@ button{
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items:flex-start;
+    align-items:flex-end;
     width: 69vw;
     margin-left: 390px;
     margin-top: 16px;
@@ -498,6 +498,9 @@ button{
     position: relative;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 #sticker-button:hover{
@@ -659,7 +662,7 @@ button{
     color: #070A1C;
     margin: 0px;
 
-    justify-content: flex-start;
+    justify-content: flex-end;
     text-align: start;
 }
 #user-photo-publication{

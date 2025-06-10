@@ -12,20 +12,18 @@
 {% block content %}
     <div id = 'settings-page-content'>
         <div id="sidebar">
-            <div id="information-tab">
-                <button type="submit" id="personal-information" >Особиста інформація</button>
-            </div>
+            <a href="{% url 'settings' %}" id="profile-url" class="sidebar-url">Особиста інформація</a>
             <hr>
-            <div id="albums-tab">
-                <button type="submit" id="album">Альбоми</button>
-            </div>
+            <a href="{% url 'albums' %}" id="albums-url" class="sidebar-url">Альбоми</a>
         </div>
+        <div id="sidebar-block"></div>
         <div id="edit-panel">
             <div id="profile-card" class = 'card'>
-                <div id="profile-header">
+                <form id="profile-header">
+                    {% csrf_token %}
                     <h4>Картка профілю</h4>
                     <button type="submit" id="edit-information1" class = 'button-edit-info'><img src="" alt="">Редагувати інформацію</button>
-                </div>
+                </form>
                 <div id="user">
                     <div id="avatar">
                         <img src="" alt="">
@@ -37,59 +35,57 @@
                 </div>
             </div>
             <div id="editing-personal-information" class = 'card'>
-                <div id="information-header">
-                    <h4>Особиста інформація</h4>
-
-                    <button type="submit" id="edit-information2" class = 'button-edit-info'><img src="" alt="">Редагувати інформацію</button>
-                </div>
-                <div id="edit-personal-information">
+                <form id="information-header" method="post">
+                    {% csrf_token %}
+                    <div id = 'header-info'>
+                        <h4>Особиста інформація</h4>
+                        <button type="submit" id="save-changes-button" style="display: none;">Зберегти зміни</button>
+                        <button type="submit" id="edit-information2" class = 'button-edit-info'><img src="" alt="">Редагувати інформацію</button>
+                    </div>
+                    
+                    <div id="edit-personal-information">
                     <div id="enter-name">
-                        <h4>Ім'я</h4>
-                        {% if user.first_name %}
-                            <p>{{ user.first_name }}</p>
-                        {% else %}
-                            <input type="text" name="first_name" id="name" placeholder="Ім'я">
-                        {% endif %}
+                        <label>{{ edit_user_data_form.first_name.label }}</label>
+                        {{ edit_user_data_form.first_name }}
                     </div>
 
                     <div id="enter-surname">
-                        <h4>Прізвище</h4>
-                        {% if user.last_name %}
-                            <p>{{ user.last_name }}</p>
-                        {% else %}
-                            <input type="text" name="last_name" id="surname" placeholder="Прізвище">
-                        {% endif %}
+                        <label>{{ edit_user_data_form.last_name.label }}</label>
+                        {{ edit_user_data_form.last_name }}
                     </div>
 
                     <div id="enter-date">
-                        <h4>Дата народження</h4>
-                        {% if user.profile.date_of_birth %}
-                            <p>{{ user.profile.date_of_birth }}</p>
-                        {% else %}
-                            <input type="date" name="date_of_birth" id="date-of-birth">
-                        {% endif %}
+                        <label>{{ edit_user_data_form.birth_date.label }}</label>
+                        {{ edit_user_data_form.birth_date }}
                     </div>
 
                     <div id="enter-email">
-                        <h4>Електронна адреса</h4>
-                        {% if user.email %}
-                            <p>{{ user.email }}</p>
-                        {% else %}
-                            <input type="email" name="email" id="email" placeholder="you@example.com">
-                        {% endif %}
+                        <label>{{ edit_user_data_form.email.label }}</label>
+                        {{ edit_user_data_form.email }}
                     </div>
 
                     <div id="enter-password">
-                        <h4>Пароль</h4>
-                        <p>**********</p> {# Пароль всегда скрыт #}
+                        <form id="password-header">
+                            {% csrf_token %}
+                            <div id = 'header-password'>
+                                <h4>Пароль</h4>
+                                <button type="submit" id="edit-information2" class = 'button-edit-info'><img src="" alt="">Редагувати інформацію</button>
+                            </div>
+                            
+                        </form>
+
+                        <input type = "text" name="password" id="password" placeholder="**********" readonly disabled>
                     </div>
                 </div>
+                </form>
+                
             </div>
             <div id="signature-options" class = 'card'>
-                <div id="header-signature">
+                <form id="header-signature">
+                    {% csrf_token %}
                     <h4>Варіанти підпису</h4>
                     <button type="submit" id="edit-information3" class = 'button-edit-info'><img src="" alt="">Редагувати інформацію</button>
-                </div>
+                </form>
                 <div id="edit-signature">
                     <div id="name-and-surname-button">
                         <button type="submit" id="name-and-surname"><img src="" alt="">Ім'я та прізвище</button>
@@ -103,5 +99,8 @@
             </div>
         </div>
     </div>
+
+    <script src="{% static 'js/my_settings/settings.js' %}" defer></script>
+
    
 {% endblock %}

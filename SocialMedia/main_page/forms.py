@@ -59,19 +59,19 @@ class UserProfileUpdateForm(forms.ModelForm):
         max_length=30,
         required=True,
         label='Ім’я',
-        widget=forms.TextInput(attrs={'placeholder': 'Введіть Ваше ім’я'})
+        widget=forms.TextInput(attrs = {'placeholder': 'Введіть Ваше ім’я'})
     )
     last_name = forms.CharField(
         max_length=30,
         required=True,
         label='Прізвище',
-        widget=forms.TextInput(attrs={'placeholder': 'Введіть Ваше прізвище'})
+        widget=forms.TextInput(attrs = {'placeholder': 'Введіть Ваше прізвище'})
     )
     username = forms.CharField(
         max_length=150,
         required=True,
         label='Ім’я користувача',
-        widget=forms.TextInput(attrs={'placeholder': '@'})
+        widget=forms.TextInput(attrs = {'placeholder': '@'})
     )
 
     class Meta:

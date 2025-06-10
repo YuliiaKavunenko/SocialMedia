@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/my_settings/albums.css' %}">
+{% endblock %}
+
+{% block title %}
+    Альбоми
+{% endblock %}
+
+{% block content %}
+    <div id="albums-page-content">
+        <div id="sidebar">
+            <a href="{% url 'settings' %}" id="profile-url" class="sidebar-url">Особиста інформація</a>
+            <a href="{% url 'albums' %}" id="albums-url" class="sidebar-url">Альбоми</a>
+            <hr>
+        </div>
+        <div id="sidebar-block"></div>
+        <div id="albums-panel">
+            <div id="my-photos-window">
+                <div id="my-photos-header">
+                    <h4>Мої фото</h4>
+                    <form id="add-photo-button">
+                        {% csrf_token %}
+                        <button type="submit" id="add-photo"><img src="" alt="">Додати фото</button>
+                    </form>
+                </div>
+                <div id="my-photo-settings">
+                    <img src="" alt="">
+                    <div id="photo-buttons">
+                        <button type="submit" id="view"><img src="" alt=""></button>
+                        <button type="submit" id="delete"><img src="" alt=""></button>
+                    </div>
+                </div>
+            </div>
+            <div id="create-albums-window">
+                <div id="create-albums-header">
+                    <h4>Немає ще жодного альбому</h4>
+                    <form id="create-albums-button">
+                        {% csrf_token %}
+                        <button type="submit" id="create-albums"><img src="" alt="">Створити альбом</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- створення -->
+         <div id="create-album-window">
+            <div id="exit-creation">
+                <img src="" alt="">
+            </div>
+            <h3>Створити альбом</h3>
+            <div id="inputs-create-album">
+                <div id="album-creation-name">
+                    <h4>Назва альбому</h4>
+                    <input type="text" name="name" id="album-name" placeholder="Настрій">
+                </div>
+                <div id="album-creation-theme">
+                    <h4>Оберіть тему</h4>
+                    <input type="text" name="theme" id="choose-theme" placeholder="Природа">
+                </div>
+                <div id="album-creation-year">
+                    <h4>Рік альбому</h4>
+                    <input type="text" name="year" id="album-year" placeholder="Оберіть рік">
+                </div>
+            </div>
+            <div id="buttons-create-album">
+                <button type="submit" id="cancel1" class="cancel"></button>
+                <button type="submit" id="save1" class="save"></button>
+            </div>
+         </div>
+         <!-- редагування -->
+         <div id="edit-album-window">
+            <div id="exit-edit">
+                <img src="" alt="">
+            </div>
+            <h3>Редагувати альбом</h3>
+            <div id="inputs-edit-album">
+                <div id="album-edit-name">
+                    <h4>Назва альбому</h4>
+                    <input type="text" name="redaction-name" id="redaction-album-name" placeholder="Настрій">
+                </div>
+                <div id="album-edit-theme">
+                    <h4>Оберіть тему</h4>
+                    <input type="text" name="redaction-theme" id="redaction-choose-theme" placeholder="Природа">
+                </div>
+                <div id="album-edit-year">
+                    <h4>Рік альбому</h4>
+                    <input type="text" name="redaction-year" id="redaction-album-year" placeholder="Оберіть рік">
+                </div>
+            </div>
+            <div id="buttons-edit-album">
+                <button type="submit" id="cancel2" class="cancel"></button>
+                <button type="submit" id="save2" class="save"></button>
+            </div>
+         </div>
+    </div>
+{% endblock %}

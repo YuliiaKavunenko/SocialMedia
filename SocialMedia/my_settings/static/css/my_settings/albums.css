@@ -1,0 +1,123 @@
+#sidebar-block{
+    width: 15%;
+}
+.sidebar-url{
+    text-decoration: none;
+    color: #81818D;
+    display: flex;
+    justify-content: flex-start;
+}
+#sidebar button{
+    background-color: #FAF8FF;
+    border: none;
+}
+#sidebar{
+    position: fixed;
+    width: 10%;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+hr{
+    background-color: black;
+    color: black;
+    margin: 8px 0 8px 0;
+    height: 2px;
+    
+}
+#albums-url{
+    color: black;
+}
+#albums-page-content{
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 5.55vw;
+    margin-right: 5.55vw;
+    margin-top: 16px;
+}
+#albums-panel{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 75%;
+}
+
+#my-photos-window{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 16px;
+    gap: 16px;
+}
+#my-photos-header h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: 'GT Walsheim Pro';
+}
+#my-photos-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#add-photo{
+    background-color: #FFFFFF;
+    width: 131px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
+    color: #543C52;
+    size: 14px;
+    font-family: 'GT Walsheim Pro';
+}
+#view{
+    background-color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #543C52;    
+    border-radius: 190px;
+}
+#delete{
+    background-color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #543C52;    
+    border-radius: 190px;
+}
+
+#create-albums-window{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 16px;
+    gap: 16px;
+}
+#create-albums-window h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: 'GT Walsheim Pro';
+}
+#create-albums{
+    background-color: #FFFFFF;
+    width: 131px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
+    color: #543C52;
+    size: 14px;
+    font-family: 'GT Walsheim Pro';
+}
+
+#create-albums-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

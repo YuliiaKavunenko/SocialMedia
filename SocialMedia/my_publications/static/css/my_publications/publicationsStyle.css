@@ -127,7 +127,7 @@ button{
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items:flex-start;
+    align-items:flex-end;
     width: calc(90.5vw - 22vw);
     margin-left: 19vw;
     margin-top: 16px;
@@ -172,7 +172,10 @@ button{
 }
 #new-publication-container{
     position: relative;
-    width: calc(88vw - 22vw);
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
     
 }
 

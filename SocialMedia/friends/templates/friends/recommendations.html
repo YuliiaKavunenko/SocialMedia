@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/friends/recommendations.css' %}">
+{% endblock %}
+
+{% block title %}
+    Рекомендації
+{% endblock %}
+
+{% block content %}
+    <div id = 'friends-content'>
+        <div id="sidebar">
+            <a href="{% url 'friends' %}" id="friends-page-url" class="sidebar-url">Головна</a>
+            <a href="{% url 'requests' %}" id="requests-url" class="sidebar-url">Запити</a>
+            <a href="{% url 'recommendations' %}" id="recommendations-url" class="sidebar-url">Рекомендації</a>
+            <hr>
+            <a href="{% url 'all_friends' %}" id="all_friends-url" class="sidebar-url">Всі друзі</a>
+        </div>
+        <div id="sidebar-block"></div>
+    </div>
+{% endblock %}

@@ -7,6 +7,18 @@
     flex-direction: column;
     gap: 8px;
     width: 75%;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+hr{
+    background-color: black;
+    color: black;
+    margin: 8px 0 8px 0;
+    height: 2px;
+    
+}
+#home-button{
+    font-family: 'GT Walsheim Pro Bold', sans-serif;
 }
 #friends-content{
     display: flex;
@@ -58,6 +70,13 @@
     background-color: #FAF8FF;
     border: none;
 }
+#sidebar{
+    position: fixed;
+    width: 10%;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
 #request-window{
     background-color: #FFFFFF;
     width: 100%;
@@ -70,24 +89,76 @@
     display: flex;
     flex-direction: row;
     gap: 8px;
+    flex-wrap: wrap;
 }
 #recommended-users{
     display: flex;
     flex-direction: row;
     gap: 8px;
+    flex-wrap: wrap;
 }
 #allfriends-users{
     display: flex;
     flex-direction: row;
     gap: 8px;
+    flex-wrap: wrap;
+}
+#sidebar-block{
+    width: 15%;
+}
+.sidebar-url{
+    text-decoration: none;
+    color: #81818D;
+    display: flex;
+    justify-content: flex-start;
+}
+#friends-page-url{
+    color: black;
 }
 
-.request{
+.card{
     background-color: #FFFFFF;
-    width: 289px;
-    height: 263px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 34px;
+    padding-right: 34px;
+    width:12vw;
+    gap: 16px;
     border: 1px solid #CDCED2;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.confirm-request:hover{
+    background-color: #ffffff;
+    cursor: pointer;
+    color: #543C52;
+}
+.delete-request:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+.add-recommendation:hover{
+    background-color: #ffffff;
+    cursor: pointer;
+    color: #543C52;
+}
+.delete-recommendation:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+.message-friend:hover{
+    background-color: #ffffff;
+    cursor: pointer;
+    color: #543C52;
+}
+.delete-friend:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
 }
 .profile-information h3{
     color: #070A1C;
@@ -98,6 +169,26 @@
     color: #070A1C;
     size: 16px;
     font-family: "GT Walsheim Pro";
+}
+.profile-information{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.profile-information *{
+    margin: 0;;
+}
+.request-profile{
+    width: 100%;
+    gap: 24px;
+}
+.request-buttons{
+    gap: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .confirm-request{
     background-color: #543C52;
@@ -127,13 +218,6 @@
     border-radius: 10px;
     padding: 20px;
 }
-.recommendation{
-    background-color: #FFFFFF;
-    width: 289px;
-    height: 263px;
-    border: 1px solid #CDCED2;
-    border-radius: 10px;
-}
 .rec-profile-information h3{
     color: #070A1C;
     size: 24px;
@@ -143,6 +227,26 @@
     color: #070A1C;
     size: 16px;
     font-family: "GT Walsheim Pro";
+}
+.rec-profile-information{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.rec-profile-information *{
+    margin: 0;;
+}
+.recommendation-profile{
+    width: 100%;
+    gap: 24px;
+}
+.recommendation-buttons{
+    gap: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .add-recommendation{
     background-color: #543C52;
@@ -172,13 +276,6 @@
     border-radius: 10px;
     padding: 20px;
 }
-.friend{
-    background-color: #FFFFFF;
-    width: 289px;
-    height: 263px;
-    border: 1px solid #CDCED2;
-    border-radius: 10px;
-}
 .rec-friend-information h3{
     color: #070A1C;
     size: 24px;
@@ -188,6 +285,26 @@
     color: #070A1C;
     size: 16px;
     font-family: "GT Walsheim Pro";
+}
+.rec-friend-information{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.rec-friend-information *{
+    margin: 0;
+}
+.friend-profile{
+    width: 100%;
+    gap: 24px;
+}
+.friend-buttons{
+    gap: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .message-friend{
     background-color: #543C52;
@@ -214,8 +331,15 @@
     size: 16px;
     font-family: "GT Walsheim Pro";
 }
-.button{
-    color: #543C52;
+.watch-all{
+    background-color: #FFFFFF;
     size: 16px;
     font-family: "GT Walsheim Pro";
+    color: #543C52;
+    font-weight: 500;
+    border: none;
+
+}
+.watch-all:hover{
+    cursor: pointer;
 }
