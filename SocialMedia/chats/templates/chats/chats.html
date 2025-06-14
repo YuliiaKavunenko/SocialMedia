@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/chats/chats.css' %}">
+{% endblock %}
+
+{% block title %}
+    Повідомлення
+{% endblock %}
+
+{% block content %}
+    <div id="chat-page-content">
+        <div id="contact-panel">
+            <form action="" method="post">
+                {% csrf_token %}
+                <button type="submit" id="create-group"><img src="" alt="">Створити груповий чат</button>
+            </form>
+            <div id="contacts-window">
+                <div id="contact-header">
+                    <img src="" alt="">
+                    <h4>Контакти</h4>
+                </div>
+                <input type="text" name="" id="search" placeholder="Пошук">
+                <div id="contacts">
+                    <div id="contact">
+                        <img src="" alt="">
+                        <h4>Jane Cooper</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="empty-panel">
+            <div id="text">
+                <h5 id = 'text-empty-panel1'>Почніть нове спілкування</h5>
+                <h5 id = 'text-empty-panel2'>Оберіть контакт зі списку ліворуч або створіть групу, щоб почати  спілкування</h5>
+            </div>
+        </div>
+        <div id="chats-panel">
+            <div id="messages-window">
+                <div id="chats-header">
+                    <div id="messages">
+                        <img src="" alt="">
+                        <h4>Повідомлення</h4>
+                    </div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" id="see-all1" class="see-all">Дивитись всі</button>
+                    </form>
+                </div>
+                <div id="chats">
+                    <div id="chat1" class="chat">
+                        <img src="" alt="">
+                        <div id="chat-info1" class="chat-info">
+                            <div id="user1" class="user">
+                                <h4>Mona Lisa</h4>
+                                <h5>09:41</h5>
+                            </div>
+                            <h5>Привіт!Як справи?</h5>
+                        </div>
+                    </div>
+                    <div id="chat2" class="chat">
+                        <img src="" alt="">
+                        <div id="chat-info2" class="chat-info">
+                            <div id="user2" class="user">
+                                <h4>Ann Ti</h4>
+                                <h5>25.04.2025</h5>
+                            </div>
+                            <h5>Привіт!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="groups-window">
+                <div id="groups-header">
+                    <div id="group-chats">
+                        <img src="" alt="">
+                        <h4>Групові чати</h4>
+                    </div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" id="see-all2" class="see-all">Дивитись всі</button>
+                    </form>
+                </div>
+                <div id="groups">
+                    <div id="group1" class="group">
+                        <img src="" alt="">
+                        <div id="group-info1" class="group-info">
+                            <div id="info1" class="info">
+                                <h4>New group</h4>
+                                <h5>09:41</h5>
+                            </div>
+                            <h5>Чудово!</h5>
+                        </div>
+                    </div>
+                    <div id="group2" class="group">
+                        <img src="" alt="">
+                        <div id="group-info2" class="group-info">
+                            <div id="info2" class="info">
+                                <h4>Ann Ti</h4>
+                                <h5>25.04.2025</h5>
+                            </div>
+                            <h5>Привіт!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

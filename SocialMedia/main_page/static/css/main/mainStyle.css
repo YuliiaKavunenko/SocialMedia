@@ -5,7 +5,9 @@ body{
     display: flex;
     flex-direction: row;
 }
-
+img{
+    object-fit: none;
+}
 button{
     font-family: 'GT Walsheim Pro', sans-serif;
 }

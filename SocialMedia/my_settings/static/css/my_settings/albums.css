@@ -1,6 +1,9 @@
 #sidebar-block{
     width: 15%;
 }
+img{
+    object-fit: none;
+}
 .sidebar-url{
     text-decoration: none;
     color: #81818D;

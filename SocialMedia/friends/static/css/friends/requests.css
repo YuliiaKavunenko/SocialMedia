@@ -10,6 +10,9 @@
     background-color: #FAF8FF;
     border: none;
 }
+img{
+    object-fit: none;
+}
 #sidebar{
     position: fixed;
     width: 10%;
@@ -34,4 +37,137 @@ hr{
     width: 100%;
     height: 2px;
     background-color: black;
+    margin: 0;
+}
+.request-profile img{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+}
+.request-profile{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#request-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.profile-information h3{
+    color: #070A1C;
+    size: 24px;
+    font-family: "GT Walsheim Pro";
+}
+.profile-information h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+.profile-information{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.profile-information *{
+    margin: 0;;
+}
+.request-profile{
+    width: 100%;
+    gap: 24px;
+}
+.request-buttons{
+    gap: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.confirm-request{
+    background-color: #543C52;
+    width: 111px;
+    height: 40px;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+.delete-request{
+    background-color: #FFFFFF;
+    width: 94px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 1234px;
+    color: #543C52;
+    size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+.card{
+    background-color: #FFFFFF;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 34px;
+    padding-right: 34px;
+    width:12vw;
+    gap: 16px;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.confirm-request:hover{
+    background-color: #ffffff;
+    cursor: pointer;
+    color: #543C52;
+}
+.delete-request:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#request-window{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 20px;
+}
+#requested-users{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+#requests{
+    color: #81818D;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+.watch-all{
+    background-color: #FFFFFF;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+    color: #543C52;
+    font-weight: 500;
+    border: none;
+
+}
+.watch-all:hover{
+    cursor: pointer;
+}
+#friends-panel{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 75%;
+    justify-content: flex-end;
+    align-items: flex-end;
 }

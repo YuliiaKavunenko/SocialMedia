@@ -9,7 +9,9 @@
     margin-right: 5.55vw;
     margin-top: 16px;
 }
-
+img{
+    object-fit: none;
+}
 #personal-information{
     color: #070A1C;
     font-size: 16px;

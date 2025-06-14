@@ -7,6 +7,10 @@ class CreatePublicationsForm(forms.ModelForm):
     class Meta:
         model = UserPublications
         fields = ['title', 'theme', 'tags', 'text', 'url', 'images']
+        theme = forms.CharField(required = False)
+        tags = forms.CharField(required = False)
+        url = forms.URLField(required = False)
+        images = forms.ImageField(required = False)
         widgets = {
             'title': forms.TextInput(attrs = {
                 'placeholder': 'Природа, книга і спокій 🌿',
@@ -18,11 +22,6 @@ class CreatePublicationsForm(forms.ModelForm):
                 'class':'publication-form-input',
                 'id': 'form-theme'
             }),
-            'tags': forms.TextInput(attrs = {
-                'placeholder': '#відпочинок #натхнення #життя #природа #читання #спокій #гармонія', 
-                'class':'publication-form-input',
-                'id': 'form-tags'
-            }),
             'text': forms.Textarea(attrs = {
                 'placeholder': 'Інколи найкращі ідеї народжуються в тиші. Природа, книга і спокій — усе, що потрібно, аби перезавантажитись.', 
                 'id': 'form-text',
@@ -33,7 +32,7 @@ class CreatePublicationsForm(forms.ModelForm):
                 'id': 'form-url'
             }),
             'images': forms.ClearableFileInput(attrs = {
-                'id': 'image-field'
+                'id': 'image-field',
             }),
         }
         labels = {

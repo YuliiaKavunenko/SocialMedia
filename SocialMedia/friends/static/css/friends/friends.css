@@ -2,6 +2,9 @@
     background-color: #E9E5EE;
 
 }
+img{
+    object-fit: none;
+}
 #friends-panel{
     display: flex;
     flex-direction: column;
@@ -15,6 +18,7 @@ hr{
     color: black;
     margin: 8px 0 8px 0;
     height: 2px;
+    margin: 0;
     
 }
 #home-button{
@@ -342,4 +346,40 @@ hr{
 }
 .watch-all:hover{
     cursor: pointer;
+}
+.request-profile img{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+}
+.request-profile{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.recommendation-profile{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.recommendation-profile img{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+}
+.friend-profile img{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+}
+.friend-profile{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

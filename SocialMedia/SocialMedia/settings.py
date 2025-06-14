@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'my_publications',
     'my_settings',
     'friends',
+    'chats',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ TEMPLATES = [
             BASE_DIR / 'my_publications' / 'templates',
             BASE_DIR / 'my_settings' / 'templates',
             BASE_DIR / 'friends' / 'templates',
+            BASE_DIR / 'chats' / 'templates',
             
         ],
         'APP_DIRS': True,
@@ -141,6 +143,8 @@ STATICFILES_DIRS = [
     # BASE_DIR / 'my_settings' / 'static',
     # BASE_DIR / 'friends' / 'static',
     os.path.join(BASE_DIR, 'friends', 'static'),
+    BASE_DIR / 'chats' / 'static',
+
     
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'

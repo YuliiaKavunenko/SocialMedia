@@ -23,7 +23,7 @@
                                 <a href="{% url 'main_page' %}" id="main-page"><img src="{% static 'img/House.png' %}" alt="">Головна</a>
                                 <a href="{% url 'my_publications' %}" id="posts-url"><img src="{% static 'img/Picture.png' %}" alt="">Мої публікації</a>
                                 <a href="{% url 'friends' %}" id="friends-url"><img src="{% static 'img/Friends.png' %}" alt="">Друзі</a>
-                                <a href="" id="chat-url"><img src="{% static 'img/Chat.png' %}" alt="">Чати</a>
+                                <a href="{% url 'chats' %}" id="chat-url"><img src="{% static 'img/Chat.png' %}" alt="">Чати</a>
                                 <a href="{% url 'settings' %}" id="settings"><img src="{% static 'img/Settings.png' %}" alt="">Налаштування</a>
                                 <form action="{% url 'logout' %}" method="post" id = 'logout-form'>
                                     {% csrf_token %}

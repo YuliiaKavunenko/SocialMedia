@@ -26,6 +26,7 @@ urlpatterns = [
     path('my_publications/', include('my_publications.urls')),
     path('', include('my_settings.urls')),
     path('friends/', include('friends.urls')),
+    path('chats/', include('chats.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

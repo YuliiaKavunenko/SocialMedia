@@ -25,9 +25,11 @@ a{
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    padding: 4px 8px 4px 8px;
 }
 a img{
     margin-right:10px;
+    object-fit: none;
 }
 
 

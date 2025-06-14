@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from main_page.models import UserPublications
+from main_page.models import UserPublications, StandartTags
 from main_page.forms import CreatePublicationsForm
 
 @login_required
@@ -49,6 +49,13 @@ def render_my_publications_page(request):
             publication.likes = 0
             publication.save()
             return redirect('my_publications')
+        new_tag_text = request.POST.get('new_tag')
+        if new_tag_text:
+            new_tag_text = new_tag_text.strip('# ')
+            tag_obj, created = StandartTags.objects.get_or_create(tag = new_tag_text)
+            publication.tags.add(tag_obj)
+
+        return redirect('my_publications')
     else:
         form = CreatePublicationsForm()
     user_publications_count = UserPublications.objects.filter(user=user).count()

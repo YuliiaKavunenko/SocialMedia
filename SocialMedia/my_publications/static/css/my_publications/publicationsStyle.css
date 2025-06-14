@@ -7,7 +7,9 @@ body{
     display: flex;
     flex-direction: row;
 }
-
+img{
+    object-fit: none;
+}
 button{
     font-family: 'GT Walsheim Pro', sans-serif;
 }
@@ -456,10 +458,12 @@ button{
     background-color: rgba(255, 255, 255, 0.8);
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index:100000;
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateZ(0);
+
 }
 
 /*  */

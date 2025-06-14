@@ -105,4 +105,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+    document.getElementById("add-tag-button").addEventListener("click", function () {
+        document.getElementById("new-tag-input-wrapper").style.display = "block";
+        document.getElementById("new-tag-input").focus();
+        document.getElementById("add-tag-button").style.display = "none";
+    });
+    document.getElementById('save-neww-tag').addEventListener("click", function () {
+        document.getElementById("new-tag-input-wrapper").style.display = "none";
+        document.getElementById("new-tag-input").style.display = "none";
+        document.getElementById("add-tag-button").style.display = "block";
+    });
 });

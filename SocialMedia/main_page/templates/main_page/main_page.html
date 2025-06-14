@@ -14,7 +14,7 @@
         <div id = "user-frames">
             <div id = "user-frame">
                 <div id = "profile">
-                    <img src="{% static 'img/userPhoto.jpg' %}" alt="фото юзера" id = "user-photo">
+                    <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id = "user-photo">
                     <div id = "nickname">
                         <h3>{{ user.first_name }}</h3>
                         <h4>@{{ user.username }}</h4>
@@ -45,21 +45,21 @@
                 </div>
                 <div id = "other-users">
                     <div id = "user1">
-                        <img src="{% static 'img/userPhoto.jpg' %}" alt="user" class = 'user'>
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="user" class = 'user'>
                         <div id = "user-information1">
                             <h4>Yehor Aung</h4>
                             <h5>4.3к підписників</h5>
                         </div>
                     </div>
                     <div id = "user2">
-                        <img src="{% static 'img/userPhoto.jpg' %}" alt="" class = 'user'>
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="" class = 'user'>
                         <div id = "user-information2">
                             <h4>Ann Ann</h4>
                             <h5>1.6к підписників</h5>
                         </div>
                     </div>
                     <div id = "user3">
-                        <img src="{% static 'img/userPhoto.jpg' %}" alt="" class = 'user'>
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="" class = 'user'>
                         <div id = "user-information3">
                             <h4>Yeugen Jenua</h4>
                             <h5>10.3к підписників</h5>
@@ -78,7 +78,7 @@
                 <div id = "chats">
                     <div id = "chat1">
                         <div id = "chat-with-user1">
-                            <img src="{% static 'img/userPhoto.jpg' %}" alt="" class="user">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="" class="user">
                             <div id = "name-and-message1">
                                 <div id = "name-and-time1">
                                     <h4>Mona Lisa</h4>
@@ -90,7 +90,7 @@
                     </div>
                     <div id = "chat2">
                         <div id = "chat-with-user2">
-                            <img src="{% static 'img/userPhoto.jpg' %}" alt="" class="user">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="" class="user">
                             <div id = "name-and-message2">
                                 <div id = "name-and-time2">
                                     <h4>Ann Ti</h4>
@@ -102,7 +102,7 @@
                     </div>
                     <div id = "chat3">
                         <div id = "chat-with-user3">
-                            <img src="{% static 'img/userPhoto.jpg' %}" alt="" class="user">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="" class="user">
                             <div id = "name-and-message3">
                                 <div id = "name-and-time3">
                                     <h4>Ness Ty</h4>
@@ -115,6 +115,20 @@
                 </div>
             </div>
 
+        </div>
+        <div id = 'create-publication-form-background'>
+            <form action="" method="post" id = 'create-publication-form' enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit" id = 'close-button'>⨉</button>
+                <h3>Створення публікації</h3>
+                <div id = 'publication-form-inputs'>
+                    {{ form.as_p}}
+                </div>
+                <div id = 'publication-form-buttons'>
+                    <label id = "add-image-button" ><img src="{% static 'img/image.png' %}"></label>
+                    <button type="submit" id = "create-publication-button">Публікація<img src="" alt=""></button>
+                </div>
+            </form>
         </div>
         <div id = "publications">
             <div id="new-publication-container">
@@ -130,20 +144,7 @@
                 </form>
             </div>
             
-            <div id = 'create-publication-form-background'>
-                <form action="" method="post" id = 'create-publication-form' enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <button type="submit" id = 'close-button'>⨉</button>
-                    <h3>Створення публікації</h3>
-                    <div id = 'publication-form-inputs'>
-                        {{ form.as_p}}
-                    </div>
-                    <div id = 'publication-form-buttons'>
-                        <label id = "add-image-button" ><img src="{% static 'img/image.png' %}"></label>
-                        <button type="submit" id = "create-publication-button">Публікація<img src="" alt=""></button>
-                    </div>
-                </form>
-            </div>
+            
             
             
             {% for pub in publications %}
@@ -156,7 +157,7 @@
                                               data-url="{{ pub.url|default:'' }}">
                     <div class="publication-header">
                         <div id = 'creator-data'>
-                            <img src="{% static 'img/userPhoto.jpg' %}" alt="userPhoto" id = 'user-photo-publication'>
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id = 'user-photo-publication'>
                             <h4 id = 'user-name-publication'>{{ pub.user.username }}</h4>
                         </div>
                         

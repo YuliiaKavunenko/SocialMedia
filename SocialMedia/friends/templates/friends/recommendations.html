@@ -19,5 +19,82 @@
             <a href="{% url 'all_friends' %}" id="all_friends-url" class="sidebar-url">Всі друзі</a>
         </div>
         <div id="sidebar-block"></div>
+        <div id="friends-panel">
+            <div id="recommendations-window">
+                <div id="recommendations-header" class="text">
+                    <h4>Рекомендації</h4>
+                    <form id="watch-all-button2">
+                        <button id="watch-all2" class="watch-all">Дивитись всі</button>
+                    </form>
+                </div>
+                <div id="recommended-users">
+                    <div id="recommendation1" class="card">
+                        <div id="recommendation-profile1" class="recommendation-profile">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
+                            <div id="rec-profile-information1" class="rec-profile-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <form id="recommendation-buttons1" class="recommendation-buttons">
+                            <button id="add-recommendation1" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation1" class="delete-recommendation">Видалити</button>
+                        </form>
+                    </div>
+                    <div id="recommendation2" class="card">
+                        <div id="recommendation-profile2" class="recommendation-profile">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
+                            <div id="rec-profile-information2" class="rec-profile-information">
+                                <h3>Ann Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <form id="recommendation-buttons2" class="recommendation-buttons">
+                            <button id="add-recommendation2" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation2" class="delete-recommendation">Видалити</button>
+                        </form>
+                    </div>
+                    <div id="recommendation3" class="card">
+                        <div id="recommendation-profile3" class="recommendation-profile">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
+                            <div id="rec-profile-information3" class="rec-profile-information">
+                                <h3>Ann</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <form id="recommendation-buttons3" class="recommendation-buttons">
+                            <button id="add-recommendation3" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation3" class="delete-recommendation">Видалити</button>
+                        </form>
+                    </div>
+                    <div id="recommendation4" class="card">
+                        <div id="recommendation-profile4" class="recommendation-profile">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
+                            <div id="rec-profile-information4" class="rec-profile-information">
+                                <h3>Yehor Aung</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <form id="recommendation-buttons4" class="recommendation-buttons">
+                            <button id="add-recommendation4" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation4" class="delete-recommendation">Видалити</button>
+                        </form>
+                    </div>
+                    <div id="recommendation5" class="card">
+                        <div id="recommendation-profile5" class="recommendation-profile">
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
+                            <div id="rec-profile-information5" class="rec-profile-information">
+                                <h3>Le Sya</h3>
+                                <h4>@thelili</h4>
+                            </div>
+                        </div>
+                        <form id="recommendation-buttons5" class="recommendation-buttons">
+                            <button id="add-recommendation5" class="add-recommendation">Додати</button>
+                            <button id="delete-recommendation5" class="delete-recommendation">Видалити</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

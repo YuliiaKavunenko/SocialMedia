@@ -10,17 +10,20 @@
 {% endblock %}
 
 {% block content %}
+    <div id="registration-page-content">
+        <form action="" class = 'user-form' method="post" id="registrationForm">
+            <div id = 'form-links'>
+                <a href="{% url 'registration' %}" id = 'registration-link' style = "color: #000000; margin-right: 24px; font-family: 'GT Walsheim Pro Bold', sans-serif; text-decoration: underline;">Реєстрація</a>
+                <a href="{% url 'login' %}" id = 'login-link' style = 'color: #81818D; text-decoration: none; font-family: "GT Walsheim Pro", sans-serif;'>Авторизація</a>
+            </div>
+            <h5>Приєднуйся до World IT</h5>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary" id="registerBtn">Зареєструватися</button>
+        </form>
+        <img id = 'photoLapTop' src="{% static '../static/img/photoLapTop.png' %}" alt="">
+    </div>
     
-    <form action="" class = 'user-form' method="post" id="registrationForm">
-        <div id = 'form-links'>
-            <a href="{% url 'registration' %}" id = 'registration-link' style = "color: #000000; margin-right: 24px; font-family: 'GT Walsheim Pro Bold', sans-serif;">Реєстрація</a>
-            <a href="{% url 'login' %}" id = 'login-link' style = 'color: #81818D; text-decoration: none; font-family: "GT Walsheim Pro", sans-serif;'>Авторизація</a>
-        </div>
-        <h5>Приєднуйся до World IT</h5>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary" id="registerBtn">Зареєструватися</button>
-    </form>
 
     <!-- Модальне вікно -->
     <div id="overlay" class="modal-overlay {% if show_modal %}show{% endif %}">

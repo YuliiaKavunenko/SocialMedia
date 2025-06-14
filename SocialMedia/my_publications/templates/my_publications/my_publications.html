@@ -14,7 +14,7 @@
         <div id = 'fixed-frame'>
             <div id = "user-frame">
             <div id = "profile">
-                <img src="{% static 'img/userPhoto.jpg' %}" alt="фото юзера" id = "user-photo">
+                <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id = "user-photo">
                 <div id = "nickname">
                     <h3>{{ user.first_name }}</h3>
                     <h4>@{{ user.username }}</h4>
@@ -36,6 +36,67 @@
             </div>
         </div>
         </div>
+
+        <div id='create-publication-form-background'>
+            <form action="" method="post" id='create-publication-form' enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit" id='close-button'>⨉</button>
+                <h3>Створення публікації</h3>
+
+                <div id='publication-form-inputs'>
+                    <p>
+                        <label for="{{ form.title.id_for_label }}">Назва публікації</label>
+                        {{ form.title }}
+                    </p>
+                    
+                    <p>
+                        <label for="{{ form.content.id_for_label }}">Тема публікації</label>
+                        {{ form.theme }}
+                    </p>
+                    
+                    <p>
+                        <div id="tags-container">
+                            {% for tag in form.tags.field.queryset %}
+                                <span class="tag-label">{{ tag.tag }}</span>
+                            {% endfor %}
+                            <button type="button" id="add-tag-button">+ Додати тег</button>
+                            <div id="new-tag-input-wrapper" style="display: none;">
+                                <input type="text" name="new_tag" id="new-tag-input" placeholder="#новийТег" value="#">
+                                <button id = 'save-neww-tag'><img src="" alt=""></button>
+                            </div>
+                        </div>
+                        
+                    </p>
+
+                    <p>
+                        {{ form.text }}
+                    </p>
+
+                    <p>
+                        <label for="{{ form.url.id_for_label }}">Посилання</label>
+                        {{ form.url }}
+                        
+                    </p>
+                    
+                    <p>
+                        {% if pub.images %}
+                            <img src="{{ pub.images.url }}" alt="Зображення публікації" class="publication-image">
+                        {% endif %}
+
+                    </p>
+                    
+                </div>
+
+                <div id='publication-form-buttons'>
+                    <label id="add-image-button">
+                        <img src="{% static 'img/image.png' %}">
+                        
+                    </label>
+                    <button type="submit" id="create-publication-button">Публікація<img src="" alt=""></button>
+                </div>
+            </form>
+        </div>
+
         
         <div id = "publications">
             <div id = 'new-publication-container'>
@@ -47,20 +108,7 @@
                 </form>
             </div>
 
-            <div id = 'create-publication-form-background'>
-                <form action="" method="post" id = 'create-publication-form' enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <button type="submit" id = 'close-button'>⨉</button>
-                    <h3>Створення публікації</h3>
-                    <div id = 'publication-form-inputs'>
-                        {{ form.as_p}}
-                    </div>
-                    <div id = 'publication-form-buttons'>
-                        <label id = "add-image-button" ><img src="{% static 'img/image.png' %}"></label>
-                        <button type="submit" id = "create-publication-button">Публікація<img src="" alt=""></button>
-                    </div>
-                </form>
-            </div>
+            
 
             {% for pub in publications %}
                 <div id = 'edit-publication-form-background-{{ pub.id }}' class="edit-publication-form-background" style="display: none;">
@@ -68,7 +116,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="content" id="create-pub-input">
                         <button type = "submit" class = 'edit-close-button'>⨉</button>
-                        <h3>Створення публікації</h3>
+                        <h3>Редагування публікації</h3>
                         <div id = 'edit-publication-form-inputs'>
                             {{ form.as_p}}
                         </div>
@@ -87,7 +135,7 @@
                                               data-url="{{ pub.url|default:'' }}">
                     <div class="publication-header">
                         <div id = 'creator-data'>
-                            <img src="{% static 'img/userPhoto.jpg' %}" alt="userPhoto" id = 'user-photo-publication'>
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id = 'user-photo-publication'>
                             <h4 id = 'user-name-publication'>{{ pub.user.username }}</h4>
                         </div>
                         <button class = 'publication-dots'><img src="{% static 'img/dots.png' %}"></button>
