@@ -1,8 +1,19 @@
 #sidebar-block{
     width: 15%;
 }
+#settings{
+    background-color: #E9E5EE;
+}
 img{
     object-fit: none;
+}
+#create-albums:hover{
+    background-color: #F2F0F5;
+    cursor: pointer;
+}
+#add-photo:hover{
+    background-color: #F2F0F5;
+    cursor: pointer;
 }
 .sidebar-url{
     text-decoration: none;
@@ -123,4 +134,112 @@ hr{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+#create-album-window-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#create-album-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 22vw;
+    height: auto;
+    padding: 24px 16px 44px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+}
+#create-album-window *{
+    margin: 0;
+    padding: 0;
+    
+}
+#inputs-create-album{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+#close-button{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+}
+#exit-creation{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+}
+#create-album-window h3{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    color: #070A1C;
+    size: 24px;
+    font-family: 'GT Walsheim Pro';
+}
+#create-album-window input{
+    width: 20.3vw;
+    height: 4vh;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: 'GT Walsheim Pro';
+}
+#buttons-create-album{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+#cancel1{
+    background-color: #FFFFFF;
+    width: 94px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 1234px;
+    color: #543C52;
+    size: 14px;
+    font-family: 'GT Walsheim Pro';
+}
+#save1{
+    background-color: #543C52;
+    width: 111px;
+    height: 40px;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    size: 14px;
+    font-family: 'GT Walsheim Pro';
+}
+#cancel1:hover{
+    background-color: #F2F0F5;
+    cursor: pointer;
+}
+#save1:hover{
+    background-color: #ffffff;
+    cursor: pointer;
+    color: #543C52;
 }

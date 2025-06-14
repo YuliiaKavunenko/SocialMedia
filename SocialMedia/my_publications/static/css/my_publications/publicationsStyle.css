@@ -17,6 +17,13 @@ button{
     position: fixed;
     width: 18.2%;
 }
+#new-tag-input{
+    width: 8vw;
+    height: 0.005vw;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+}
+
 #user-frame{
     margin-top: 16px;
     background-color: #FFFFFF;
@@ -577,4 +584,96 @@ button{
     right: 16px;
     margin: 0px;
     gap: 13px;
+}
+.tag-label{
+    flex-wrap: wrap;
+    color: #543C52;
+    font-size: 14px;
+    padding: 6px;
+    background-color: #E9E5EE;
+    border-radius: 6px;
+    margin-top: 2px;
+}
+.tag-label:hover{
+    cursor: pointer;
+    background-color: #DCD9E2;
+}
+#tags-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+#add-tag-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    border: #543C52 solid 2px;
+    color: #543C52;
+    background-color: #FFFFFF;
+    font-size: 22px;
+
+}
+#add-tag-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#add-url-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    border: #543C52 solid 2px;
+    color: #543C52;
+    background-color: #FFFFFF;
+    font-size: 22px;
+
+}
+#add-url-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#add-url-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+button[name = 'add_new_tag']{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    border: #543C52 solid 2px;
+    color: #543C52;
+    background-color: #FFFFFF;
+    font-size: 22px;
+}
+button[name = 'add_new_tag']:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#new-tag-form-container{
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }

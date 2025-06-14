@@ -26,7 +26,7 @@
                 </form>
                 <div id="user">
                     <div id="avatar">
-                        <img src="" alt="">
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="">
                     </div>
                     <div id="nickname">
                         <h3>{{ user.first_name }}</h3>
@@ -88,11 +88,11 @@
                 </form>
                 <div id="edit-signature">
                     <div id="name-and-surname-button">
-                        <button type="submit" id="name-and-surname"><img src="" alt="">Ім'я та прізвище</button>
+                        <input type="checkbox" id="name-and-surname" checked disabled><img src="" alt=""><label for="name-and-surname">Ім'я та прізвище</label>
                         <h4>Lina Li</h4>
                     </div>
                     <div id="my-electronic-signature-button">
-                        <button type="submit" id="my-electronic-signature"><img src="" alt="">Мій електронний підпис</button>
+                        <input type="checkbox" id="my-electronic-signature" checked disabled><img src="" alt=""><label for="my-electronic-signature">Мій електронний підпис</label>
                         <img src="" alt="">
                     </div>
                 </div>

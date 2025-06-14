@@ -1,16 +1,20 @@
-from .models import UserPublications
+from .models import UserPublications, StandartTags
 from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
 
 class CreatePublicationsForm(forms.ModelForm):
+    theme = forms.CharField(required = False, help_text = 'Напишіть тему публікації')
+    tags = forms.ModelMultipleChoiceField(
+        queryset = StandartTags.objects.all(),
+        required = False,
+        widget = forms.CheckboxSelectMultiple
+    )
+    url = forms.URLField(required = False)
+    images = forms.ImageField(required=False)
     class Meta:
         model = UserPublications
         fields = ['title', 'theme', 'tags', 'text', 'url', 'images']
-        theme = forms.CharField(required = False)
-        tags = forms.CharField(required = False)
-        url = forms.URLField(required = False)
-        images = forms.ImageField(required = False)
         widgets = {
             'title': forms.TextInput(attrs = {
                 'placeholder': 'Природа, книга і спокій 🌿',
@@ -82,3 +86,14 @@ class UserProfileUpdateForm(forms.ModelForm):
         if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
             raise ValidationError('Це ім’я користувача вже зайняте.')
         return username
+
+class NewTagForm(forms.ModelForm):
+    class Meta:
+        model = StandartTags
+        fields = ['tag']
+        widgets = {
+            'tag': forms.TextInput(attrs = {'value': '#', 'id':'new-tag-input'})
+        }
+        labels = {
+            'tag': ''
+        }

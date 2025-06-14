@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from main_page.models import UserPublications, StandartTags
-from main_page.forms import CreatePublicationsForm
-
+from main_page.forms import CreatePublicationsForm, NewTagForm
 @login_required
 def edit_publication(request, pub_id):
     publication = get_object_or_404(UserPublications, id = pub_id)
@@ -39,29 +38,34 @@ def delete_publication(request, pub_id):
     
 def render_my_publications_page(request):
     user = request.user
-
+    form = CreatePublicationsForm()
+    new_tag_form = NewTagForm()
+    
     if request.method == 'POST':
-        form = CreatePublicationsForm(request.POST, request.FILES)
-        if form.is_valid():
-            publication = form.save(commit=False)
-            publication.user = user
-            publication.views = 0
-            publication.likes = 0
-            publication.save()
-            return redirect('my_publications')
-        new_tag_text = request.POST.get('new_tag')
-        if new_tag_text:
-            new_tag_text = new_tag_text.strip('# ')
-            tag_obj, created = StandartTags.objects.get_or_create(tag = new_tag_text)
-            publication.tags.add(tag_obj)
+        if 'add_new_tag' in request.POST:
+            new_tag_form = NewTagForm(request.POST)
+            if new_tag_form.is_valid():
+                tag_text = new_tag_form.cleaned_data['tag']
+                tag_obj, created = StandartTags.objects.get_or_create(tag = tag_text)
+                return redirect('my_publications')
 
-        return redirect('my_publications')
-    else:
-        form = CreatePublicationsForm()
+        else:  # створення публікації
+            form = CreatePublicationsForm(request.POST, request.FILES)
+            if form.is_valid():
+                publication = form.save(commit=False)
+                publication.user = user
+                publication.views = 0
+                publication.likes = 0
+                publication.save()
+                form.save_m2m()
+                return redirect('my_publications')
+
     user_publications_count = UserPublications.objects.filter(user=user).count()
+
     return render(request, "my_publications/my_publications.html", {
         "user": user,
         "form": form,
+        "new_tag_form": new_tag_form,
         "publications": UserPublications.objects.all(),
         "user_publications_count": user_publications_count
     })

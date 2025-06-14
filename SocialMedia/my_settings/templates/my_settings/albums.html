@@ -29,8 +29,8 @@
                 <div id="my-photo-settings">
                     <img src="" alt="">
                     <div id="photo-buttons">
-                        <button type="submit" id="view"><img src="" alt=""></button>
-                        <button type="submit" id="delete"><img src="" alt=""></button>
+                        <button type="submit" id="view" style="display: none;"><img src="" alt=""></button>
+                        <button type="submit" id="delete" style="display: none;"><img src="" alt=""></button>
                     </div>
                 </div>
             </div>
@@ -45,34 +45,42 @@
             </div>
         </div>
         <!-- створення -->
-         <div id="create-album-window" style="display: none;">
-            <div id="exit-creation">
-                <img src="" alt="">
-            </div>
-            <h3>Створити альбом</h3>
-            <div id="inputs-create-album">
-                <div id="album-creation-name">
-                    <h4>Назва альбому</h4>
-                    <input type="text" name="name" id="album-name" placeholder="Настрій">
+        <div id = "create-album-window-background" style="display: none;" >
+            <form id="create-album-window" >
+                <div id="exit-creation">
+                    <p id = 'close-button'>
+                        ⨉
+                    </p>
+                    
                 </div>
-                <div id="album-creation-theme">
-                    <h4>Оберіть тему</h4>
-                    <input type="text" name="theme" id="choose-theme" placeholder="Природа">
+                <h3>Створити альбом</h3>
+                <div id="inputs-create-album">
+                    <div id="album-creation-name">
+                        <h4>Назва альбому</h4>
+                        <input type="text" name="name" id="album-name" placeholder="Настрій">
+                    </div>
+                    <div id="album-creation-theme">
+                        <h4>Оберіть тему</h4>
+                        <input type="text" name="theme" id="choose-theme" placeholder="Природа">
+                    </div>
+                    <div id="album-creation-year">
+                        <h4>Рік альбому</h4>
+                        <input type="text" name="year" id="album-year" placeholder="Оберіть рік">
+                    </div>
                 </div>
-                <div id="album-creation-year">
-                    <h4>Рік альбому</h4>
-                    <input type="text" name="year" id="album-year" placeholder="Оберіть рік">
+                <div id="buttons-create-album">
+                    <button type="submit" id="cancel1" class="cancel">Скасувати</button>
+                    <button type="submit" id="save1" class="save">Зберегти</button>
                 </div>
-            </div>
-            <div id="buttons-create-album">
-                <button type="submit" id="cancel1" class="cancel"></button>
-                <button type="submit" id="save1" class="save"></button>
-            </div>
-         </div>
+            </form>
+        </div>
+        
          <!-- редагування -->
          <div id="edit-album-window" style="display: none;">
             <div id="exit-edit">
-                <img src="" alt="">
+                <p>
+                    ⨉
+                </p>
             </div>
             <h3>Редагувати альбом</h3>
             <div id="inputs-edit-album">
@@ -90,9 +98,10 @@
                 </div>
             </div>
             <div id="buttons-edit-album">
-                <button type="submit" id="cancel2" class="cancel"></button>
-                <button type="submit" id="save2" class="save"></button>
+                <button type="submit" id="cancel2" class="cancel" style="display: none;"></button>
+                <button type="submit" id="save2" class="save" style="display: none;"></button>
             </div>
          </div>
     </div>
+    <script src="{% static 'js/my_settings/albums.js' %}"></script>
 {% endblock %}

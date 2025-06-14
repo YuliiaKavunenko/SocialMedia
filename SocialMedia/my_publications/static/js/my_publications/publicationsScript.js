@@ -105,14 +105,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-    document.getElementById("add-tag-button").addEventListener("click", function () {
-        document.getElementById("new-tag-input-wrapper").style.display = "block";
-        document.getElementById("new-tag-input").focus();
-        document.getElementById("add-tag-button").style.display = "none";
-    });
-    document.getElementById('save-neww-tag').addEventListener("click", function () {
-        document.getElementById("new-tag-input-wrapper").style.display = "none";
-        document.getElementById("new-tag-input").style.display = "none";
-        document.getElementById("add-tag-button").style.display = "block";
-    });
+
+    const addTagButton = document.getElementById("add-tag-button");
+    const tagForm = document.getElementById("new-tag-form-container");
+
+    if (addTagButton && tagForm) {
+        addTagButton.addEventListener("click", function () {
+            addTagButton.style.display = "none";
+            tagForm.style.display = "block";
+        });
+    }
+
 });

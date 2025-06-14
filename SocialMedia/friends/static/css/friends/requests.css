@@ -1,3 +1,6 @@
+#friends-url{
+    background-color: #E9E5EE;
+}
 #friends-content{
     display: flex;
     flex-direction: row;

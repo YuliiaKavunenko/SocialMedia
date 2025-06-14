@@ -59,11 +59,16 @@
                             {% for tag in form.tags.field.queryset %}
                                 <span class="tag-label">{{ tag.tag }}</span>
                             {% endfor %}
-                            <button type="button" id="add-tag-button">+ Додати тег</button>
-                            <div id="new-tag-input-wrapper" style="display: none;">
-                                <input type="text" name="new_tag" id="new-tag-input" placeholder="#новийТег" value="#">
-                                <button id = 'save-neww-tag'><img src="" alt=""></button>
+                            <div style="display: none;" id = 'new-tag-form-container'>
+                                <form method="post" id="new-tag-form">
+                                    {% csrf_token %}
+                                    {{ new_tag_form.tag }}
+                                <button type="submit" name="add_new_tag"><img src="" alt=""></button>
+                            </form>
                             </div>
+                            
+                            <button type="button" id="add-tag-button">+</button>
+
                         </div>
                         
                     </p>
@@ -71,12 +76,18 @@
                     <p>
                         {{ form.text }}
                     </p>
-
-                    <p>
-                        <label for="{{ form.url.id_for_label }}">Посилання</label>
-                        {{ form.url }}
+                    
+                        <p>
+                            <label for="{{ form.url.id_for_label }}">Посилання</label>
+                            <div id = 'add-url-container'>
+                                {{ form.url }}
+                                <button type="button" id="add-url-button">+</button>
+                            </div>
+                            
+                        </p>
                         
-                    </p>
+                    
+                    
                     
                     <p>
                         {% if pub.images %}
@@ -84,16 +95,16 @@
                         {% endif %}
 
                     </p>
-                    
+                    <div id='publication-form-buttons'>
+                        <label id="add-image-button">
+                            <img src="{% static 'img/image.png' %}">
+                            
+                        </label>
+                        <button type="submit" id="create-publication-button">Публікація<img src="" alt=""></button>
+                    </div>
                 </div>
 
-                <div id='publication-form-buttons'>
-                    <label id="add-image-button">
-                        <img src="{% static 'img/image.png' %}">
-                        
-                    </label>
-                    <button type="submit" id="create-publication-button">Публікація<img src="" alt=""></button>
-                </div>
+                
             </form>
         </div>
 
