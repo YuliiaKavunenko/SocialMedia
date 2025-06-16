@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import RegistrationForm, LogInForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from .models import EmailConfirmation
+from .models import VerificationCode
 
 
 # Відповідає за реєстрацію користувача
@@ -18,9 +18,9 @@ def render_registration(request):
 
             try:
                 user = User.objects.get(email=email)
-                confirmation = EmailConfirmation.objects.get(user=user)
+                confirmation = VerificationCode.objects.get(username = user.username)
 
-                if confirmation.confirmation_code == code:
+                if confirmation.code == code:
                     user.is_active = True
                     user.save()
 
@@ -39,7 +39,7 @@ def render_registration(request):
                             "email": email,
                         }
                     )
-            except (User.DoesNotExist, EmailConfirmation.DoesNotExist):
+            except (User.DoesNotExist, VerificationCode.DoesNotExist):
                 form = RegistrationForm()
                 return render(
                     request,
@@ -71,8 +71,8 @@ def render_registration(request):
                         # Користувач існує, але ще не підтвердив код
                         code = str(random.randint(100000, 999999))
 
-                        confirmation, _ = EmailConfirmation.objects.get_or_create(user=existing_user)
-                        confirmation.confirmation_code = code
+                        confirmation, _ = VerificationCode.objects.get_or_create(username = existing_user)
+                        confirmation.code = code
                         confirmation.is_confirmed = False
                         confirmation.save()
 
@@ -101,7 +101,7 @@ def render_registration(request):
 
                     code = str(random.randint(100000, 999999))
 
-                    EmailConfirmation.objects.create(user=user, confirmation_code=code)
+                    VerificationCode.objects.create(username = user.username, code = code)
 
                     send_mail(
                         subject="Код підтвердження",

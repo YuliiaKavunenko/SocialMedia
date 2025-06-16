@@ -1,50 +1,50 @@
-from .models import UserPublications, StandartTags
+from .models import Post, Tag
 from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
 
 class CreatePublicationsForm(forms.ModelForm):
-    theme = forms.CharField(required = False, help_text = 'Напишіть тему публікації')
+    # theme = forms.CharField(required = False, help_text = 'Напишіть тему публікації')
     tags = forms.ModelMultipleChoiceField(
-        queryset = StandartTags.objects.all(),
-        required = False,
-        widget = forms.CheckboxSelectMultiple
+        queryset = Tag.objects.all(),
+        widget = forms.CheckboxSelectMultiple,
+        required = False
     )
-    url = forms.URLField(required = False)
+    # url = forms.URLField(required = False)
     images = forms.ImageField(required=False)
     class Meta:
-        model = UserPublications
-        fields = ['title', 'theme', 'tags', 'text', 'url', 'images']
+        model = Post
+        fields = ['title','tags', 'content', 'images']#['title', 'theme', 'tags', 'text', 'url', 'images']
         widgets = {
             'title': forms.TextInput(attrs = {
                 'placeholder': 'Природа, книга і спокій 🌿',
                 'class':'publication-form-input',
                 'id': 'form-title'
             }),
-            'theme': forms.TextInput(attrs = {
-                'placeholder': 'Напишіть тему публікації', 
-                'class':'publication-form-input',
-                'id': 'form-theme'
-            }),
-            'text': forms.Textarea(attrs = {
+            # 'theme': forms.TextInput(attrs = {
+            #     'placeholder': 'Напишіть тему публікації', 
+            #     'class':'publication-form-input',
+            #     'id': 'form-theme'
+            # }),
+            'content': forms.Textarea(attrs = {
                 'placeholder': 'Інколи найкращі ідеї народжуються в тиші. Природа, книга і спокій — усе, що потрібно, аби перезавантажитись.', 
                 'id': 'form-text',
             }),
-            'url': forms.URLInput(attrs = {
-                'placeholder': 'https://www.instagram.com/world.it.academy/?locale=ua', 
-                'class':'publication-form-input',
-                'id': 'form-url'
-            }),
+            # 'url': forms.URLInput(attrs = {
+            #     'placeholder': 'https://www.instagram.com/world.it.academy/?locale=ua', 
+            #     'class':'publication-form-input',
+            #     'id': 'form-url'
+            # }),
             'images': forms.ClearableFileInput(attrs = {
                 'id': 'image-field',
             }),
         }
         labels = {
             'title': 'Назва публікації',
-            'theme': 'Тема публікації',
+            # 'theme': 'Тема публікації',
             'tags': 'Теги публікації',
-            'text': '',
-            'url': 'Посилання',
+            'content': '',
+            # 'url': 'Посилання',
             'images': ''
         }
     def clean(self):
@@ -86,14 +86,3 @@ class UserProfileUpdateForm(forms.ModelForm):
         if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
             raise ValidationError('Це ім’я користувача вже зайняте.')
         return username
-
-class NewTagForm(forms.ModelForm):
-    class Meta:
-        model = StandartTags
-        fields = ['tag']
-        widgets = {
-            'tag': forms.TextInput(attrs = {'value': '#', 'id':'new-tag-input'})
-        }
-        labels = {
-            'tag': ''
-        }

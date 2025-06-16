@@ -32,6 +32,7 @@ ASGI_APPLICATION = 'SocialMedia.asgi.application'
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -82,10 +83,13 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'SocialMedia.wsgi.application'
 
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 

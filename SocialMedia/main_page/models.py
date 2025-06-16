@@ -1,22 +1,68 @@
 from django.db import models
-from django.contrib.auth.models import User
 # Create your models here.
-class UserPublications(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    title = models.CharField(max_length = 100)
-    theme = models.CharField(max_length = 255)
-    tags = models.ManyToManyField('StandartTags', blank = True)
-    text = models.TextField()
-    url = models.URLField()
-    images = models.ImageField(upload_to = 'images/')
-    views = models.IntegerField()
-    likes = models.IntegerField()
+from django.db import models
+from user.models import Profile
+
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField(max_length=4096)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    images = models.ManyToManyField('Image', blank=True, related_name='posts_authored')
+    views = models.ManyToManyField(Profile, blank=True, related_name='posts_viewed')
+    likes = models.ManyToManyField(Profile, blank=True, related_name='posts_liked')
+    tags = models.ManyToManyField('Tag', blank=True)
 
     def __str__(self):
         return self.title
 
-class StandartTags(models.Model):
-    tag = models.CharField(max_length = 100)
+class Image(models.Model):
+    filename = models.CharField(max_length=150)
+    file = models.ImageField(upload_to='images/posts')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.tag
+        return self.filename
+
+class Album(models.Model):
+    name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    preview_image = models.ImageField(upload_to='images/album_previews', null=True, blank=True)
+    images = models.ManyToManyField(Image, blank=True)
+    shown = models.BooleanField(default=True) # Чи відображається цей альбом
+    topic = models.ForeignKey('Tag', on_delete = models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class Link(models.Model):
+    url = models.URLField(max_length=200)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Посилання для поста "{self.post}"'
+
+# class UserPublications(models.Model):
+#     user = models.ForeignKey(User, on_delete = models.CASCADE)
+#     title = models.CharField(max_length = 100)
+#     theme = models.CharField(max_length = 255)
+#     tags = models.ManyToManyField('StandartTags', blank = True)
+#     text = models.TextField()
+#     url = models.TextField(blank = True)
+#     images = models.ImageField(upload_to = 'images/')
+#     views = models.IntegerField()
+#     likes = models.IntegerField()
+
+#     def __str__(self):
+#         return self.title
+
+# class StandartTags(models.Model):
+#     tag = models.CharField(max_length = 100)
+
+#     def __str__(self):
+#         return self.tag

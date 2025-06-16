@@ -1,23 +1,31 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from main_page.models import UserPublications, StandartTags
-from main_page.forms import CreatePublicationsForm, NewTagForm
+from main_page.models import Post, Tag
+from main_page.forms import CreatePublicationsForm #, NewTagForm
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
 @login_required
 def edit_publication(request, pub_id):
-    publication = get_object_or_404(UserPublications, id = pub_id)
+    publication = get_object_or_404(Post, id=pub_id)
+
     if request.method == 'POST':
-        form = CreatePublicationsForm(request.POST, request.FILES, instance = publication)
+        form = CreatePublicationsForm(request.POST, request.FILES, instance=publication)
         if form.is_valid():
-            publication = form.save(commit = False)
-            publication.user = request.user
+            publication = form.save(commit=False)
+            publication.author = request.user
             publication.views = 0
             publication.likes = 0
             publication.save()
+
+            form.save_m2m()
+
             return redirect('main_page')
     else:
-        form = CreatePublicationsForm(instance = publication)
-    
+        form = CreatePublicationsForm(instance=publication)
+
     return render(
         request,
         "main_page/main.page.html",
@@ -30,7 +38,7 @@ def edit_publication(request, pub_id):
 
 @login_required
 def delete_publication(request, pub_id):
-    publication = get_object_or_404(UserPublications, id = pub_id)
+    publication = get_object_or_404(Post, id = pub_id)
 
     if request.method == "POST":
         publication.delete()
@@ -39,33 +47,67 @@ def delete_publication(request, pub_id):
 def render_my_publications_page(request):
     user = request.user
     form = CreatePublicationsForm()
-    new_tag_form = NewTagForm()
-    
+
     if request.method == 'POST':
-        if 'add_new_tag' in request.POST:
-            new_tag_form = NewTagForm(request.POST)
-            if new_tag_form.is_valid():
-                tag_text = new_tag_form.cleaned_data['tag']
-                tag_obj, created = StandartTags.objects.get_or_create(tag = tag_text)
-                return redirect('my_publications')
+        print("POST request received")
+        form = CreatePublicationsForm(request.POST, request.FILES)
+        if form.is_valid():
+            print("Form is valid!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            publication = form.save(commit=False)
+            publication.author = user.profile
+            publication.views = 0
+            publication.likes = 0
 
-        else:  # створення публікації
-            form = CreatePublicationsForm(request.POST, request.FILES)
-            if form.is_valid():
-                publication = form.save(commit=False)
-                publication.user = user
-                publication.views = 0
-                publication.likes = 0
-                publication.save()
-                form.save_m2m()
-                return redirect('my_publications')
+            # Посилання
+            urls = []
+            if form.cleaned_data['url']:
+                urls.append(form.cleaned_data['url'])
 
-    user_publications_count = UserPublications.objects.filter(user=user).count()
+            extra_urls = request.POST.getlist('extra_url')
+            for url in extra_urls:
+                if url.strip():
+                    urls.append(url)
+
+            publication.url = '\n'.join(urls)
+
+            selected_tags = request.POST.get('selected_tags', '')
+            tag_ids = [
+                int(tid)
+                for tid in selected_tags.split(',')
+                if tid.isdigit()
+            ]
+            
+
+            publication.save()
+            if tag_ids:
+                publication.tags.set(tag_ids)
+            form.save_m2m()
+
+            return redirect('my_publications')
+
+    # user_publications_count = Post.objects.filter(user = user.profile).count()
 
     return render(request, "my_publications/my_publications.html", {
         "user": user,
         "form": form,
-        "new_tag_form": new_tag_form,
-        "publications": UserPublications.objects.all(),
-        "user_publications_count": user_publications_count
+        "publications": Post.objects.all(),
+        # "user_publications_count": user_publications_count
     })
+
+
+@require_POST
+def add_tag(request):
+    tag = request.POST.get('tag', '').strip()
+    
+    if tag:
+        
+        tag_object, created = Tag.objects.get_or_create(name = tag)
+        if created:
+            return JsonResponse({
+                'status' : 'success',
+                'tag' : tag_object.name,
+                'id' : tag_object.id,
+                'created' : created
+            })
+        else:
+            return JsonResponse({"status": "error", "message": "Порожній тег"})

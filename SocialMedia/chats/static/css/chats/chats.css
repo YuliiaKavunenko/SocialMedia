@@ -134,6 +134,133 @@ img{
     justify-content: center;
     align-items: center;
 }
+#chat-panel{
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    background-color: #FFFFFF;
+    width: 60%;
+    height: 94.5%;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+}
+#chat-header hr{
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    height: 1px;
+    background-color: #CDCED2;
+    border: none;
+    margin: 0;
+}
+.contact-link{
+    text-decoration: none;
+    color: #070A1C;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+#chat-input{
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 24px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+#message-form{
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#message-form textarea{
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 8px 16px 8px 16px;
+    font-size: 16px;
+    font-family: 'GT Walsheim Pro';
+    resize: none;
+}
+#message-form button{
+    width: 40px;
+    height: 40px;
+    
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#send-emoji{
+    background-color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #543C52;
+}
+#send-image{
+    background-color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #543C52;
+}
+#message-form button:hover{
+    cursor: pointer;
+    background-color: #E9E5EE;
+}
+#chat-messages{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow-y: auto;
+    gap: 16px;
+    padding: 16px;
+
+}
+
+#chat-header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.contact{
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.user-photo{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+}
+.chat-avatar{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-right: 16px;
+}
 #text{
     display: flex;
     flex-direction: column;
@@ -148,6 +275,18 @@ img{
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.chat {
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 16px 8px 16px;
 }
 #groups{
     width: 100%;
@@ -190,16 +329,21 @@ img{
     size: 12px;
     font-family: 'GT Walsheim Pro';
 }
+#chats a{
+    text-decoration: none;
+    color: #070A1C;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 16px 8px 16px;
+}
 .user h4{
     color: #070A1C;
     size: 16px;
     font-family: 'GT Walsheim Pro';
-}
-.chat{
-    width: auto;
-    height: auto;
-    display: flex;
-    padding: 8px 16px 8px 16px;
+    text-decoration: none;
 }
 #chat1{
     background-color: #E9E5EE;
@@ -343,4 +487,14 @@ img{
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
+}
+.active-chat{
+    background-color: #E9E5EE;
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
 }

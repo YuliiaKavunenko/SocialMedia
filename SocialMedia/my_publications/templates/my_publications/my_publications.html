@@ -22,7 +22,7 @@
             </div>
             <div id = "profile-data">
                 <div id = "subscribers">
-                    <h3>{{ user_publications_count }}</h3>
+                    <h3>0</h3>
                     <h4>Дописи</h4>
                 </div>
                 <div id = "readers">
@@ -57,19 +57,25 @@
                     <p>
                         <div id="tags-container">
                             {% for tag in form.tags.field.queryset %}
-                                <span class="tag-label">{{ tag.tag }}</span>
+                                <span class="tag-label" data-tag-id="{{ tag.id }}">{{ tag.tag }}</span>
                             {% endfor %}
-                            <div style="display: none;" id = 'new-tag-form-container'>
-                                <form method="post" id="new-tag-form">
-                                    {% csrf_token %}
-                                    {{ new_tag_form.tag }}
-                                <button type="submit" name="add_new_tag"><img src="" alt=""></button>
-                            </form>
+                            <!-- приховане поле для збереження вибраних тегів -->
+                            <input type="hidden" name="selected_tags" id="selected-tags-input">
+
+                            <div style="display: none;" id='new-tag-form-container'>
+                                <input type="text" name="tag" id="new-tag-input" value="#">
+                                <button type="button" id="submit-new-tag"><img src="" alt=""></button>
                             </div>
-                            
                             <button type="button" id="add-tag-button">+</button>
 
+                            <script>
+                                const ADD_TAG_URL = "{% url 'add_tag' %}";
+                                const CSRF_TOKEN = "{{ csrf_token }}";
+                            </script>
+
                         </div>
+
+                            
                         
                     </p>
 
@@ -77,14 +83,23 @@
                         {{ form.text }}
                     </p>
                     
-                        <p>
-                            <label for="{{ form.url.id_for_label }}">Посилання</label>
-                            <div id = 'add-url-container'>
+                    <p>
+                        <label for="{{ form.url.id_for_label }}">Посилання</label>
+                        <div id="add-url-container">
+                            <div id = 'add-url-wrap'>
                                 {{ form.url }}
-                                <button type="button" id="add-url-button">+</button>
+                                <div id="urls-list"></div>
+
+                                <div id="new-url-form-container" style="display: none;">
+                                    <input type="text" name="extra_url" id="new-url-input" placeholder="https://example.com">
+                                    <button type="button" id="submit-new-url"><img src="" alt=""></button>
+                                </div>
                             </div>
                             
-                        </p>
+
+                            <button type="button" id="add-url-button">+</button>
+                        </div>
+                    </p>
                         
                     
                     
@@ -169,8 +184,13 @@
                         <p>{{ pub.theme }}</p>
                     {% endif %}
 
-                    {% if pub.tags %}
-                        <p class = 'tag-text'>{{ pub.tags }}</p>
+                    {% if pub.tags.all %}
+                        <p class="tag-text">
+                            {% for tag in pub.tags.all %}
+                                #{{ tag.tag }}{% if not forloop.last %}, 
+                                {% endif %}
+                            {% endfor %}
+                        </p>
                     {% endif %}
 
                     {% if pub.text %}
@@ -178,7 +198,9 @@
                     {% endif %}
 
                     {% if pub.url %}
-                        <p><a href="{{ pub.url }}" target="_blank">{{ pub.url }}</a></p>
+                        {% for link in pub.url.splitlines %}
+                            <p><a href='{{ link|urlize }}'>{{ link }}</a></p>
+                        {% endfor %}
                     {% endif %}
 
                     {% if pub.images %}

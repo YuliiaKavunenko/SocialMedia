@@ -649,10 +649,24 @@ button{
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
     gap: 6px;
     width: 100%;
 }
-button[name = 'add_new_tag']{
+#add-url-wrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.tag-label.selected{
+    background-color: #DCD9E2;
+    color: #543C52;
+}
+#submit-new-tag{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -666,7 +680,25 @@ button[name = 'add_new_tag']{
     background-color: #FFFFFF;
     font-size: 22px;
 }
-button[name = 'add_new_tag']:hover{
+#submit-new-tag:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#submit-new-url{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    border: #543C52 solid 2px;
+    color: #543C52;
+    background-color: #FFFFFF;
+    font-size: 22px;
+}
+#submit-new-url:hover{
     background-color: #E9E5EE;
     cursor: pointer;
 }
@@ -676,4 +708,22 @@ button[name = 'add_new_tag']:hover{
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    gap: 10px;
+}
+#new-url-form-container{
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+#urls-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    flex-wrap: wrap;
 }

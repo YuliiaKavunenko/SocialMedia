@@ -23,22 +23,64 @@
                 </div>
                 <input type="text" name="" id="search" placeholder="Пошук">
                 <div id="contacts">
-                    <div id="contact">
-                        <img src="" alt="">
-                        <h4>Jane Cooper</h4>
-                    </div>
+                    {% for contact in contacts %}
+                        <a href="?chat_id={{ contact.id }}" class="contact-link">
+                            <div class="contact">
+                                <img src="{% static '../static/img/avatarka.png' %}" class='user-photo' alt="{{ contact.user.username }}">
+                                <h4>{{ contact.user.get_full_name|default:contact.user.username }}</h4>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+        {% if active_chat %}
+            <div id="chat-panel" data-chat-id="{{ active_chat.id }}" data-user-id="{{ request.user.profile.id }}">
+
+                <div id="chat-header">
+                    <h4>{{ active_chat.name }}</h4>
+                    <hr>
+                </div>
+
+                <div id="chat-messages">
+
+                    {% for message in messages %}
+                        <div class="message {% if message.author == request.user.profile %}sent{% else %}received{% endif %}">
+                            <p>{{ message.content }}</p>
+                            {% if message.attached_image %}
+                                <img src="{{ message.attached_image.url }}" alt="Зображення" class="message-image">
+                            {% endif %}
+                            <span class="message-time">{{ message.sent_at|date:"H:i" }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div id="chat-input">
+                   <form id="message-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <textarea name="content" placeholder="Напишіть повідомлення..." required></textarea>
+                        <!-- <input type="file" name="attached_image" accept="image/*"> -->
+                        <button type="submit" id = 'send-emoji'><img src="{% static '../static/img/emoji.png' %}" alt=""></button>
+                        <button type="submit" id  = 'send-image'><img src="{% static '../static/img/Picture.png' %}" alt=""></button>
+                        <button type="submit" id = 'send-message'><img src="{% static 'img/Btn.png' %}" alt=""></button>
+                        
+                    </form>
                 </div>
             </div>
-        </div>
-        <div id="empty-panel">
-            <div id="text">
-                <h5 id = 'text-empty-panel1'>Почніть нове спілкування</h5>
-                <h5 id = 'text-empty-panel2'>Оберіть контакт зі списку ліворуч або створіть групу, щоб почати  спілкування</h5>
+        {% else %}
+            <div id="empty-panel">
+                <div id="text">
+                    <h5 id='text-empty-panel1'>Почніть нове спілкування</h5>
+                    <h5 id='text-empty-panel2'>Оберіть контакт...</h5>
+                </div>
             </div>
-        </div>
+        {% endif %}
+
         <div id="chats-panel">
             <div id="messages-window">
                 <div id="chats-header">
+                    
                     <div id="messages">
                         <img src="" alt="">
                         <h4>Повідомлення</h4>
@@ -49,26 +91,27 @@
                     </form>
                 </div>
                 <div id="chats">
-                    <div id="chat1" class="chat">
-                        <img src="" alt="">
-                        <div id="chat-info1" class="chat-info">
-                            <div id="user1" class="user">
-                                <h4>Mona Lisa</h4>
-                                <h5>09:41</h5>
+                    {% for chat in personal_chats %}
+                        <a href="?chat_id={{ chat.id }}">
+                            <div class="chat {% if chat.id == active_chat.id %}active-chat{% endif %}">
+                                <img src="{% static '../static/img/avatarka.png' %}" alt="{{ chat.name }}" class = 'chat-avatar'>
+                                <div class="chat-info">
+                                    <div class="user">
+                                        <h4>{{ chat.name }}</h4>
+                                        {% with chat.chatmessage_set.last as last_message %}
+                                            <h5>{{ last_message.sent_at|date:"H:i" }}</h5>
+                                        {% endwith %}
+                                    </div>
+                                    <h5>
+                                        {% if last_message %}
+                                            {{ last_message.content|truncatechars:30 }}
+                                        {% endif %}
+                                    </h5>
+                                </div>
                             </div>
-                            <h5>Привіт!Як справи?</h5>
-                        </div>
-                    </div>
-                    <div id="chat2" class="chat">
-                        <img src="" alt="">
-                        <div id="chat-info2" class="chat-info">
-                            <div id="user2" class="user">
-                                <h4>Ann Ti</h4>
-                                <h5>25.04.2025</h5>
-                            </div>
-                            <h5>Привіт!</h5>
-                        </div>
-                    </div>
+                        </a>
+                    {% endfor %}
+
                 </div>
             </div>
             <div id="groups-window">
@@ -83,28 +126,25 @@
                     </form>
                 </div>
                 <div id="groups">
-                    <div id="group1" class="group">
-                        <img src="" alt="">
-                        <div id="group-info1" class="group-info">
-                            <div id="info1" class="info">
-                                <h4>New group</h4>
-                                <h5>09:41</h5>
+                    {% for chat in group_chats %}
+                        <a href="?chat_id={{ chat.id }}">
+                            <div class="group {% if chat.id == active_chat.id %}active-chat{% endif %}">
+                                <img src="{{ chat.avatar.url|default_if_none:'/static/images/default-group.png' }}" alt="{{ chat.name }}">
+                                <div class="group-info">
+                                    <div class="info">
+                                        <h4>{{ chat.name }}</h4>
+                                        {% with chat.chatmessage_set.last as last_message %}
+                                            <h5>{{ last_message.sent_at|date:"H:i" }}</h5>
+                                        {% endwith %}
+                                    </div>
+                                    <h5>{% if last_message %}{{ last_message.content|truncatechars:30 }}{% endif %}</h5>
+                                </div>
                             </div>
-                            <h5>Чудово!</h5>
-                        </div>
-                    </div>
-                    <div id="group2" class="group">
-                        <img src="" alt="">
-                        <div id="group-info2" class="group-info">
-                            <div id="info2" class="info">
-                                <h4>Ann Ti</h4>
-                                <h5>25.04.2025</h5>
-                            </div>
-                            <h5>Привіт!</h5>
-                        </div>
-                    </div>
-                </div>
+                        </a>
+                    {% endfor %}
+
             </div>
         </div>
     </div>
+    <script src="{% static 'js/chats/chats.js' %}" defer></script>
 {% endblock %}

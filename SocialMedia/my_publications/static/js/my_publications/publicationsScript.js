@@ -106,14 +106,112 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Додавання тега
     const addTagButton = document.getElementById("add-tag-button");
     const tagForm = document.getElementById("new-tag-form-container");
 
     if (addTagButton && tagForm) {
         addTagButton.addEventListener("click", function () {
             addTagButton.style.display = "none";
-            tagForm.style.display = "block";
+            tagForm.style.display = "flex";
         });
     }
 
+    const saveNewTag = document.getElementById("submit-new-tag");
+    const newTagInput = document.getElementById("new-tag-input");
+    const tagsContainer = document.getElementById("tags-container");
+
+    if (saveNewTag && newTagInput && tagsContainer) {
+        saveNewTag.addEventListener("click", function () {
+            console.log("Кнопка збереження тега натиснута");
+
+            const newTag = newTagInput.value.trim();
+
+            if (!newTag) {
+                alert("Будь ласка, введіть тег.");
+                return;
+            }
+
+            fetch(ADD_TAG_URL, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": CSRF_TOKEN,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    tag: newTag
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const tagElement = document.createElement("span");
+                    tagElement.classList.add("tag-label");
+                    tagElement.textContent = data.tag;
+                    tagsContainer.insertBefore(tagElement, tagForm);
+                    newTagInput.value = "";
+                } else {
+                    alert("Помилка: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Помилка під час збереження тега:", error);
+                alert("Щось пішло не так при додаванні тега.");
+            });
+        });
+    }
+    // Додавання URL
+    const addUrlButton = document.getElementById('add-url-button');
+    const submitNewUrlButton = document.getElementById('submit-new-url');
+    const newUrlInput = document.getElementById('new-url-input');
+    const newUrlFormContainer = document.getElementById('new-url-form-container');
+    const urlsList = document.getElementById('urls-list');
+
+    addUrlButton.addEventListener('click', function () {
+        addUrlButton.style.display = 'none';
+        newUrlFormContainer.style.display = 'flex';
+        newUrlInput.focus();
+    });
+
+    submitNewUrlButton.addEventListener('click', function () {
+        const urlValue = newUrlInput.value.trim();
+        if (urlValue !== '') {
+            // створюємо новий input з цим URL
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'extra_urls';
+            newInput.value = urlValue;
+            newInput.readOnly = true;
+            newInput.classList.add('url-input-added');
+            urlsList.appendChild(newInput);
+
+            // очищаємо поле
+            newUrlInput.value = '';
+            newUrlFormContainer.style.display = 'none';
+            addUrlButton.style.display = 'flex';
+        }
+    });
+
+    const tagLabels = document.querySelectorAll(".tag-label");
+    const hiddenInput = document.getElementById("selected-tags-input");
+
+    let selectedTagIds = new Set();
+
+    tagLabels.forEach(tag => {
+        tag.addEventListener("click", function () {
+            const tagId = this.getAttribute("data-tag-id");
+
+            if (this.classList.contains("selected")) {
+                this.classList.remove("selected");
+                selectedTagIds.delete(tagId);
+            } else {
+                this.classList.add("selected");
+                selectedTagIds.add(tagId);
+                
+            }
+
+            // Оновити приховане поле значенням обраних тегів через кому
+            hiddenInput.value = Array.from(selectedTagIds).join(",");
+        });
+    });
 });

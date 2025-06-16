@@ -18,7 +18,7 @@ body{
     margin: 0px;
     padding-top: 88px;
 }
-a{
+#main-urls a{
     color: #070A1C;
     font-size: 16px;
     display: flex;
