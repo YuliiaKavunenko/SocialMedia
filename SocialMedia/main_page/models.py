@@ -4,13 +4,13 @@ from django.db import models
 from user.models import Profile
 
 class Post(models.Model):
-    title = models.CharField(max_length=255)
-    content = models.TextField(max_length=4096)
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    images = models.ManyToManyField('Image', blank=True, related_name='posts_authored')
-    views = models.ManyToManyField(Profile, blank=True, related_name='posts_viewed')
-    likes = models.ManyToManyField(Profile, blank=True, related_name='posts_liked')
-    tags = models.ManyToManyField('Tag', blank=True)
+    title = models.CharField(max_length = 255)
+    content = models.TextField(max_length = 4096)
+    author = models.ForeignKey(Profile, on_delete = models.CASCADE)
+    images = models.ManyToManyField('Image', blank = True, related_name='posts_authored')
+    views = models.ManyToManyField(Profile, blank = True, related_name='posts_viewed')
+    likes = models.ManyToManyField(Profile, blank = True, related_name='posts_liked')
+    tags = models.ManyToManyField('Tag', blank = True)
 
     def __str__(self):
         return self.title
@@ -25,10 +25,10 @@ class Image(models.Model):
 
 class Album(models.Model):
     name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add = True)
     preview_image = models.ImageField(upload_to='images/album_previews', null=True, blank=True)
     images = models.ManyToManyField(Image, blank=True)
-    shown = models.BooleanField(default=True) # Чи відображається цей альбом
+    shown = models.BooleanField(default = True) # Чи відображається цей альбом
     topic = models.ForeignKey('Tag', on_delete = models.CASCADE)
 
     def __str__(self):

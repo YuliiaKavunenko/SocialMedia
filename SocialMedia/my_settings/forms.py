@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
+from main_page.models import Album, Tag, Profile
 
 class EditUserDataForm(forms.ModelForm):
     birth_date = forms.DateField(
@@ -13,7 +14,7 @@ class EditUserDataForm(forms.ModelForm):
             'readonly': 'readonly',
             'disabled': 'disabled',
         }),
-        label='Дата народження'
+        label = 'Дата народження'
     )
     class Meta:
         model = User
@@ -47,15 +48,17 @@ class EditUserDataForm(forms.ModelForm):
             'email': 'Електронна адреса',
             
         }
-class EditPasswordForm(PasswordChangeForm):
+
+class EditPasswordForm(SetPasswordForm):
     def __init__(self, *args, **kwargs):
         super(EditPasswordForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({
                 'class': 'edit-profile-input',
                 'placeholder': '*********',
+                'disabled': 'disabled',
             })
-        
+
 class EditUsernameForm(forms.ModelForm):
     class Meta:
         model = User
@@ -69,4 +72,73 @@ class EditUsernameForm(forms.ModelForm):
         }
         labels = {
             'username': 'Ім’я користувача',
+        }
+
+class CreateAlbumForm(forms.ModelForm):
+    year = forms.ChoiceField(
+        choices = [(year, str(year)) for year in range(1980, 2026)],
+        initial = 2025,
+        widget = forms.Select(attrs = {
+            'class': 'edit-profile-input',
+            'id': 'year-input',
+        }),
+        label = 'Рік альбому'
+    )
+    topic = forms.ModelChoiceField(
+        queryset = Tag.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'edit-profile-input',
+            'id': 'topic-input',
+        }),
+        label = 'Тема альбому',
+        initial = 0,
+    )
+
+    class Meta:
+        model = Album
+        fields = ['name', 'topic', 'year']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'placeholder': 'Настрій',
+                'class': 'edit-profile-input',
+            }),
+        }
+        labels = {
+            'name': 'Назва альбому',
+        }
+
+class EditAlbumForm(forms.ModelForm):
+
+    year = forms.ChoiceField(
+        choices = [(year, str(year)) for year in range(1980, 2026)],
+        initial = 2025,
+        widget = forms.Select(attrs = {
+            'class': 'edit-profile-input',
+            'id': 'edit-year-input',
+        }),
+        label = 'Рік альбому'
+    )
+    topic = forms.ModelChoiceField(
+        queryset = Tag.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'edit-profile-input',
+            'id': 'edit-topic-input',
+        }),
+        label = 'Тема альбому',
+        initial = 0,
+    )
+
+    class Meta:
+        
+        model = Album
+        fields = ['name', 'topic', 'year']
+        widgets = {
+            'name': forms.TextInput(attrs = {
+                'placeholder': 'Настрій',
+                'class': 'edit-profile-input',
+                'id': 'edit-name-input',
+            }),
+        }
+        labels = {
+            'name': 'Назва альбому',
         }

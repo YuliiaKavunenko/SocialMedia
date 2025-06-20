@@ -13,6 +13,14 @@ class CreatePublicationsForm(forms.ModelForm):
     # url = forms.URLField(required = False)
     images = forms.ImageField(required=False)
     class Meta:
+        # images = forms.ImageField(
+        #     required = False,
+        #     widget = forms.ClearableFileInput(attrs={
+        #         'multiple': True,  # Ось це додано, щоб можна було вибирати кілька файлів
+        #         'id': 'image-field',
+        #         'style': 'display: none;',
+        #         })
+        #     )
         model = Post
         fields = ['title','tags', 'content', 'images']#['title', 'theme', 'tags', 'text', 'url', 'images']
         widgets = {
@@ -37,6 +45,7 @@ class CreatePublicationsForm(forms.ModelForm):
             # }),
             'images': forms.ClearableFileInput(attrs = {
                 'id': 'image-field',
+                'style': 'display:none;',
             }),
         }
         labels = {

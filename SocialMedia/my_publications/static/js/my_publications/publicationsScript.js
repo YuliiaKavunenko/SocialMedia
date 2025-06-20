@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
         closeBtn.addEventListener("click", function (event) {
             event.preventDefault();
             modal.style.display = "none";
+            document.getElementById("new-tag-form-container").style.display = "none";
+            document.getElementById("add-tag-button").style.display = "flex";
         });
     }
 
@@ -210,8 +212,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 
             }
 
-            // Оновити приховане поле значенням обраних тегів через кому
             hiddenInput.value = Array.from(selectedTagIds).join(",");
         });
     });
+
+    const addImageButton = document.getElementById("add-image-button");
+    const imageInput = document.getElementById("id_images");
+
+    if (addImageButton && imageInput) {
+        addImageButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            imageInput.click();
+        });
+
+        imageInput.addEventListener("change", function () {
+            if (imageInput.files.length > 0) {
+                console.log("Вибраний файл:", imageInput.files[0].name);
+            }
+        });
+    } else {
+        console.warn("Не знайдено кнопку або інпут для вибору файлу");
+    }
+
 });

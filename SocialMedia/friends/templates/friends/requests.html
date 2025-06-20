@@ -28,32 +28,26 @@
                     </form>
                 </div>
                 <div id="requested-users">
-                    <div id="request1" class="card">
-                        <div id="request-profile1" class="request-profile">
-                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
-                            <div id="profile-information1" class="profile-information">
-                                <h3>Yehor Aung</h3>
-                                <h4>@thelili</h4>
+                    {% if friend_requests %}
+                        {% for user in friend_requests %}
+                            <div class="card">
+                                <div class="request-profile">
+                                    <img src="{{ user.avatar_url|default:'/static/img/avatarka.png' }}" alt="">
+                                    <div class="profile-information">
+                                        <h3>{{ user.fullname }}</h3>
+                                        <h4>@{{ user.username }}</h4>
+                                    </div>
+                                </div>
+                                <form class="request-buttons">
+                                    <button class="confirm-request">Підтвердити</button>
+                                    <button class="delete-request">Видалити</button>
+                                </form>
                             </div>
-                        </div>
-                        <form id="request-buttons1" class="request-buttons">
-                            <button id="confirm-request1" class="confirm-request">Підтвердити</button>
-                            <button id="delete-request2" class="delete-request">Видалити</button>
-                        </form>
-                    </div>
-                    <div id="request2" class="card">
-                        <div id="request-profile2" class="request-profile">
-                            <img src="{% static '../static/img/avatarka.png' %}" alt="">
-                            <div id="profile-information2" class="profile-information">
-                                <h3>Ann Ann</h3>
-                                <h4>@thelili</h4>
-                            </div>
-                        </div>
-                        <form id="request-buttons2" class="request-buttons">
-                            <button id="confirm-request2" class="confirm-request">Підтвердити</button>
-                            <button id="delete-request2" class="delete-request">Видалити</button>
-                        </form>
-                    </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>У вас ще немає запитів у друзі.</p>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

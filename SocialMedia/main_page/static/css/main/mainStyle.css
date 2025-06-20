@@ -20,6 +20,7 @@ button{
     left: 5.55vw;
     gap: 8px;
     width: 18.2%;
+    height: 85%;
     
 }
 
@@ -429,6 +430,7 @@ button{
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    margin-bottom: 1.4vw;
 
 }
 #publications{
@@ -654,9 +656,56 @@ button{
     box-sizing: border-box;
 }
 .publication-card img{
+    object-fit: cover;
     width: 433px;
     height: 327px;
     border-radius: 16px;
+}
+#tags-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+#add-tag-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    border: #543C52 solid 2px;
+    color: #543C52;
+    background-color: #FFFFFF;
+    font-size: 22px;
+
+}
+#add-tag-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#add-url-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    border: #543C52 solid 2px;
+    color: #543C52;
+    background-color: #FFFFFF;
+    font-size: 22px;
+
+}
+#add-url-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
 }
 .publication-card *{
     font-family: 'GT Walsheim Pro', sans-serif;

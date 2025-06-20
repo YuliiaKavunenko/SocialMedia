@@ -30,7 +30,9 @@ hr{
     justify-content: space-between;
     margin-left: 5.55vw;
     margin-right: 5.55vw;
-    margin-top: 16px
+    margin-top: 16px;
+    height: 100%;
+    margin-bottom: 1.4vw;
 }
 #request-header{
     display: flex;

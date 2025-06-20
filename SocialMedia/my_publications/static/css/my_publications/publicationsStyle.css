@@ -131,6 +131,7 @@ button{
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    margin-bottom: 1.4vw;
 }
 #publications{
     display: flex;
@@ -353,6 +354,7 @@ button{
     box-sizing: border-box;
 }
 .publication-card img{
+    object-fit: cover;
     width: 433px;
     height: 327px;
     border-radius: 16px;

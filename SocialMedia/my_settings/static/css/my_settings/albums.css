@@ -37,7 +37,7 @@ hr{
     color: black;
     margin: 8px 0 8px 0;
     height: 2px;
-    
+    margin: 0;
 }
 #albums-url{
     color: black;
@@ -49,6 +49,8 @@ hr{
     margin-left: 5.55vw;
     margin-right: 5.55vw;
     margin-top: 16px;
+    height: 100%;
+    margin-bottom: 1.4vw;
 }
 #albums-panel{
     display: flex;
@@ -118,6 +120,132 @@ hr{
     size: 16px;
     font-family: 'GT Walsheim Pro';
 }
+.album-content{
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 16px;
+    gap: 16px;
+    
+}
+.album-content h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: 'GT Walsheim Pro';
+}
+.album-header *{
+    margin: 0;
+    padding: 0;
+}
+.album-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.header-buttons-conteiner{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+.theme-and-year *{
+    margin: 0;
+    font-weight: normal;
+}
+.theme-and-year{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.album-content hr{
+    height: 2px;
+    color: #cdced297;
+    background-color: #cdced297;
+    margin: 0;
+    border: none;
+}
+.album-content *{
+    margin: 0;
+}
+.photo-list *{
+    margin: 0;
+}
+.photo-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.add-photo-button{
+    background-color: #FFFFFF;
+    width: 10vw;
+    height: 21vh;
+    border: 1px dashed #81818D;    
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #81818D;
+    text-align: center;
+    font-size: 2vw;
+    font-family: 'GT Walsheim Pro';
+}
+.photo-list img{
+    object-fit:cover;
+
+    width: 10vw;
+    height: 21vh;
+    border-radius: 10px;
+}
+.theme-and-year h5{
+    color: #cdced297;
+    size: 16px;
+    font-family: 'GT Walsheim Pro';
+}
+.add-photo-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+.delete-album-button{
+    background-color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+   
+    border: 1px solid #543C52;    
+    border-radius: 123px;
+    color: #543C52;
+    font-size: 24px;
+    font-family: 'GT Walsheim Pro';
+}
+.open-album-menu{
+    background-color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    border: none;    
+    color: #cdced2;
+    font-size: 34px;
+    font-family: 'GT Walsheim Pro';
+    z-index: 110;
+    border-radius: 10px;
+}
+.open-album-menu:hover{
+    cursor: pointer;
+}
+.delete-album-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+    
+}
 #create-albums{
     background-color: #FFFFFF;
     width: 131px;
@@ -146,8 +274,35 @@ hr{
     justify-content: center;
     align-items: center;
 }
-
+#edit-album-window-background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #create-album-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 22vw;
+    height: auto;
+    padding: 24px 16px 44px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+}
+#edit-album-form{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -169,18 +324,62 @@ hr{
     padding: 0;
     
 }
+#edit-album-form *{
+    margin: 0;
+    padding: 0;
+    
+}
+#inputs-edit-album{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 #inputs-create-album{
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
+#inputs-create-album p{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#inputs-edit-album p{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#inputs-create-album p select{
+    width: 100%;
+    height: 4vh;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: 'GT Walsheim Pro';
+}
+#inputs-edit-album p select{
+    width: 100%;
+    height: 4vh;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: 'GT Walsheim Pro';
+}
 #close-button{
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    
+}
+#exit-edit{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 #exit-creation{
     width: 100%;
@@ -207,6 +406,24 @@ hr{
     padding: 0 16px;
     font-family: 'GT Walsheim Pro';
 }
+#edit-album-form input{
+    width: 20.3vw;
+    height: 4vh;
+    border: 1px solid #CDCED2;
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: 'GT Walsheim Pro';
+}
+#edit-album-form h3{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    color: #070A1C;
+    size: 24px;
+    font-family: 'GT Walsheim Pro';
+}
 #buttons-create-album{
     width: 100%;
     display: flex;
@@ -214,6 +431,24 @@ hr{
     justify-content: flex-end;
     align-items: center;
     gap: 16px;
+}
+#buttons-edit-album{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+.cancel{
+    background-color: #FFFFFF;
+    width: 94px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 1234px;
+    color: #543C52;
+    size: 14px;
+    font-family: 'GT Walsheim Pro';
 }
 #cancel1{
     background-color: #FFFFFF;
@@ -224,6 +459,24 @@ hr{
     color: #543C52;
     size: 14px;
     font-family: 'GT Walsheim Pro';
+}
+.save{
+    background-color: #543C52;
+    width: 111px;
+    height: 40px;
+    border-radius: 1234px;
+    color: #FFFFFF;
+    size: 14px;
+    font-family: 'GT Walsheim Pro';
+}
+.save:hover{
+    background-color: #ffffff;
+    cursor: pointer;
+    color: #543C52;
+}
+.cancel:hover{
+    background-color: #F2F0F5;
+    cursor: pointer;
 }
 #save1{
     background-color: #543C52;
@@ -242,4 +495,53 @@ hr{
     background-color: #ffffff;
     cursor: pointer;
     color: #543C52;
+}
+.album-menu{
+    height: max-content;
+    position: absolute;
+    width: 16vw;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    background-color: #E9E5EE;
+    padding: 16px;
+    border-radius: 10px;
+    z-index: 100;
+    top: 0;
+    right: 0;
+
+
+}
+.album-menu *{
+    margin: 0;
+    padding: 0;
+}
+.album-menu button{
+
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    background-color: #E9E5EE;
+    border: none;
+    color: #070A1C;
+    font-size: 16px;
+    font-family: 'GT Walsheim Pro';
+    font-weight: bolder;
+}
+.album-menu button:hover{
+    cursor: pointer;
+}
+.album-menu hr{
+    height: 2px;
+    width: 100%;
+    color: #cdced297;
+    background-color: #cdced297;
+    margin: 0;
+    border: none;
 }

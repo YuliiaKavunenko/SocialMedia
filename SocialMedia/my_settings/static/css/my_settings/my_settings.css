@@ -8,6 +8,8 @@
     margin-left: 5.55vw;
     margin-right: 5.55vw;
     margin-top: 16px;
+    height: 100%;
+    margin-bottom: 1.4vw;
 }
 img{
     object-fit: none;
@@ -59,9 +61,25 @@ img{
 }
 #profile-header{
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+#profile-card-info-header{
+    width: 100%;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
+}
+#edit-username-input{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
 }
 #edit-information-button1{
     background-color: #FFFFFF;
@@ -119,6 +137,7 @@ img{
     align-items: center;
 }
 #header-password{
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -291,7 +310,7 @@ img{
     font-family: "GT Walsheim Pro";
 }
 #avatar img{
-    
+    object-fit: cover;
     width: 96px;
     height: 96px;
     border-radius: 50%;
@@ -323,7 +342,6 @@ img{
 }
 .button-edit-info:hover{
     background-color:#E9E5EE;
-    color: #FFFFFF;
     cursor: pointer;
 }
 hr{
@@ -343,8 +361,9 @@ hr{
     color: black;
 }
 #password-header{
+    width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
@@ -357,6 +376,74 @@ hr{
     border-radius: 190px;
 }
 #save-changes-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#save-new-password-button{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    color: #543C52;
+    border-radius: 190px;
+}
+#save-new-password-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#save-new-username-button{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    color: #543C52;
+    border-radius: 190px;
+}
+#save-new-username-button:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+#edit-password-inputs{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+}
+#edit-password-inputs p{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 6px;
+}
+#edit-password-inputs *{
+   margin: 0;
+}
+#avatar-buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+#avatar-buttons button{
+    display: flex;
+    width: max-content;
+    height: auto;
+    padding: 12px;
+    font-size: 18px;
+    color: #543C52;
+    border: none;
+    background-color: #FFFFFF;
+    text-align: center;
+    font-family: "GT Walsheim Pro";
+}
+#avatar-buttons button:hover{
     background-color: #E9E5EE;
     cursor: pointer;
 }
