@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.display = "none"
       document.getElementById("new-tag-form-container").style.display = "none"
       document.getElementById("add-tag-button").style.display = "flex"
-      // Очищаем превью изображений при закрытии
       const imagePreview = document.getElementById("image-preview-container")
       if (imagePreview) {
         imagePreview.innerHTML = ""
@@ -282,10 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
     }
-
-    // Добавить функционал удаления существующих изображений в форме редактирования
-
-    // В функции initializeEditForm(pubId) добавить обработку удаления текущих изображений:
 
     // Обробка видалення поточних зображень
     const currentImageItems = document.querySelectorAll(`#current-images-container-${pubId} .current-image-item`)
