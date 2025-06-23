@@ -70,20 +70,29 @@ class UserProfileUpdateForm(forms.ModelForm):
     first_name = forms.CharField(
         max_length=30,
         required=True,
-        label='Ім’я',
-        widget=forms.TextInput(attrs = {'placeholder': 'Введіть Ваше ім’я'})
+        label = "Ім'я",
+        widget = forms.TextInput(attrs = {
+            'placeholder': "Введіть Ваше ім'я",
+            'id': 'id_first_name'
+        })
     )
     last_name = forms.CharField(
         max_length=30,
         required=True,
         label='Прізвище',
-        widget=forms.TextInput(attrs = {'placeholder': 'Введіть Ваше прізвище'})
+        widget=forms.TextInput(attrs = {
+            'placeholder': 'Введіть Ваше прізвище',
+            'id': 'id_last_name'
+        })
     )
     username = forms.CharField(
         max_length=150,
         required=True,
-        label='Ім’я користувача',
-        widget=forms.TextInput(attrs = {'placeholder': '@'})
+        label="Ім'я користувача",
+        widget=forms.TextInput(attrs = {
+            'placeholder': '@',
+            'id': 'id_username'
+        })
     )
 
     class Meta:
@@ -93,5 +102,5 @@ class UserProfileUpdateForm(forms.ModelForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
-            raise ValidationError('Це ім’я користувача вже зайняте.')
+            raise ValidationError("Це ім'я користувача вже зайняте.")
         return username

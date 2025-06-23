@@ -1273,3 +1273,7 @@ textarea {
   font-family: "GT Walsheim Pro", sans-serif;
   font-size: 14px;
 }
+#publications p{
+  width: 100%;
+  text-align: center;
+}

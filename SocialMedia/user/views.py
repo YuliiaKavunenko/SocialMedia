@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import RegistrationForm, LogInForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from .models import VerificationCode
 
 
 # Відповідає за реєстрацію користувача
@@ -16,38 +15,42 @@ def render_registration(request):
             code_parts = [request.POST.get(f"code{i}") for i in range(1, 7)]
             code = ''.join(code_parts)
 
-            try:
-                user = User.objects.get(email=email)
-                confirmation = VerificationCode.objects.get(username = user.username)
+            # Получаем код из сессии
+            session_key = f"verification_code_{email}"
+            stored_code = request.session.get(session_key)
 
-                if confirmation.code == code:
+            if stored_code and stored_code == code:
+                try:
+                    user = User.objects.get(email=email)
                     user.is_active = True
                     user.save()
-
-                    confirmation.is_confirmed = True
-                    confirmation.save()
+                    
+                    # Удаляем код из сессии после успешного подтверждения
+                    del request.session[session_key]
+                    request.session.modified = True
+                    
                     return redirect("login")
-                else:
+                except User.DoesNotExist:
                     form = RegistrationForm()
                     return render(
                         request,
                         "user/registration.html",
                         {
                             "form": form,
-                            "show_modal": True,
-                            "code_error": "Неправильний код підтвердження.",
-                            "email": email,
+                            "code_error": "Щось пішло не так. Спробуйте знову.",
+                            "show_modal": False,
                         }
                     )
-            except (User.DoesNotExist, VerificationCode.DoesNotExist):
+            else:
                 form = RegistrationForm()
                 return render(
                     request,
                     "user/registration.html",
                     {
                         "form": form,
-                        "code_error": "Щось пішло не так. Спробуйте знову.",
-                        "show_modal": False,
+                        "show_modal": True,
+                        "code_error": "Неправильний код підтвердження.",
+                        "email": email,
                     }
                 )
 
@@ -71,10 +74,10 @@ def render_registration(request):
                         # Користувач існує, але ще не підтвердив код
                         code = str(random.randint(100000, 999999))
 
-                        confirmation, _ = VerificationCode.objects.get_or_create(username = existing_user)
-                        confirmation.code = code
-                        confirmation.is_confirmed = False
-                        confirmation.save()
+                        # Сохраняем код в сессии
+                        session_key = f"verification_code_{email}"
+                        request.session[session_key] = code
+                        request.session.modified = True
 
                         send_mail(
                             subject="Код підтвердження",
@@ -101,7 +104,10 @@ def render_registration(request):
 
                     code = str(random.randint(100000, 999999))
 
-                    VerificationCode.objects.create(username = user.username, code = code)
+                    # Сохраняем код в сессии
+                    session_key = f"verification_code_{user.email}"
+                    request.session[session_key] = code
+                    request.session.modified = True
 
                     send_mail(
                         subject="Код підтвердження",
@@ -128,8 +134,6 @@ def render_registration(request):
         "form": form,
         "show_modal": False
     })
-
-
 
 # Відповідає за вхід користувача
 def render_login(request):
