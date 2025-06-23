@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/friends/recommendations.css' %}">
+{% endblock %}
+
+{% block title %}
+    Рекомендації
+{% endblock %}
+
+{% block content %}
+    <div id = 'friends-content'>
+        <div id="sidebar">
+            <a href="{% url 'friends' %}" id="friends-page-url" class="sidebar-url">Головна</a>
+            <a href="{% url 'requests' %}" id="requests-url" class="sidebar-url">Запити</a>
+            <a href="{% url 'recommendations' %}" id="recommendations-url" class="sidebar-url">Рекомендації</a>
+            <hr>
+            <a href="{% url 'all_friends' %}" id="all_friends-url" class="sidebar-url">Всі друзі</a>
+        </div>
+        <div id="sidebar-block"></div>
+        <div id="friends-panel">
+            <div id="recommendations-window">
+                <div id="recommendations-header" class="text">
+                    <h4>Рекомендації</h4>
+                    <form id="watch-all-button2">
+                        <button id="watch-all2" class="watch-all">Дивитись всі</button>
+                    </form>
+                </div>
+                <div id="recommended-users">
+                    {% for user in recommended_users %}
+                        <div class="card">
+                            <div class="recommendation-profile">
+                                <img
+                                    src="{% if user.avatar_url %}{{ user.avatar_url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}"
+                                    alt=""
+                                >
+                                <div class="rec-profile-information">
+                                    <h3>{{ user.fullname }}</h3>
+                                    <h4>@{{ user.username }}</h4>
+                                </div>
+                            </div>
+                            <form class="recommendation-buttons">
+                                <button class="add-recommendation">Додати</button>
+                                <button class="delete-recommendation">Видалити</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

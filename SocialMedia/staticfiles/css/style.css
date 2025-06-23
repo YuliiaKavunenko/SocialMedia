@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'GT Walsheim Pro Bold';
+    src: url('/static/fonts/GTWalsheimPro-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GT Walsheim Pro';
+    src: url('/static/fonts/GTWalsheimPro-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    background-color: #FAF8FF;
+    font-family: 'GT Walsheim Pro', sans-serif;
+    overflow-x: hidden;
+    margin: 0px;
+    padding-top: 88px;
+}
+a{
+    color: #070A1C;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+a img{
+    margin-right:10px;
+}
+
+
+#main-urls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0;
+    align-content: center;
+}
+
+#main-urls a{
+    margin-right: 22px;
+}
+
+#logo{
+    margin-left: 0;
+    color: #543C52;
+    font-size: 18px;
+    text-align: center;
+    justify-content: center;
+    font-family: 'GT Walsheim Pro Bold', sans-serif;
+}
+#id_username_helptext{
+    display: none;
+}
+
+#header-links{
+    width: 100%;
+    height: 88px;
+    padding: 0 5.55vw;
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;   
+    margin-right: 0px;
+    z-index: 9999;
+    box-sizing: border-box;
+
+    
+
+}
+#header{
+    background-color: #FFFFFF;
+    position: fixed;
+    margin-left: 0px;
+    margin-right: 0px;
+    top: 0;
+    width: 100%;
+    height: 88px;
+    z-index: 9998;
+    
+}
+#logout-form{
+    margin: 0px;
+    
+}
+#logout-form button img{
+    margin-right:10px;
+}
+#exit{
+    width: 95px;
+    height: 40px;
+    color: #070A1C;
+    border-radius: 1234px;
+    background-color: #ffffff;
+    border: 1px solid #543C52;
+    color: #543C52;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#exit:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+header a:hover{
+    background-color: #E9E5EE;
+}

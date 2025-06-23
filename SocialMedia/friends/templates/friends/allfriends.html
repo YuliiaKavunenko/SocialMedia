@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/friends/allfriends.css' %}">
+{% endblock %}
+
+{% block title %}
+    Всі друзі
+{% endblock %}
+
+{% block content %}
+    <div id = 'friends-content'>
+        <div id="sidebar">
+            <a href="{% url 'friends' %}" id="friends-page-url" class="sidebar-url">Головна</a>
+            <a href="{% url 'requests' %}" id="requests-url" class="sidebar-url">Запити</a>
+            <a href="{% url 'recommendations' %}" id="recommendations-url" class="sidebar-url">Рекомендації</a>
+            <a href="{% url 'all_friends' %}" id="all_friends-url" class="sidebar-url">Всі друзі</a>
+            <hr>
+        </div>
+        <div id="sidebar-block"></div>
+        <div id="friends-panel">
+            <div id="allfriends-window">
+                <div id="allfriends-header" class="text">
+                    <h4>Всі друзі</h4>
+                    <form id="watch-all-button3">
+                        <button id="watch-all3" class="watch-all">Дивитись всі</button>
+                    </form>
+                </div>
+                {% if friends %}
+                    <div id="allfriends-users">
+                        {% for friend in friends %}
+                            <div class="card">
+                                <div class="friend-profile">
+                                    <img src="{% if friend.avatar_url %}{{ friend.avatar_url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="">
+                                    <div class="rec-friend-information">
+                                        <h3>{{ friend.fullname }}</h3>
+                                        <h4>@{{ friend.username }}</h4>
+                                    </div>
+                                </div>
+                                <form class="friend-buttons">
+                                    <button class="message-friend">Повідомлення</button>
+                                    <button class="delete-friend">Видалити</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p id="no-friends-message">У вас ще немає друзів</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,1275 @@
+#posts-url {
+  background-color: #e9e5ee;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+}
+img {
+  object-fit: none;
+}
+button {
+  font-family: "GT Walsheim Pro", sans-serif;
+}
+#fixed-frame {
+  position: fixed;
+  width: 18.2%;
+}
+#new-tag-input {
+  width: 8vw;
+  height: 0.005vw;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+}
+
+#user-frame {
+  margin-top: 16px;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-right: 6px;
+}
+#user-photo {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+
+#profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#nickname {
+  color: #070a1c;
+  font-family: "GT Walsheim Pro";
+  size: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+  gap: 10px;
+}
+
+#nickname h4 {
+  size: 16px;
+  margin: 0px;
+}
+
+#nickname h3 {
+  margin: 0px;
+}
+
+#profile-data {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+#profile-data div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#subscribers {
+  color: #070a1c;
+  font-family: "GT Walsheim Pro";
+  size: 20px;
+}
+
+#subscribers h4 {
+  color: #81818d;
+  size: 16px;
+}
+
+#profile-data div * {
+  margin: 0px;
+}
+
+#readers {
+  color: #070a1c;
+  font-family: "GT Walsheim Pro";
+  size: 20px;
+}
+
+#readers h4 {
+  color: #81818d;
+  size: 16px;
+}
+
+#friends {
+  color: #070a1c;
+  font-family: "GT Walsheim Pro";
+  size: 20px;
+}
+
+#friends h4 {
+  color: #81818d;
+  size: 16px;
+}
+
+#publications-page-content {
+  padding-top: 16px;
+  width: 100%;
+  padding: 0 5.55vw;
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.4vw;
+}
+#publications {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: calc(90.5vw - 22vw);
+  margin-left: 19vw;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+#new-publication-input {
+  background-color: #ffffff;
+  width: calc(89vw - 22vw);
+  height: 120px;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  font-family: "GT Walsheim Pro";
+  font-size: 16px;
+  color: #070a1c;
+  overflow-x: hidden;
+  resize: none;
+  padding: 16px;
+  margin-top: 0px;
+}
+#new-publication-input::placeholder {
+  font-size: 16px;
+  color: #81818d;
+  font-family: "GT Walsheim Pro";
+}
+#new-publications-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  margin: 0px;
+  gap: 13px;
+}
+#new-publication-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+#sticker-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #543c52;
+  border-radius: 190px;
+  background-color: #ffffff;
+}
+
+#publication-button {
+  width: 190px;
+  height: 40px;
+  background-color: #543c52;
+  border: none;
+  border-radius: 1234px;
+  color: #ffffff;
+}
+
+#sticker-button:hover {
+  background-color: #e9e5ee;
+}
+#publication-button:hover {
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+}
+
+/* СТВОРЕННЯ ПУБЛІКАЦІЇ */
+#create-publication-form {
+  position: absolute;
+  padding: 24px;
+  width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 20px;
+  padding: 24px 44px 44px 44px;
+}
+#create-publication-form::-webkit-scrollbar{
+    display: none;
+}
+
+#publication-form-inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  gap: 16px;
+}
+#publication-form-inputs p {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+}
+.publication-form-input {
+  width: 50%;
+}
+#create-publication-form h3 {
+  margin: 0px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 34px;
+}
+#close-button {
+  text-align: end;
+  border: none;
+  background-color: #ffffff;
+  font-family: "GT Walsheim Pro Bold", sans-serif;
+  font-size: 20px;
+}
+#create-publication-button {
+  width: 130px;
+  height: 40px;
+  background-color: #543c52;
+  border: none;
+  border-radius: 1234px;
+  color: #ffffff;
+  z-index: 9999;
+}
+#create-publication-button:hover {
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+  cursor: pointer;
+}
+#publication-form-inputs input,
+textarea {
+  margin-top: 6px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 18px;
+  color: #070a1c;
+  padding: 16px 10px 16px 10px;
+}
+#publication-form-inputs textarea {
+  resize: none;
+  height: 126px;
+}
+#publication-form-inputs label {
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px;
+  color: #070a1c;
+}
+#add-image-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #543c52;
+  border-radius: 190px;
+  background-color: #ffffff;
+  z-index: 9997;
+}
+#add-image-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+#image-field {
+  width: 100%;
+  z-index: 9998;
+}
+#publication-form-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  bottom: 16px;
+  right: 16px;
+  margin: 0px;
+  gap: 13px;
+}
+#create-publication-form-background {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Стили для превью изображений в форме */
+#image-preview-container,
+.image-preview-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: start;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+#image-preview-container .image-preview-item {
+  position: relative;
+  display: flex;
+}
+
+#image-preview-container .preview-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid #cdced2;
+}
+
+#image-preview-container .remove-image-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#image-preview-container .remove-image-btn:hover {
+  background-color: #e9e5ee;
+  border: 1px solid #543c52;
+  cursor: pointer;
+}
+
+.publication-images-container {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+}
+.publication-images-container .publication-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+.publication-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: none;
+}
+
+.publication-images-container.count-1 {
+  grid-template-columns: 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-1 .publication-image {
+  height: 350px;
+}
+
+.publication-images-container.count-2 {
+  grid-template-columns: 1fr 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-2 .publication-image {
+  height: 350px;
+}
+
+.publication-images-container.count-3 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 350px 300px;
+  max-width: 100%;
+}
+
+.publication-images-container.count-3 .publication-image:first-child {
+  grid-column: 1 / -1;
+  height: 350px;
+}
+
+.publication-images-container.count-3 .publication-image:not(:first-child) {
+  height: 300px;
+}
+
+.publication-images-container.count-4 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-4 .publication-image {
+  height: 300px;
+}
+
+.publication-images-container.count-5 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 350px 300px;
+  max-width: 100%;
+}
+
+.publication-images-container.count-5 .publication-image:nth-child(1),
+.publication-images-container.count-5 .publication-image:nth-child(2) {
+  grid-row: 1;
+  height: 350px;
+}
+
+.publication-images-container.count-5 .publication-image:nth-child(1) {
+  grid-column: 1 / 3;
+}
+
+.publication-images-container.count-5 .publication-image:nth-child(2) {
+  grid-column: 3;
+}
+
+.publication-images-container.count-5 .publication-image:nth-child(n + 3) {
+  grid-row: 2;
+  height: 300px;
+}
+
+.publication-images-container.count-6 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-6 .publication-image {
+  height: 300px;
+}
+
+.publication-images-container.count-7 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 350px 320px 320px;
+  max-width: 100%;
+}
+
+.publication-images-container.count-7 .publication-image:first-child {
+  grid-column: 1 / -1;
+  height: 350px;
+}
+
+.publication-images-container.count-7 .publication-image:not(:first-child) {
+  height: 320px;
+}
+
+.publication-images-container.count-8 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 350px 320px 320px;
+  max-width: 100%;
+}
+
+.publication-images-container.count-8 .publication-image:nth-child(1),
+.publication-images-container.count-8 .publication-image:nth-child(2) {
+  grid-row: 1;
+  height: 350px;
+}
+
+.publication-images-container.count-8 .publication-image:nth-child(1) {
+  grid-column: 1 / 3;
+}
+
+.publication-images-container.count-8 .publication-image:nth-child(2) {
+  grid-column: 3;
+}
+
+.publication-images-container.count-8 .publication-image:nth-child(n + 3) {
+  height: 320px;
+}
+
+.publication-images-container.count-9 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-9 .publication-image {
+  height: 300px;
+}
+
+.publication-card {
+  margin-top: 8px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.publication-card * {
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px;
+  color: #070a1c;
+  margin: 0px;
+
+  justify-content: flex-start;
+  text-align: start;
+}
+#user-photo-publication {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+#publication-header * {
+  margin: 0px;
+}
+.publication-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+.tag-text {
+  color: #543c52;
+}
+.publication-dots {
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border: none;
+  z-index: 9999;
+  text-align: start;
+}
+.publication-dots img {
+  width: 20px;
+  height: 20px;
+}
+.publication-dots:hover {
+  cursor: pointer;
+}
+#creator-data {
+  gap: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.dots-menu {
+  width: 343px;
+  height: auto;
+  display: none;
+  flex-direction: column;
+  background-color: #e9e5ee;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  padding: 16px;
+  gap: 16px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+.dots-menu * {
+  margin: 0px;
+  color: #070a1c;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px;
+}
+.dots-menu hr {
+  margin: 0px;
+  color: #cdced2;
+}
+.publication-dots-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  text-align: end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #e9e5ee;
+  border: none;
+}
+.dots-menu button {
+  width: 100%;
+  height: 30px;
+  background-color: #e9e5ee;
+  border: none;
+  border-radius: 10px;
+  color: #070a1c;
+  font-family: "GT Walsheim Pro Bold", sans-serif;
+  font-size: 16px;
+  text-align: start;
+}
+.dots-menu-button:hover {
+  cursor: pointer;
+}
+.edit-publication-form-background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(0);
+}
+
+/*  */
+
+/* РЕДАГУВАННЯ ПУБЛІКАЦІЇ */
+.edit-create-publication-form {
+  position: absolute;
+  padding: 24px;
+  width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 20px;
+  padding: 24px 44px 44px 44px;
+}
+#edit-publication-form-inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  gap: 16px;
+  width: 100%;
+}
+#edit-publication-form-inputs p {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+}
+
+.edit-create-publication-form h3 {
+  margin: 0px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 34px;
+}
+.edit-close-button {
+  text-align: end;
+  border: none;
+  background-color: #ffffff;
+  font-family: "GT Walsheim Pro Bold", sans-serif;
+  font-size: 20px;
+}
+#edit-create-publication-button {
+  width: 130px;
+  height: 40px;
+  background-color: #543c52;
+  border: none;
+  border-radius: 1234px;
+  color: #ffffff;
+  z-index: 9999;
+}
+#edit-create-publication-button:hover {
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+  cursor: pointer;
+}
+#edit-publication-form-inputs input,
+textarea {
+  margin-top: 6px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 18px;
+  color: #070a1c;
+  padding: 16px 10px 16px 10px;
+}
+#edit-publication-form-inputs textarea {
+  resize: none;
+  height: 126px;
+}
+#edit-publication-form-inputs label {
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px;
+  color: #070a1c;
+}
+#edit-add-image-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #543c52;
+  border-radius: 190px;
+  background-color: #ffffff;
+  z-index: 9997;
+}
+#edit-add-image-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+#image-field {
+  width: 100%;
+  z-index: 9998;
+}
+#edit-publication-form-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  bottom: 16px;
+  right: 16px;
+  margin: 0px;
+  gap: 13px;
+}
+.tag-label {
+  flex-wrap: wrap;
+  color: #543c52;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 6px;
+  margin-top: 2px;
+}
+.tag-label:hover {
+  cursor: pointer;
+  background-color: #e9e5ee;
+}
+#tags-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#add-tag-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+#add-tag-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+#add-url-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+#add-url-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+#add-url-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+#add-url-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.tag-label.selected {
+  background-color: #e9e5ee;
+  color: #543c52;
+}
+#submit-new-tag {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+#submit-new-tag:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+#submit-new-url {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+#submit-new-url:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+#new-tag-form-container {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+#new-url-form-container {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+#urls-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+/* РЕДАГУВАННЯ ПУБЛІКАЦІЇ - используем те же стили что и для создания */
+.edit-publication-form-background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(0);
+}
+
+.edit-create-publication-form {
+  position: absolute;
+  padding: 24px;
+  width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 20px;
+  padding: 24px 44px 44px 44px;
+}
+
+.edit-create-publication-form::-webkit-scrollbar {
+  display: none;
+}
+
+.edit-publication-form-inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  gap: 16px;
+}
+
+.edit-publication-form-inputs p {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+}
+
+.edit-create-publication-form h3 {
+  margin: 0px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 34px;
+}
+
+.edit-close-button {
+  text-align: end;
+  border: none;
+  background-color: #ffffff;
+  font-family: "GT Walsheim Pro Bold", sans-serif;
+  font-size: 20px;
+}
+
+.edit-create-publication-button {
+  width: 130px;
+  height: 40px;
+  background-color: #543c52;
+  border: none;
+  border-radius: 1234px;
+  color: #ffffff;
+  z-index: 9999;
+}
+
+.edit-create-publication-button:hover {
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+  cursor: pointer;
+}
+
+.edit-publication-form-inputs input,
+.edit-publication-form-inputs textarea {
+  margin-top: 6px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 18px;
+  color: #070a1c;
+  padding: 16px 10px 16px 10px;
+}
+
+.edit-publication-form-inputs textarea {
+  resize: none;
+  height: 126px;
+}
+
+.edit-publication-form-inputs label {
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px;
+  color: #070a1c;
+}
+
+.edit-add-image-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #543c52;
+  border-radius: 190px;
+  background-color: #ffffff;
+  z-index: 9997;
+}
+
+.edit-add-image-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+
+.edit-publication-form-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  bottom: 16px;
+  right: 16px;
+  margin: 0px;
+  gap: 13px;
+}
+
+/* Стили для тегов в форме редактирования */
+.edit-tags-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.edit-tag-label {
+  flex-wrap: wrap;
+  color: #543c52;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 6px;
+  margin-top: 2px;
+}
+
+.edit-tag-label:hover {
+  cursor: pointer;
+  background-color: #e9e5ee;
+}
+
+.edit-tag-label.selected {
+  background-color: #e9e5ee;
+  color: #543c52;
+}
+
+.edit-add-tag-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+
+.edit-add-tag-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+
+.edit-submit-new-tag {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+
+.edit-submit-new-tag:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+
+.edit-new-tag-form-container {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Стили для URL в форме редактирования */
+.edit-add-url-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.edit-add-url-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.edit-urls-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.edit-add-url-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+
+.edit-add-url-button:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+
+.edit-submit-new-url {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50%;
+  border: #543c52 solid 2px;
+  color: #543c52;
+  background-color: #ffffff;
+  font-size: 22px;
+}
+
+.edit-submit-new-url:hover {
+  background-color: #e9e5ee;
+  cursor: pointer;
+}
+
+.edit-new-url-form-container {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Стили для текущих изображений в форме редактирования */
+.edit-current-images {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.edit-current-images h4 {
+  margin: 0 0 10px 0;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px;
+  color: #070a1c;
+}
+
+.current-images-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: start;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.current-image-item {
+  position: relative;
+  display: flex;
+}
+
+.current-image-item .publication-image-edit {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid #cdced2;
+}
+
+.current-image-item .remove-current-image-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.current-image-item .remove-current-image-btn:hover {
+  background-color: #e9e5ee;
+  border: 1px solid #543c52;
+  cursor: pointer;
+}
+
+.current-image-item.removed {
+  opacity: 0.5;
+  position: relative;
+}
+
+.current-image-item.removed::after {
+  content: "Буде видалено";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(84, 60, 82, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 14px;
+}

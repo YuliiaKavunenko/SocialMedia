@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/main/mainStyle.css' %}">
+{% endblock %}
+
+{% block title %}
+    Головна сторінка
+{% endblock %}
+
+{% block content %}
+    <div id = 'main-page-content'>
+        <div id = "user-frames">
+            <div id = "user-frame">
+                <div id = "profile">
+                    <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id = "user-photo">
+                    <div id = "nickname">
+                        <h3>{{ user.first_name }}</h3>
+                        <h4>@{{ user.username }}</h4>
+                    </div>
+                </div>
+                <div id = "profile-data">
+                    <div id = "subscribers">
+                        <h3>{{ user_publications_count}}</h3>
+                        <h4>Дописи</h4>
+                    </div>
+                    <div id = "readers">
+                        <h3>0</h3>
+                        <h4>Читачі</h4>
+                    </div>
+                    <div id = "friends">
+                        <h3>0</h3>
+                        <h4>Друзі</h4>
+                    </div>
+                </div>
+            </div>
+            <div id = "friends-frame">
+                <div id = "search">
+                    <div id = "requests">
+                        <img src="{% static 'img/people.png' %}" alt="people" id = "people-icon">
+                        <h3>Запити</h3>
+                    </div>
+                    <button type='submit' id = "View-all-requests">Дивитись всі</button>
+                </div>
+                <div id = "other-users">
+                    <div id = "user1">
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="user" class = 'user'>
+                        <div id = "user-information1">
+                            <h4>Yehor Aung</h4>
+                            <h5>4.3к підписників</h5>
+                        </div>
+                    </div>
+                    <div id = "user2">
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="" class = 'user'>
+                        <div id = "user-information2">
+                            <h4>Ann Ann</h4>
+                            <h5>1.6к підписників</h5>
+                        </div>
+                    </div>
+                    <div id = "user3">
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="" class = 'user'>
+                        <div id = "user-information3">
+                            <h4>Yeugen Jenua</h4>
+                            <h5>10.3к підписників</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id = "messages-frame">
+                <div id = "notifications">
+                    <div id = "notification-icon">
+                        <img src="{% static 'img/chats.png' %}" alt="chat" id = "chat-icon">
+                        <h3>Повідомлення</h3>
+                    </div>
+                    <a href="{% url 'chats' %}">
+                        <button type="submit" id = "View-all-notifications">Дивитись всі</button>
+                    </a>
+                </div>
+                <div id = "chats">
+                    {% for chat in user_chats %}
+                        <div id = "chat{{ forloop.counter }}">
+                            <a href="{% url 'chats' %}?chat_id={{ chat.id }}">
+                                <div id = "chat-with-user{{ forloop.counter }}">
+                                    <img src="{{ chat.avatar }}" alt="" class="user">
+                                    <div id = "name-and-message{{ forloop.counter }}">
+                                        <div id = "name-and-time{{ forloop.counter }}">
+                                            <h4>{{ chat.name }}</h4>
+                                            <h5>
+                                                {% if chat.is_today %}
+                                                    {{ chat.last_message_time }}
+                                                {% else %}
+                                                    {{ chat.last_message_date }}
+                                                {% endif %}
+                                            </h5>
+                                        </div>
+                                        <h5>{{ chat.last_message|truncatechars:25 }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% empty %}
+                        <div id = "chat1">
+                            <div id = "chat-with-user1">
+                                <img src="{% static '../static/img/avatarka.png' %}" alt="" class="user">
+                                <div id = "name-and-message1">
+                                    <div id = "name-and-time1">
+                                        <h4>Немає чатів</h4>
+                                        <h5>--:--</h5>
+                                    </div>
+                                    <h5>Почніть спілкування</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+        <div id='create-publication-form-background'>
+            <form action="" method="post" id='create-publication-form' enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="button" id='close-button'>⨉</button>
+                <h3>Створення публікації</h3>
+
+                <div id='publication-form-inputs'>
+                    <p>
+                        <label for="{{ form.title.id_for_label }}">Назва публікації</label>
+                        {{ form.title }}
+                    </p>
+                    
+                    <p>
+                        <label for="{{ form.content.id_for_label }}">Текст публікації</label>
+                        {{ form.content }}
+                    </p>
+                    
+                    <p>
+                        <div id="tags-container">
+                            {% for tag in form.fields.tags.queryset %}
+                                <span class="tag-label" data-tag-id="{{ tag.id }}">#{{ tag.name }}</span>
+                            {% endfor %}
+                            
+                            <input type="hidden" name="selected_tags" id="selected-tags-input">
+
+                            <div style="display: none;" id='new-tag-form-container'>
+                                <input type="text" name="tag" id="new-tag-input" value="" placeholder="#tag">
+                                <button type="button" id="submit-new-tag"><img src="/placeholder.svg" alt=""></button>
+                            </div>
+                            <button type="button" id="add-tag-button">+</button>
+
+                            <script>
+                                const ADD_TAG_URL = "{% url 'add_tag' %}";
+                                const CSRF_TOKEN = "{{ csrf_token }}";
+                            </script>
+
+                        </div>
+                    </p>
+                    
+                    <p>
+                        <label for="{{ form.url.id_for_label }}">Посилання</label>
+                        <div id="add-url-container">
+                            <div id='add-url-wrap'>
+                                {{ form.url }}
+                                <div id="urls-list"></div>
+
+                                <div id="new-url-form-container" style="display: none;">
+                                    <input type="text" name="extra_url" id="new-url-input" placeholder="https://example.com">
+                                    <button type="button" id="submit-new-url"><img src="/placeholder.svg" alt=""></button>
+                                </div>
+                            </div>
+                            <button type="button" id="add-url-button">+</button>
+                        </div>
+                    </p>
+                    
+                    <p style="display: none;">
+                        <label for="{{ form.images.id_for_label }}">Зображення</label>
+                        {{ form.images }}
+                    </p>
+
+                    <!-- Контейнер для превью изображений будет добавлен динамически -->
+                    
+                    <div id='publication-form-buttons'>
+                        <button type="button" id="add-image-button">
+                            <img src="{% static 'img/image.png' %}">
+                        </button>
+                        <button type="submit" id="create-publication-button">Публікація<img src="/placeholder.svg" alt=""></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="publications">
+            <div id='new-publication-container'>
+                <textarea type="text" placeholder="Текст публікації" id="new-publication-input"></textarea>
+                <form method="post" id="new-publications-buttons">
+                    {% csrf_token %}
+                    <button type="submit" id="sticker-button"><img src="{% static 'img/smile.png' %}" alt=""></button>
+                    <button type="submit" id="publication-button">Перейти до оформлення <img src="/placeholder.svg" alt=""></button>
+                </form>
+            </div>
+
+            {% for pub in publications %}
+                <div class="publication-card" data-id="{{ pub.id }}"
+                      data-title="{{ pub.title|default:'' }}"
+                      data-text="{{ pub.content|default:'' }}">
+                    <div class="publication-header">
+                        <div id='creator-data'>
+                            <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id='user-photo-publication'>
+                            <h4 id='user-name-publication'>{{ pub.author.user.username }}</h4>
+                        </div>
+                        
+                    </div>
+                    <hr>
+                    {% if pub.title %}
+                        <h3>{{ pub.title }}</h3>
+                    {% endif %}
+
+                    {% if pub.content %}
+                        <p>{{ pub.content }}</p>
+                    {% endif %}
+
+                    {% if pub.tags.all %}
+                        <p class="tag-text">
+                            {% for tag in pub.tags.all %}
+                                #{{ tag.name }}{% if not forloop.last %} {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {% if pub.link_set.all %}
+                        <p>
+                            {% for link in pub.link_set.all %}
+                                <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {% if pub.images.all %}
+                        <div class="publication-images-container count-{{ pub.images.all|length }}">
+                            {% for image in pub.images.all %}
+                                <img src="{{ image.file.url }}" alt="Зображення публікації" class="publication-image">
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>Публікацій ще немає</p>
+            {% endfor %}
+        </div>
+
+    {% if show_additional_info_modal %}
+    <div id="add-info-modal-background" style="display: flex;">
+    {% else %}
+    <div id="add-info-modal-background" style="display: none;">
+    {% endif %}
+        <div id="add-info-modal">
+            <h3>Додай деталі про себе</h3>
+            <form method="post" id = 'add-info-form'>
+                {% csrf_token %}
+                <input type = "hidden" name = "force_update_profile" value="1">
+                {{ profile_form.as_p }}
+                <div id = 'suggest-container'>
+                    <h4 id = 'another-text'>
+                        Або оберіть: 
+                    </h4>
+                    <h4 id="suggest-username-trigger">
+                        Запропоновані варіанти відповідно до Ім'я та Прізвища
+                    </h4>
+                </div>
+                
+                <h4 id = 'username-generation-error' style="display: none;"></h4>
+                <div id = 'button-container'>
+                    <button type="submit">Продовжити</button>
+                </div>
+
+                
+            </form>
+            
+        </div>
+    </div>
+
+
+    
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'js/main/mainScripts.js' %}"></script>
+{% endblock %}

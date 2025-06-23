@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/my_settings/albums.css' %}">
+{% endblock %}
+
+{% block title %}
+    Альбоми
+{% endblock %}
+
+{% block content %}
+    <div id="albums-page-content">
+        <div id="sidebar">
+            <a href="{% url 'settings' %}" id="profile-url" class="sidebar-url">Особиста інформація</a>
+            <a href="{% url 'albums' %}" id="albums-url" class="sidebar-url">Альбоми</a>
+            <hr>
+        </div>
+        <div id="sidebar-block"></div>
+        <div id="albums-panel">
+            <div id="my-photos-window">
+                <div id="my-photos-header">
+                    <h4>Мої фото</h4>
+                    <form id="add-photo-button">
+                        {% csrf_token %}
+                        <button type="submit" id="add-photo"><img src="" alt="">Додати фото</button>
+                    </form>
+                </div>
+
+                <div id="user-photo-list" class = 'photo-list'>
+
+                    {% for avatar in user.profile.avatar_set.all %}
+                        {% if avatar.shown %}
+                            <img src="{{ avatar.image.url }}" alt="avatar">
+                        {% endif %}
+                    {% endfor %}
+
+                    
+                    <button type="button" id="add-user-photo-main" class="add-photo-button">⊕</button>
+                    <input type="file" id="user-photo-input" style="display: none;" accept="image/*">
+                </div>
+
+            </div>
+
+            <div id="create-albums-window">
+                <div id="create-albums-header">
+                    {% if album_availability == False %}
+                        <h4>Немає ще жодного альбому</h4>
+                    {% else %}
+                        <h4>Створіть альбом</h4>
+                    {% endif %}
+                    <form id="create-albums-button">
+                        {% csrf_token %}
+                        <button type="submit" id="create-albums"><img src="" alt="">Створити альбом</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if album_availability == True %}
+                {% for album_data in albums_with_images %}
+                    <div class = "album-content">
+                        
+                        <div class = "album-header">
+                            <h4 class = 'album-header-name'>{{ album_data.album.name }}</h4>
+                            <div class = "header-buttons-conteiner">
+                                
+                                <button type="button"
+                                    class = "delete-album-button"
+                                    data-album-id = "{{ album_data.album.id }}">👁</button>
+                                <button class="open-album-menu">⋮</button>
+
+                                <div class = 'album-menu' display = 'none'>
+                                    {% if album_data.album.shown == False %}
+                                        <button type="button"
+                                                class = "show-visibility-button menu-button"
+                                                data-album-id = "{{ album_data.album.id }}">👁 Цей альбом бачите тільки ви</button>
+                                    {% else %}
+                                        <button type="button"
+                                                class = "hide-visibility-button menu-button"
+                                                data-album-id = "{{ album_data.album.id }}">👁 Цей альбом бачать всі</button>
+                                    {% endif %}
+
+                                    <button type="button"
+                                            class = "edit-album-button menu-button"
+                                            data-album-id = "{{ album_data.album.id }}">✎ Редагувати альбом</button>
+
+                                    <hr>
+
+                                    <button type="button"
+                                            class = "delete-album-in-menu-button"
+                                            data-album-id = "{{ album_data.album.id }}">🗑 Видалити альбом</button>
+                            </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class = "theme-and-year">
+                            <h4>{{ album_data.album.topic }}</h4>
+                            <h5>{{ album_data.album.year }}</h5>
+                        </div>
+
+                        <hr>
+
+                        <h4>Фотографії</h4>
+
+                        <div class="photo-list" id="photo-list-{{ album_data.album.id }}">
+                            {% for image in album_data.album.images.all %}
+                                <img src="{{ image.file.url }}" alt="{{ image.filename }}">
+                            {% endfor %}
+                            
+                            <button type="button"
+                                    class="add-photo-button"
+                                    data-album-id="{{ album_data.album.id }}">⊕</button>
+
+                            <input type="file" accept="image/*"
+                                class="photo-input"
+                                data-album-id="{{ album_data.album.id }}"
+                                style="display: none;">
+                        </div>
+                        
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        </div>
+        <!-- створення -->
+        <div id = "create-album-window-background" style="display: none; z-index: 999;" >
+            <form id="create-album-window" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="create_album" id="" value="create_album">
+                <div id="exit-creation">
+                    <p id = 'close-button'>
+                        ⨉
+                    </p>
+                </div>
+                <h3>Створити альбом</h3>
+                <div id="inputs-create-album">
+                    {{ create_album_form.as_p }}
+                </div>
+                <div id="buttons-create-album">
+                    <button type="submit" id="cancel1" class="cancel">Скасувати</button>
+                    <button type="submit" id="save1" class="save">Зберегти</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- редагування -->
+        <div id="edit-album-window-background" style="display: none; z-index: 999;">
+            <form id="edit-album-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name = "edit_album" value = "edit_album">
+                <input type="hidden" name = "album_id" id = "edit-album-id">
+
+
+                <div id="exit-edit">
+                    <p>⨉</p>
+                </div>
+
+                <h3>Редагувати альбом</h3>
+
+                <div id="inputs-edit-album">
+                    {{ edit_album_form.as_p }}
+                </div>
+
+                <div id="buttons-edit-album">
+                    <button type="submit" class="cancel">Скасувати</button>
+                    <button type="submit" class="save">Зберегти</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <script src="{% static 'js/my_settings/albums.js' %}"></script>
+{% endblock %}

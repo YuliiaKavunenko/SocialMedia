@@ -1,0 +1,57 @@
+#personal-information{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#album{
+    color: #81818D;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#profile-card{
+    background-color: #FFFFFF;
+    width: 924px;
+    height: 263px;
+    border: 1px solid #CDCED2;
+    border-radius: 1px;
+}
+
+#profile-header h4{
+    color: #070A1C;
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+#edit-information1{
+    background-color: #FFFFFF;
+    width: 203px;
+    height: 40px;
+    border: 1px solid #543C52;
+    border-radius: 190px;
+}
+
+#edit-information{
+    color: #543C52;
+    font-size: 14px;
+    font-family: "GT Walsheim Pro";
+}
+
+#nickname h3{
+    color: #070A1C;
+    size: 24px;
+    font-family: "GT Walsheim Pro";
+}
+
+#nickname h4{
+    color: #070A1C;
+    size: 16px;
+    font-family: "GT Walsheim Pro";
+}
+
+
+#editing-personal-information{
+    background-color: #FFFFFF;
+}
+

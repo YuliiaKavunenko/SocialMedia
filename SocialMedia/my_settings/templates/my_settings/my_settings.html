@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/my_settings/my_settings.css' %}">
+{% endblock %}
+
+{% block title %}
+    Налаштування
+{% endblock %}
+
+{% block content %}
+    <div id = 'settings-page-content'>
+        <div id="sidebar">
+            <a href="{% url 'settings' %}" id="profile-url" class="sidebar-url">Особиста інформація</a>
+            <hr>
+            <a href="{% url 'albums' %}" id="albums-url" class="sidebar-url">Альбоми</a>
+        </div>
+        <div id="sidebar-block"></div>
+        <div id="edit-panel">
+            <div id="profile-card" class="card">
+                <form id="profile-header" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="edit_profile_card" value="1">
+                    <div id = 'profile-card-info-header'>
+                        <h4>Картка профілю</h4>
+                        
+                        <button type="submit" id="save-new-username-button" style="display: none;">✎ Зберегти</button>
+                        <button type="button" id="edit-information1" class="button-edit-info">✎ Редагувати інформацію</button>
+                    </div>
+                    
+
+                    <div id="choose-avatar-text" style="display: none;">
+                        <p>Оберіть або завантажте фото профілю</p>
+                    </div>
+
+                    <div id="user">
+                        <div id="avatar">
+                            {% if active_avatar %}
+                                <img src="{{ active_avatar.image.url }}" alt="Аватарка" id="current-avatar">
+                            {% else %}
+                                <img src="{% static 'img/avatarka.png' %}" alt="Стандартна аватарка" id="current-avatar">
+                            {% endif %}
+                        </div>
+
+
+                        <div id="avatar-buttons" style="display: none;">
+                            <input type="file" name="new_avatar" id="upload-avatar-input" accept="image/*" style="display: none;">
+                            <button name="add_avatar" id="add-photo-btn">Додати фото</button>
+                            <button name="select_avatar" id="select-photo-btn">Обрати фото</button>
+                            <input type="hidden" name="action_type" id="avatar-action-type" value="">
+                        </div>
+
+                        <div id="nickname">
+                            <h3>{{ user.first_name }}</h3>
+                            <h4 id="static-username">@{{ user.username }}</h4>
+                            <div id="edit-username-input" style="display: none;">
+                                <label>{{ edit_username_form.username.label }}</label>
+                                {{ edit_username_form.username }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="editing-personal-information" class = 'card'>
+                <form id="information-header" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="edit_user_data" id="" value="edit_user_data">
+                    <div id = 'header-info'>
+                        <h4>Особиста інформація</h4>
+                        <button type="submit" id="save-changes-button" style="display: none;">✎ Зберегти зміни</button>
+                        <button type="submit" id="edit-information2" class = 'button-edit-info'><img src="" alt="">✎ Редагувати інформацію</button>
+                    </div>
+                    
+                    <div id="edit-personal-information">
+                    <div id="enter-name">
+                        <label>{{ edit_user_data_form.first_name.label }}</label>
+                        {{ edit_user_data_form.first_name }}
+                    </div>
+
+                    <div id="enter-surname">
+                        <label>{{ edit_user_data_form.last_name.label }}</label>
+                        {{ edit_user_data_form.last_name }}
+                    </div>
+
+                    <div id="enter-date">
+                        <label>{{ edit_user_data_form.birth_date.label }}</label>
+                        {{ edit_user_data_form.birth_date }}
+                    </div>
+
+                    <div id="enter-email">
+                        <label>{{ edit_user_data_form.email.label }}</label>
+                        {{ edit_user_data_form.email }}
+                    </div>
+
+                    </div>
+                </form>
+            
+            <div id="enter-password">
+                <form id="password-header" method="post">
+                    {% csrf_token %}
+                    <div id="header-password">
+                        <h4>Пароль</h4>
+                        <button type="submit" id="save-new-password-button" style="display: none;">✎ Зберегти пароль</button>
+                        <button type="button" id="edit-password" class="button-edit-info"><img src="" alt="">✎ Редагувати пароль</button>
+                    </div>
+
+                    <input type="hidden" name="edit_password" value="1">
+
+
+                    <div id="edit-password-inputs">
+                        <p>
+                            <label>Новий пароль</label>
+                            {{ edit_password_form.new_password1 }}
+                        </p>
+                        <p id="confirm-password-wrapper" style="display: none;">
+                            <label>Підтвердіть пароль</label>
+                            {{ edit_password_form.new_password2 }}
+                        </p>
+                    </div>
+                    
+                </form>
+            </div>
+
+
+            </div>
+            <div id="signature-options" class = 'card'>
+                <form id="header-signature">
+                    {% csrf_token %}
+                    <h4>Варіанти підпису</h4>
+                    <button type="submit" id="edit-information3" class = 'button-edit-info'><img src="" alt="">✎ Редагувати інформацію</button>
+                </form>
+                <div id="edit-signature">
+                    <div id="name-and-surname-button">
+                        <input type="checkbox" id="name-and-surname" checked disabled><img src="" alt=""><label for="name-and-surname">Ім'я та прізвище</label>
+                        <h4>Lina Li</h4>
+                    </div>
+                    <div id="my-electronic-signature-button">
+                        <input type="checkbox" id="my-electronic-signature" checked disabled><img src="" alt=""><label for="my-electronic-signature">Мій електронний підпис</label>
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/my_settings/settings.js' %}" defer></script>
+
+   
+{% endblock %}

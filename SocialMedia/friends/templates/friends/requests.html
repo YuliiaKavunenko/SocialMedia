@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/friends/requests.css' %}">
+{% endblock %}
+
+{% block title %}
+    Запити
+{% endblock %}
+
+{% block content %}
+    <div id = 'friends-content'>
+        <div id="sidebar">
+            <a href="{% url 'friends' %}" id="friends-page-url" class="sidebar-url">Головна</a>
+            <a href="{% url 'requests' %}" id="requests-url" class="sidebar-url">Запити</a>
+            <hr>
+            <a href="{% url 'recommendations' %}" id="recommendations-url" class="sidebar-url">Рекомендації</a>
+            <a href="{% url 'all_friends' %}" id="all_friends-url" class="sidebar-url">Всі друзі</a>
+        </div>
+        <div id="sidebar-block"></div>
+        <div id="friends-panel">
+            <div id="request-window">
+                <div id="request-header" class="text">
+                    <h4>Запити</h4>
+                    <form id="watch-all-button1">
+                        <button id="watch-all1" class="watch-all">Дивитись всі</button>
+                    </form>
+                </div>
+                <div id="requested-users">
+                    {% if friend_requests %}
+                        {% for user in friend_requests %}
+                            <div class="card">
+                                <div class="request-profile">
+                                    <img src="{{ user.avatar_url|default:'/static/img/avatarka.png' }}" alt="">
+                                    <div class="profile-information">
+                                        <h3>{{ user.fullname }}</h3>
+                                        <h4>@{{ user.username }}</h4>
+                                    </div>
+                                </div>
+                                <form class="request-buttons">
+                                    <button class="confirm-request">Підтвердити</button>
+                                    <button class="delete-request">Видалити</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>У вас ще немає запитів у друзі.</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

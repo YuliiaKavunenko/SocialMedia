@@ -1,0 +1,71 @@
+.user-form{
+    width: 487px;
+    height: 552px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 44px;
+    display: flex;
+    flex-direction: column;
+
+}
+.user-form button[type="submit"]:hover {
+    background-color: #342633;
+}
+.user-form button[type="submit"] {
+    width: 399px;
+    height: 52px;
+    background-color: #543C52;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 1234px;
+}
+#form-links{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+#form-links a{
+    font-size: 30px;
+    font-family: 'GT Walsheim Pro', sans-serif;
+}
+#registration-link{
+    color: #000000;
+    margin-right: 24px;
+}
+#login-link{
+    color: #81818D;
+    text-decoration: none;
+    
+}
+.user-form h5{
+    width: 100%;
+    height: 27px;
+    text-align: center;
+    margin-top: 36px;
+    font-size: 24px;
+    margin-bottom: 36px;
+    color: #070A1C;
+
+}
+.user-form p{
+    display: flex;
+    flex-direction: column;
+    
+}
+.user-form input{
+    width: 100%;
+    height: 42px;
+    border: 1px solid #CDCED2;
+    color: #CDCED2;
+    border-radius: 10px;
+}
+
