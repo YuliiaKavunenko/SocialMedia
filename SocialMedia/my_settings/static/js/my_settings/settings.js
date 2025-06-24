@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const actionTypeInput = document.getElementById("avatar-action-type");
 
     addPhotoBtn.addEventListener("click", (event) => {
-        event.preventDefault(); // зайве, але додатково захищає
+        event.preventDefault(); 
         actionTypeInput.value = "add_avatar";
         uploadInput.click();
     });
@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
         uploadInput.click();
     });
 
-    // після вибору файлу — сабміт форми
     uploadInput.addEventListener("change", () => {
         if (uploadInput.files.length > 0) {
             document.getElementById("profile-header").submit();

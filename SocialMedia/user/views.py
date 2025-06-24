@@ -137,7 +137,7 @@ def render_registration(request):
 
 # Відповідає за вхід користувача
 def render_login(request):
-    error = None  # Змінна для збереження повідомлення про помилку
+    error = None
     if request.method == "POST":
         form = LogInForm(request.POST)  # Отримуємо дані з форми
         if form.is_valid():
@@ -149,7 +149,7 @@ def render_login(request):
             except User.DoesNotExist:
                 user = None
 
-            user = authenticate(request=request, username=user.username, password=password)  # Перевіряємо користувача
+            user = authenticate(request=request, username=user.username, password=password)
 
             if user is not None:
                 if user.is_active:
@@ -166,8 +166,8 @@ def render_login(request):
         request = request,
         template_name = "user/login.html",
         context = {
-            "form": form,  # Передаємо форму
-            "error": error,  # Передаємо повідомлення про помилку (якщо є)
+            "form": form,
+            "error": error,
         }
     )
 
@@ -177,11 +177,10 @@ def render_user(request):
         request = request,
         template_name = "user/user.html",
         context = {
-            "user": request.user,  # Передаємо поточного користувача у шаблон
+            "user": request.user,
         }
     )
 
-# Відповідає за вихід користувача з системи
 def user_logout(request):
     logout(request)  # Вихід користувача
-    return redirect('login')  # Перенаправлення на сторінку входу
+    return redirect('login')

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const chatPanel = document.getElementById("chat-panel")
 
-  // WebSocket functionality (only if chat panel exists)
   if (chatPanel) {
     const currentUserId = Number.parseInt(chatPanel.dataset.userId)
     const chatId = chatPanel.dataset.chatId
@@ -129,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Message sending functionality
     const messageForm = document.querySelector("#message-form")
     const messageInput = messageForm.querySelector("textarea[name='content']")
     const sendButton = document.querySelector("#send-message")
@@ -255,7 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
       hideDropdownMenu()
     }
 
-    // Group editing functionality
     const editGroupModal = document.getElementById("edit-group-modal")
     const closeEditGroup = document.getElementById("close-edit-group")
     const cancelEditGroup = document.getElementById("cancel-edit-group")
@@ -283,7 +280,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedNewParticipants = []
     let availableUsers = []
 
-    // Group editing functions
     async function showEditGroupModal() {
       if (!chatPanel) return
 
@@ -589,7 +585,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Event listeners for chat functionality
     if (backButton) {
       backButton.addEventListener("click", goBackToEmptyPanel)
     }
@@ -625,7 +620,6 @@ document.addEventListener("DOMContentLoaded", () => {
       confirmDeleteBtn.addEventListener("click", deleteOrLeaveChat)
     }
 
-    // Event listeners for group editing
     if (closeEditGroup) {
       closeEditGroup.addEventListener("click", () => {
         editGroupModal.style.display = "none"
@@ -676,7 +670,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    // Add participants modal events
     if (closeAddParticipants) {
       closeAddParticipants.addEventListener("click", () => {
         addParticipantsModal.style.display = "none"
@@ -701,7 +694,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const filteredUsers = availableUsers.filter((user) => user.name.toLowerCase().includes(searchTerm))
         displayAvailableUsers(filteredUsers)
 
-        // Restore selected state
         selectedNewParticipants.forEach((selectedUser) => {
           const checkbox = document.querySelector(`#add-user-${selectedUser.id}`)
           if (checkbox) {
@@ -711,14 +703,12 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    // Close dropdown when clicking outside
     document.addEventListener("click", (e) => {
       if (menuButton && dropdownMenu && !menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
         hideDropdownMenu()
       }
     })
 
-    // Close modals when clicking outside
     ;[editGroupModal, addParticipantsModal].forEach((modal) => {
       if (modal) {
         modal.addEventListener("click", (e) => {
@@ -737,7 +727,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    // Message sending events
     if (sendButton) {
       sendButton.addEventListener("click", sendMessage)
     }
@@ -837,7 +826,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Group creation functionality (outside of chat panel check)
   const createGroupBtn = document.getElementById("create-group")
   const createGroupModalStep1 = document.getElementById("create-group-modal-step1")
   const createGroupModalStep2 = document.getElementById("create-group-modal-step2")
@@ -863,7 +851,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let allUsers = []
   let groupAvatarFile = null
 
-  // Load users for group creation
   async function loadUsers() {
     try {
       const response = await fetch("/chats/get-users/")
@@ -936,7 +923,6 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedUsers = selectedUsers.filter((u) => u.id !== Number.parseInt(removeBtn.dataset.userId))
         displayParticipants()
 
-        // Update checkbox in step 1
         const checkbox = document.querySelector(`#user-${removeBtn.dataset.userId}`)
         if (checkbox) {
           checkbox.checked = false
@@ -1009,7 +995,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createGroupModalStep1.style.display = "none"
     createGroupModalStep2.style.display = "none"
 
-    // Reset form
     selectedUsers = []
     groupAvatarFile = null
     groupNameInput.value = ""
@@ -1032,7 +1017,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createGroupModalStep1.style.display = "flex"
   }
 
-  // Event listeners for group creation
   if (createGroupBtn) {
     createGroupBtn.addEventListener("click", showCreateGroupStep1)
   }
@@ -1067,7 +1051,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const filteredUsers = allUsers.filter((user) => user.name.toLowerCase().includes(searchTerm))
       displayUsers(filteredUsers)
 
-      // Restore selected state
       selectedUsers.forEach((selectedUser) => {
         const checkbox = document.querySelector(`#user-${selectedUser.id}`)
         if (checkbox) {
@@ -1106,7 +1089,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   }
-  // Close modals when clicking outside
   ;[createGroupModalStep1, createGroupModalStep2].forEach((modal) => {
     if (modal) {
       modal.addEventListener("click", (e) => {

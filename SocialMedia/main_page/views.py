@@ -60,7 +60,7 @@ def render_main_page(request):
                 # Создаем профиль пользователя
                 Profile.objects.create(
                     user=user,
-                    date_of_birth=date.today()  # Устанавливаем текущую дату как временную
+                    date_of_birth=date.today()
                 )
                 
                 return redirect('main_page')
@@ -75,7 +75,6 @@ def render_main_page(request):
                     "user_chats": [],
                 })
         
-        # Обработка создания публикации (только если есть профиль)
         elif user_profile:
             form = CreatePublicationsForm(request.POST, request.FILES)
             if form.is_valid():
@@ -121,7 +120,6 @@ def render_main_page(request):
             "user_chats": [],
         })
 
-    # Обычная логика для пользователей с профилем
     form = CreatePublicationsForm()
     user_publications_count = Post.objects.filter(author=user_profile).count()
     publications = Post.objects.all().prefetch_related('tags', 'images', 'link_set').order_by('-id')

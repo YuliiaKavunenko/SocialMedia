@@ -374,10 +374,13 @@ img {
   margin-bottom: 24px;
 }
 .chat-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  margin-right: 16px;
+  margin-right: 0px;
 }
 #text {
   display: flex;

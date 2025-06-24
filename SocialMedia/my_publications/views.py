@@ -10,7 +10,7 @@ from django.http import JsonResponse
 
 @login_required
 def edit_publication(request, pub_id):
-    publication = get_object_or_404(Post, id=pub_id, author__user=request.user)  # Добавлена проверка автора
+    publication = get_object_or_404(Post, id=pub_id, author__user=request.user)
 
     if request.method == 'POST':
         form = CreatePublicationsForm(request.POST, request.FILES, instance=publication)
@@ -42,7 +42,6 @@ def edit_publication(request, pub_id):
             # Обработка множественных изображений для редактирования
             uploaded_files = request.FILES.getlist('images')
             if uploaded_files:
-                # НЕ очищаем старые изображения, только добавляем новые
                 for uploaded_file in uploaded_files:
                     image = Image.objects.create(filename=uploaded_file.name, file=uploaded_file)
                     publication.images.add(image)
@@ -128,7 +127,6 @@ def render_my_publications_page(request):
 
             return redirect('my_publications')
 
-    # Відображення сторінки - ИЗМЕНЕНО: показываем только публикации текущего пользователя
     publications = Post.objects.filter(author__user=user).prefetch_related('tags', 'images', 'link_set').order_by('-id')
 
     # Подсчет публикаций пользователя для отображения в профиле
@@ -138,7 +136,7 @@ def render_my_publications_page(request):
         "user": user,
         "form": form,
         "publications": publications,
-        "user_posts_count": user_posts_count,  # Добавлено для отображения количества постов
+        "user_posts_count": user_posts_count,
     })
 
 

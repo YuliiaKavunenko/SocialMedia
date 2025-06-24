@@ -4,7 +4,13 @@ from main_page.models import Profile
 from user.models import Avatar, Friendship
 from django.contrib.auth.models import User
 from django.db.models import Q
-# Create your views here.
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+import json
+
+
+
 class FriendsPageViews(View):
     template_name = 'friends/friends.html'
 
@@ -56,10 +62,23 @@ class FriendsPageViews(View):
                 'avatar_url': avatar_url
             })
 
-        # Рекомендації
+        # Рекомендації - исключаем уже отправленные запросы и друзей
         users = User.objects.all().exclude(id=request.user.id)
+        
+        # Получаем ID пользователей, с которыми уже есть связь
+        existing_connections = Friendship.objects.filter(
+            Q(profile1=current_profile) | Q(profile2=current_profile)
+        ).values_list('profile1__user__id', 'profile2__user__id')
+        
+        connected_user_ids = set()
+        for conn in existing_connections:
+            connected_user_ids.update(conn)
+        connected_user_ids.discard(request.user.id)
+        
+        # Исключаем пользователей с существующими связями
+        users = users.exclude(id__in=connected_user_ids)
+        
         recommended_users = []
-
         for user in users:
             try:
                 profile = user.profile
@@ -79,8 +98,6 @@ class FriendsPageViews(View):
             'friend_requests': requested_users,
             'recommended_users': recommended_users
         })
-
-
 
 class AllFriendsPageViews(View):
     template_name = 'friends/allfriends.html'
@@ -120,7 +137,25 @@ class RecommendationsPageViews(View):
     template_name = 'friends/recommendations.html'
 
     def get(self, request):
-        users = User.objects.all().exclude(id = request.user.id)  # не показувати себе
+        try:
+            current_profile = request.user.profile
+        except Profile.DoesNotExist:
+            current_profile = None
+
+        users = User.objects.all().exclude(id=request.user.id)
+        
+        if current_profile:
+            # Исключаем пользователей с существующими связями
+            existing_connections = Friendship.objects.filter(
+                Q(profile1=current_profile) | Q(profile2=current_profile)
+            ).values_list('profile1__user__id', 'profile2__user__id')
+            
+            connected_user_ids = set()
+            for conn in existing_connections:
+                connected_user_ids.update(conn)
+            connected_user_ids.discard(request.user.id)
+            
+            users = users.exclude(id__in=connected_user_ids)
 
         recommended_users = []
         for user in users:
@@ -138,6 +173,7 @@ class RecommendationsPageViews(View):
             })
 
         return render(request, self.template_name, {'recommended_users': recommended_users})
+
 class RequestsPageViews(View):
     template_name = 'friends/requests.html'
 
@@ -165,3 +201,166 @@ class RequestsPageViews(View):
             })
 
         return render(request, self.template_name, {'friend_requests': requested_users})
+
+@method_decorator(login_required, name='dispatch')
+class AcceptFriendRequestView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            
+            if not username:
+                return JsonResponse({'success': False, 'error': 'Username is required'})
+            
+            # Найти пользователя, который отправил запрос
+            sender_user = User.objects.get(username=username)
+            sender_profile = sender_user.profile
+            current_profile = request.user.profile
+            
+            # Найти запрос на дружбу
+            friendship = Friendship.objects.get(
+                profile1=sender_profile,
+                profile2=current_profile,
+                accepted=False
+            )
+            
+            # Принять запрос
+            friendship.accepted = True
+            friendship.save()
+            
+            return JsonResponse({'success': True, 'message': 'Запрос на дружбу принят'})
+            
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Пользователь не найден'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Профиль не найден'})
+        except Friendship.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Запрос на дружбу не найден'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+@method_decorator(login_required, name='dispatch')
+class DeclineFriendRequestView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            
+            if not username:
+                return JsonResponse({'success': False, 'error': 'Username is required'})
+            
+            # Найти пользователя, который отправил запрос
+            sender_user = User.objects.get(username=username)
+            sender_profile = sender_user.profile
+            current_profile = request.user.profile
+            
+            # Найти и удалить запрос на дружбу
+            friendship = Friendship.objects.get(
+                profile1=sender_profile,
+                profile2=current_profile,
+                accepted=False
+            )
+            friendship.delete()
+            
+            return JsonResponse({'success': True, 'message': 'Запрос на дружбу отклонен'})
+            
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Пользователь не найден'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Профиль не найден'})
+        except Friendship.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Запрос на дружбу не найден'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+@method_decorator(login_required, name='dispatch')
+class SendFriendRequestView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            
+            if not username:
+                return JsonResponse({'success': False, 'error': 'Username is required'})
+            
+            # Найти пользователя, которому отправляем запрос
+            target_user = User.objects.get(username=username)
+            target_profile = target_user.profile
+            current_profile = request.user.profile
+            
+            # Проверить, не отправлен ли уже запрос
+            existing_request = Friendship.objects.filter(
+                Q(profile1=current_profile, profile2=target_profile) |
+                Q(profile1=target_profile, profile2=current_profile)
+            ).first()
+            
+            if existing_request:
+                if existing_request.accepted:
+                    return JsonResponse({'success': False, 'error': 'Вы уже друзья'})
+                else:
+                    return JsonResponse({'success': False, 'error': 'Запрос уже отправлен'})
+            
+            # Создать новый запрос на дружбу
+            Friendship.objects.create(
+                profile1=current_profile,
+                profile2=target_profile,
+                accepted=False
+            )
+            
+            return JsonResponse({'success': True, 'message': 'Запрос на дружбу отправлен'})
+            
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Пользователь не найден'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Профиль не найден'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+@method_decorator(login_required, name='dispatch')
+class RemoveFriendView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            
+            if not username:
+                return JsonResponse({'success': False, 'error': 'Username is required'})
+            
+            friend_user = User.objects.get(username=username)
+            friend_profile = friend_user.profile
+            current_profile = request.user.profile
+            
+            friendship = Friendship.objects.filter(
+                Q(profile1=current_profile, profile2=friend_profile) |
+                Q(profile1=friend_profile, profile2=current_profile),
+                accepted=True
+            ).first()
+            
+            if not friendship:
+                return JsonResponse({'success': False, 'error': 'Дружба не найдена'})
+            
+            friendship.delete()
+            
+            return JsonResponse({'success': True, 'message': 'Друг удален'})
+            
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Пользователь не найден'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Профиль не найден'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+@method_decorator(login_required, name='dispatch')
+class RemoveRecommendationView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            
+            if not username:
+                return JsonResponse({'success': False, 'error': 'Username is required'})
+
+            return JsonResponse({'success': True, 'message': 'Рекомендация удалена'})
+            
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})

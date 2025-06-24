@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.display = "none"
       document.getElementById("new-tag-form-container").style.display = "none"
       document.getElementById("add-tag-button").style.display = "flex"
-      // Очищаем превью изображений при закрытии
       const imagePreview = document.getElementById("image-preview-container")
       if (imagePreview) {
         imagePreview.innerHTML = ""
