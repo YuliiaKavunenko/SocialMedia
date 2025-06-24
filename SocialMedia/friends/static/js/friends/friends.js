@@ -12,12 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentUserToDelete = null
   let currentAction = null
 
-  // Функция для получения CSRF токена
   function getCSRFToken() {
     return document.querySelector("[name=csrfmiddlewaretoken]").value
   }
 
-  // Функция для отправки AJAX запроса
   async function sendAjaxRequest(url, data) {
     try {
       const response = await fetch(url, {
@@ -37,28 +35,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Функция для показа уведомления
-  function showNotification(message, isSuccess = true) {
-    // Создаем простое уведомление
-    const notification = document.createElement("div")
-    notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            background-color: ${isSuccess ? "#4CAF50" : "#f44336"};
-            color: white;
-            border-radius: 5px;
-            z-index: 10000;
-            font-family: "GT Walsheim Pro", sans-serif;
-        `
-    notification.textContent = message
-    document.body.appendChild(notification)
+  // function showNotification(message, isSuccess = true) {
+  //   // Создаем простое уведомление
+  //   const notification = document.createElement("div")
+  //   notification.style.cssText = `
+  //           position: fixed;
+  //           top: 20px;
+  //           right: 20px;
+  //           padding: 15px 20px;
+  //           background-color: ${isSuccess ? "#4CAF50" : "#f44336"};
+  //           color: white;
+  //           border-radius: 5px;
+  //           z-index: 10000;
+  //           font-family: "GT Walsheim Pro", sans-serif;
+  //       `
+  //   notification.textContent = message
+  //   document.body.appendChild(notification)
 
-    setTimeout(() => {
-      notification.remove()
-    }, 3000)
-  }
+  //   setTimeout(() => {
+  //     notification.remove()
+  //   }, 3000)
+  // }
 
   function showModal(userData = null, action = null) {
     currentUserToDelete = userData
@@ -74,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
     currentAction = null
   }
 
-  // Обработчики для кнопок удаления
   deleteButtons.forEach((button) => {
     button.addEventListener("click", function (e) {
       e.preventDefault()
@@ -105,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Обработчики для кнопок принятия запроса
   confirmButtons.forEach((button) => {
     button.addEventListener("click", async function (e) {
       e.preventDefault()
@@ -121,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // showNotification("Запрос на дружбу принят!")
         card.remove()
 
-        // Обновляем страницу через небольшую задержку для лучшего UX
         setTimeout(() => {
           window.location.reload()
         }, 1000)
