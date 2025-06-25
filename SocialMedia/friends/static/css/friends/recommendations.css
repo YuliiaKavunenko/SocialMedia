@@ -16,7 +16,7 @@
     border: none;
 }
 img{
-    object-fit: none;
+     object-fit: cover;
 }
 #sidebar{
     position: fixed;
@@ -56,6 +56,7 @@ hr{
     width: 96px;
     height: 96px;
     border-radius: 50%;
+    object-fit: cover;
 }
 .rec-profile-information h3{
     color: #070A1C;

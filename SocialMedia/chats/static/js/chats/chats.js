@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chatSocket.onopen = (e) => {
       console.log("WebSocket connection established")
+      chatSocket.send(
+        JSON.stringify({
+          type: "get_online_status",
+        }),
+      )
     }
 
     chatSocket.onclose = (e) => {
@@ -30,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
           handleNewMessage(data)
         } else if (data.type === "chat_list_update") {
           updateChatList(data)
+        } else if (data.type === "online_status") {
+          updateOnlineStatus(data)
         }
       } catch (error) {
         console.error("Error parsing message:", error)
@@ -40,6 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const chatMessages = document.getElementById("chat-messages")
 
       if (lastMessageDate !== data.date) {
+        const dateContainer = document.createElement("div")
+        dateContainer.classList.add("date-container")
+
         const dateDiv = document.createElement("div")
         dateDiv.classList.add("message-date")
         const dateObj = new Date(data.date)
@@ -50,7 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
           weekday: "long",
         }
         dateDiv.textContent = dateObj.toLocaleDateString("uk-UA", options)
-        chatMessages.appendChild(dateDiv)
+
+        dateContainer.appendChild(dateDiv)
+        chatMessages.appendChild(dateContainer)
         lastMessageDate = data.date
       }
 
@@ -67,25 +79,34 @@ document.addEventListener("DOMContentLoaded", () => {
       const messageContent = document.createElement("div")
       messageContent.classList.add("message-content")
 
+      const imageAndTextDiv = document.createElement("div")
+      imageAndTextDiv.classList.add("image-and-text")
+
       if (data.message_type === "image" && data.image_url) {
         const img = document.createElement("img")
         img.src = data.image_url
         img.alt = "Зображення"
         img.classList.add("message-image")
-        messageContent.appendChild(img)
+        imageAndTextDiv.appendChild(img)
       }
 
       if (data.message) {
         const p = document.createElement("p")
         p.innerText = data.message
-        messageContent.appendChild(p)
+        imageAndTextDiv.appendChild(p)
       }
+
+      messageContent.appendChild(imageAndTextDiv)
+
+      const messageTimeContainer = document.createElement("div")
+      messageTimeContainer.classList.add("message-time-container")
 
       const time = document.createElement("span")
       time.classList.add("message-time")
       time.innerText = data.sent_at
-      messageContent.appendChild(time)
+      messageTimeContainer.appendChild(time)
 
+      messageContent.appendChild(messageTimeContainer)
       msg.appendChild(messageContent)
       chatMessages.appendChild(msg)
       chatMessages.scrollTop = chatMessages.scrollHeight
@@ -126,6 +147,35 @@ document.addEventListener("DOMContentLoaded", () => {
         newChatLink.appendChild(newChatDiv)
         chatsList.insertBefore(newChatLink, chatsList.firstChild)
       }
+    }
+
+    function updateOnlineStatus(data) {
+      const chatTitle = document.getElementById("chat-title")
+      const existingStatus = chatTitle.querySelector(".online-status")
+
+      if (existingStatus) {
+        existingStatus.remove()
+      }
+
+      const statusDiv = document.createElement("div")
+      statusDiv.classList.add("online-status")
+
+      if (data.is_personal_chat) {
+        if (data.is_online) {
+          statusDiv.textContent = "онлайн"
+          statusDiv.classList.add("online")
+        } else if (data.last_seen) {
+          statusDiv.textContent = `був(ла) ${data.last_seen}`
+          statusDiv.classList.add("offline")
+        }
+      } else {
+        const onlineCount = data.online_count || 0
+        const totalCount = data.total_members || 0
+        statusDiv.textContent = `${onlineCount} з ${totalCount} онлайн`
+        statusDiv.classList.add("group-online")
+      }
+
+      chatTitle.appendChild(statusDiv)
     }
 
     const messageForm = document.querySelector("#message-form")
@@ -708,7 +758,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hideDropdownMenu()
       }
     })
-
     ;[editGroupModal, addParticipantsModal].forEach((modal) => {
       if (modal) {
         modal.addEventListener("click", (e) => {

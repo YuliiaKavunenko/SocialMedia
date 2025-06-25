@@ -3,6 +3,7 @@
 
 {% block links %}
     <link rel="stylesheet" href="{% static 'css/chats/chats.css' %}">
+    
 {% endblock %}
 
 {% block title %}
@@ -41,8 +42,9 @@
                         <button id="back-button" class="header-button">
                             <span>&lt;</span>
                         </button>
+                        <img class = 'chats-avatar-img' src="{% if active_chat.avatar %}{{ active_chat.avatar.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="">
                         <div id="chat-title">
-                            <h4>{{ active_chat.name }}</h4>
+                            <h4>{{ active_chat.display_name|default:active_chat.name }}</h4>
                         </div>
                         <div id="menu-container">
                             <button id="menu-button" class="header-button">
@@ -115,7 +117,8 @@
                                         {% endif %}
                                     </div>
                                     <div class = "message-time-container">
-                                        <span class="message-time">{{ item.message.sent_at|date:"H:i" }}</span>
+                                        <span class="message-time">{{ item.adjusted_sent_at|date:"H:i" }}</span>
+
                                     </div>
                                 </div>
                             </div>
@@ -163,19 +166,18 @@
                                     {% for member in members %}
                                         {% if member != request.user.profile %}
                                             {% with member.avatar_set.all|first as avatar %}
-                                                <img src="{% if avatar and avatar.active %}{{ avatar.image.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="{{ chat.name }}" class='chat-avatar'>
+                                                <img src="{% if avatar and avatar.active %}{{ avatar.image.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="{{ chat.display_name }}" class='chat-avatar'>
                                             {% endwith %}
                                         {% endif %}
                                     {% endfor %}
                                 {% endwith %}
                                 <div class="chat-info">
                                     <div class="user">
-                                        <h4>{{ chat.name }}</h4>
-                                        {% with chat.chatmessage_set.last as last_message %}
-                                            {% if last_message %}
-                                                <h5>{{ last_message.sent_at|date:"H:i" }}</h5>
-                                            {% endif %}
-                                        {% endwith %}
+                                        <h4>{{ chat.display_name }}</h4>
+                                        {% if chat.last_message %}
+                                            <h5>{{ chat.last_message_time|date:"H:i" }}</h5>
+                                        {% endif %}
+
                                     </div>
                                     <h5>
                                         {% with chat.chatmessage_set.last as last_message %}
@@ -217,12 +219,11 @@
                                 <img src="{% if chat.avatar %}{{ chat.avatar.url }}{% else %}/placeholder.svg?height=40&width=40{% endif %}" alt="{{ chat.name }}">
                                 <div class="group-info">
                                     <div class="info">
-                                        <h4>{{ chat.name }}</h4>
-                                        {% with chat.chatmessage_set.last as last_message %}
-                                            {% if last_message %}
-                                                <h5>{{ last_message.sent_at|date:"H:i" }}</h5>
-                                            {% endif %}
-                                        {% endwith %}
+                                        <h4>{{ chat.display_name }}</h4>
+                                        {% if chat.last_message %}
+                                            <h5>{{ chat.last_message_time|date:"H:i" }}</h5>
+                                        {% endif %}
+
                                     </div>
                                     <h5>
                                         {% with chat.chatmessage_set.last as last_message %}

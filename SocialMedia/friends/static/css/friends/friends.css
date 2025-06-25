@@ -3,7 +3,7 @@
 
 }
 img{
-    object-fit: none;
+     object-fit: cover;
 }
 #friends-panel{
     display: flex;
@@ -372,6 +372,7 @@ hr{
     width: 96px;
     height: 96px;
     border-radius: 50%;
+    object-fit: cover;
 }
 .friend-profile img{
     width: 96px;

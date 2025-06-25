@@ -5,14 +5,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 100vh;
+  height: 83vh;
+  box-sizing: border-box;
   margin-left: 5.55vw;
   margin-right: 5.55vw;
   margin-top: 16px;
   margin-bottom: 1.4vw;
 }
 img {
-  object-fit: none;
+   object-fit: cover;
 }
 .group img {
   object-fit: cover;
@@ -50,7 +51,7 @@ img {
 #contacts-window {
   background-color: #ffffff;
   width: auto;
-  height: 90%;
+  height: 100%;
   border: 1px solid #cdced2;
   border-radius: 10px;
   display: flex;
@@ -91,6 +92,9 @@ img {
   justify-content: flex-start;
   align-items: flex-start;
   overflow-y: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
 #contact {
   width: 100%;
@@ -132,7 +136,7 @@ img {
   margin-right: 0.5vw;
   background-color: #ffffff;
   width: 60%;
-  height: 94.5%;
+  height: 100%;
   border: 1px solid #cdced2;
   border-radius: 10px;
   display: flex;
@@ -140,13 +144,14 @@ img {
   padding: 16px;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 #chat-panel {
   margin-left: 0.5vw;
   margin-right: 0.5vw;
   background-color: #ffffff;
   width: 60%;
-  height: 95vh;
+  height: 100%;
   border: 1px solid #cdced2;
   border-radius: 10px;
   display: flex;
@@ -173,11 +178,38 @@ img {
   padding: 8px 0;
 }
 
-#chat-title {
-  flex: 1;
-  text-align: center;
+.online-status {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
 }
 
+/* .online-status.online {
+    color: #4CAF50;
+}
+
+.online-status.offline {
+    color: #999;
+} */
+
+.online-status.group-online {
+    color: #CDCED2;
+}
+#edit-avatar-image{
+  object-fit: cover;
+}
+#chat-title {
+  flex: 1;
+  text-align: start;
+}
+.chats-avatar-img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 16px;
+  margin-right: 16px;
+}
 #chat-title h4 {
   margin: 0;
   color: #070a1c;
@@ -398,6 +430,9 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
 .chat {
   width: 100%;
@@ -414,6 +449,9 @@ img {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
 #groups a {
   text-decoration: none;
@@ -421,7 +459,7 @@ img {
 #messages-window {
   background-color: #ffffff;
   width: auto;
-  height: 45%;
+  height: 50%;
   border: 1px solid #cdced2;
   border-radius: 10px;
   display: flex;
@@ -429,6 +467,7 @@ img {
   gap: 24px;
   padding-top: 16px;
   padding-bottom: 16px;
+  
 }
 #chats-header {
   display: flex;
@@ -494,7 +533,7 @@ img {
 #groups-window {
   background-color: #ffffff;
   width: auto;
-  height: 45%;
+  height: 50%;
   border: 1px solid #cdced2;
   border-radius: 10px;
   display: flex;
@@ -1505,6 +1544,7 @@ img {
 
   #chat-title h4 {
     font-size: 16px;
+    text-align: start;
   }
 
   .chat-dropdown-menu {

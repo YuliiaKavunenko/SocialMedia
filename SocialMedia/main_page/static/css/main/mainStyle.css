@@ -6,7 +6,7 @@ body {
   flex-direction: row;
 }
 img {
-  object-fit: none;
+   object-fit: cover;
 }
 button {
   font-family: "GT Walsheim Pro", sans-serif;
@@ -384,6 +384,7 @@ button {
 }
 
 #name-and-message1 {
+  width: 100%;
   color: #070a1c;
   font-family: "GT Walsheim Pro";
   size: 14px;
@@ -395,6 +396,7 @@ button {
 #name-and-time1 {
   display: flex;
   flex-direction: row;
+  width: 100%;
   justify-content: space-between;
   size: 16px;
 }
@@ -404,10 +406,12 @@ button {
 }
 
 #name-and-time1 h5 {
-  margin-left: 157px;
-  font-weight: normal;
   color: #81818d;
   size: 12px;
+  display: flex;
+  flex-direction: row;
+  font-weight: normal;
+  justify-content: space-between;
 }
 
 #chat2 {
@@ -420,6 +424,7 @@ button {
 
 #name-and-message2 {
   color: #070a1c;
+  width: 100%;
   font-family: "GT Walsheim Pro";
   size: 14px;
 }
@@ -429,6 +434,7 @@ button {
 }
 
 #name-and-time2 {
+  width: 100%;
   size: 16px;
   display: flex;
   flex-direction: row;
@@ -442,8 +448,10 @@ button {
 #name-and-time2 h5 {
   color: #81818d;
   size: 12px;
+  display: flex;
+  flex-direction: row;
   font-weight: normal;
-  margin-left: 157px;
+  justify-content: space-between;
 }
 
 #chat3 {

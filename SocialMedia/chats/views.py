@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import ChatGroup, ChatMessage
 from user.models import Profile
+from datetime import timedelta
+from django.utils import timezone
 
 @login_required
 def chat_view(request):
@@ -13,17 +15,17 @@ def chat_view(request):
     
     # Получаем все чаты пользователя
     personal_chats = ChatGroup.objects.filter(
-        members=user_profile, 
-        is_personal_chat=True
+        members = user_profile, 
+        is_personal_chat = True
     ).distinct().order_by('-id')
     
     group_chats = ChatGroup.objects.filter(
         members=user_profile, 
-        is_personal_chat=False
+        is_personal_chat = False
     ).distinct().order_by('-id')
     
-    # Получаем контакты (других пользователей)
-    contacts = Profile.objects.exclude(id=user_profile.id)
+    # Получаем контакты
+    contacts = Profile.objects.exclude(id = user_profile.id)
     
     active_chat = None
     messages = []
@@ -34,8 +36,8 @@ def chat_view(request):
     if chat_id:
         try:
             active_chat = ChatGroup.objects.get(
-                id=chat_id, 
-                members=user_profile
+                id = chat_id, 
+                members = user_profile
             )
             messages = ChatMessage.objects.filter(
                 chat_group=active_chat
@@ -53,7 +55,8 @@ def chat_view(request):
                     current_date = message_date
                 grouped_messages.append({
                     'type': 'message',
-                    'message': message
+                    'message': message,
+                    'adjusted_sent_at': message.sent_at + timedelta(hours = 3)
                 })
         except ChatGroup.DoesNotExist:
             pass
@@ -114,6 +117,40 @@ def chat_view(request):
                 
         except Profile.DoesNotExist:
             pass
+    
+    # Устанавливаем правильные названия для персональных чатов
+    for chat in personal_chats:
+        if chat.is_personal_chat:
+            # Находим собеседника (не текущего пользователя)
+            other_member = chat.members.exclude(id=user_profile.id).first()
+            if other_member:
+                chat.display_name = other_member.user.get_full_name() or other_member.user.username
+            else:
+                chat.display_name = chat.name
+        else:
+            chat.display_name = chat.name
+            
+        last_msg = chat.chatmessage_set.last()
+        if last_msg:
+            chat.last_message = last_msg
+            chat.last_message_time = last_msg.sent_at + timedelta(hours = 3)
+
+    for chat in group_chats:
+        chat.display_name = chat.name
+        last_msg = chat.chatmessage_set.last()
+        if last_msg:
+            chat.last_message = last_msg
+            chat.last_message_time = last_msg.sent_at + timedelta(hours = 3)
+
+    # Устанавливаем правильное название для активного чата
+    if active_chat and active_chat.is_personal_chat:
+        other_member = active_chat.members.exclude(id=user_profile.id).first()
+        if other_member:
+            active_chat.display_name = other_member.user.get_full_name() or other_member.user.username
+        else:
+            active_chat.display_name = active_chat.name
+    elif active_chat:
+        active_chat.display_name = active_chat.name
     
     context = {
         'personal_chats': personal_chats,
@@ -204,7 +241,7 @@ def create_group(request):
     try:
         user_profile = request.user.profile
         
-        # Получаем данные из форм��
+        # Получаем данные из форм
         group_name = request.POST.get('name', '').strip()
         members_json = request.POST.get('members', '[]')
         avatar_file = request.FILES.get('avatar')

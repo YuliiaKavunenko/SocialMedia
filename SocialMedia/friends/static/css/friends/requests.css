@@ -16,7 +16,7 @@
     border: none;
 }
 img{
-    object-fit: none;
+     object-fit: cover;
 }
 #sidebar{
     position: fixed;
@@ -47,6 +47,7 @@ hr{
 .request-profile img{
     width: 96px;
     height: 96px;
+    object-fit: cover;
     border-radius: 50%;
 }
 .request-profile{

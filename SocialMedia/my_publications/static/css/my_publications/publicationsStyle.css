@@ -7,7 +7,7 @@ body {
   flex-direction: row;
 }
 img {
-  object-fit: none;
+   object-fit: cover;
 }
 button {
   font-family: "GT Walsheim Pro", sans-serif;
@@ -1275,5 +1275,7 @@ textarea {
 }
 #publications p{
   width: 100%;
-  text-align: center;
+  display: flex;
+  text-align: flex-start;
+  box-sizing: border-box;
 }

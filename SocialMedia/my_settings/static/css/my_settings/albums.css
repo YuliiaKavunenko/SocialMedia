@@ -5,7 +5,7 @@
     background-color: #E9E5EE;
 }
 img{
-    object-fit: none;
+     object-fit: cover;
 }
 #create-albums:hover{
     background-color: #F2F0F5;

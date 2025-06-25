@@ -12,7 +12,7 @@
     margin-bottom: 1.4vw;
 }
 img{
-    object-fit: none;
+     object-fit: cover;
 }
 #sidebar button{
     background-color: #FAF8FF;
