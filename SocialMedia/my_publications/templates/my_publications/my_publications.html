@@ -14,7 +14,11 @@
         <div id='fixed-frame'>
             <div id="user-frame">
                 <div id="profile">
-                    <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id="user-photo">
+                    {% if user_avatar %}
+                        <img src="{{ user_avatar.image.url }}" alt="фото юзера" id="user-photo">
+                    {% else %}
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id="user-photo">
+                    {% endif %}
                     <div id="nickname">
                         <h3>{{ user.first_name }}</h3>
                         <h4>@{{ user.username }}</h4>
@@ -22,15 +26,15 @@
                 </div>
                 <div id="profile-data">
                     <div id="subscribers">
-                        <h3>0</h3>
+                        <h3 id="posts-count">{{ user_posts_count }}</h3>
                         <h4>Дописи</h4>
                     </div>
                     <div id="readers">
-                        <h3>0</h3>
+                        <h3 id="followers-count">{{ user_followers_count }}</h3>
                         <h4>Читачі</h4>
                     </div>
                     <div id="friends">
-                        <h3>0</h3>
+                        <h3 id="friends-count">{{ user_friends_count }}</h3>
                         <h4>Друзі</h4>
                     </div>
                 </div>
@@ -103,7 +107,7 @@
                         <button id="add-image-button">
                             <img src="{% static 'img/image.png' %}">
                         </button>
-                        <button type="submit" id="create-publication-button">Публікація<img src="/placeholder.svg" alt=""></button>
+                        <button type="submit" id="create-publication-button">Публкація<img src="/placeholder.svg" alt=""></button>
                     </div>
                 </div>
             </form>
@@ -119,151 +123,157 @@
                 </form>
             </div>
 
-            {% for pub in publications %}
-                <div id='edit-publication-form-background-{{ pub.id }}' class="edit-publication-form-background" style="display: none;">
-                    <form action="{% url 'edit_publication' pub.id %}" method="post" class='edit-create-publication-form' enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <button type="button" class='edit-close-button'>⨉</button>
-                        <h3>Редагування публікації</h3>
+            {% for pub_data in publications_with_avatars %}
+                {% with pub=pub_data.publication author_avatar=pub_data.author_avatar %}
+                    <div id='edit-publication-form-background-{{ pub.id }}' class="edit-publication-form-background" style="display: none;">
+                        <form action="{% url 'edit_publication' pub.id %}" method="post" class='edit-create-publication-form' enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <button type="button" class='edit-close-button'>⨉</button>
+                            <h3>Редагування публікації</h3>
 
-                        <div id='edit-publication-form-inputs-{{ pub.id }}' class="edit-publication-form-inputs">
-                            <p>
-                                <label for="edit-form-title-{{ pub.id }}">Назва публікації</label>
-                                <input type="text" name="title" id="edit-form-title-{{ pub.id }}" value="{{ pub.title|default:'' }}">
-                            </p>
-                            
-                            <p>
-                                <label for="edit-form-content-{{ pub.id }}">Текст публікації</label>
-                                <textarea name="content" id="edit-form-content-{{ pub.id }}">{{ pub.content|default:'' }}</textarea>
-                            </p>
-                            
-                            <p>
-                                <div id="edit-tags-container-{{ pub.id }}" class="edit-tags-container">
-                                    {% for tag in form.fields.tags.queryset %}
-                                        <span class="tag-label edit-tag-label" data-tag-id="{{ tag.id }}" data-pub-id="{{ pub.id }}"
-                                              {% if tag in pub.tags.all %}data-selected="true"{% endif %}>#{{ tag.name }}</span>
-                                    {% endfor %}
-                                    
-                                    <input type="hidden" name="selected_tags" id="edit-selected-tags-input-{{ pub.id }}">
+                            <div id='edit-publication-form-inputs-{{ pub.id }}' class="edit-publication-form-inputs">
+                                <p>
+                                    <label for="edit-form-title-{{ pub.id }}">Назва публікації</label>
+                                    <input type="text" name="title" id="edit-form-title-{{ pub.id }}" value="{{ pub.title|default:'' }}">
+                                </p>
+                                
+                                <p>
+                                    <label for="edit-form-content-{{ pub.id }}">Текст публікації</label>
+                                    <textarea name="content" id="edit-form-content-{{ pub.id }}">{{ pub.content|default:'' }}</textarea>
+                                </p>
+                                
+                                <p>
+                                    <div id="edit-tags-container-{{ pub.id }}" class="edit-tags-container">
+                                        {% for tag in form.fields.tags.queryset %}
+                                            <span class="tag-label edit-tag-label" data-tag-id="{{ tag.id }}" data-pub-id="{{ pub.id }}"
+                                                  {% if tag in pub.tags.all %}data-selected="true"{% endif %}>#{{ tag.name }}</span>
+                                        {% endfor %}
+                                        
+                                        <input type="hidden" name="selected_tags" id="edit-selected-tags-input-{{ pub.id }}">
 
-                                    <div style="display: none;" id='edit-new-tag-form-container-{{ pub.id }}' class="edit-new-tag-form-container">
-                                        <input type="text" name="tag" id="edit-new-tag-input-{{ pub.id }}" value="" placeholder="#tag">
-                                        <button type="button" id="edit-submit-new-tag-{{ pub.id }}" class="edit-submit-new-tag" data-pub-id="{{ pub.id }}"><img src="/placeholder.svg" alt=""></button>
-                                    </div>
-                                    <button type="button" id="edit-add-tag-button-{{ pub.id }}" class="edit-add-tag-button" data-pub-id="{{ pub.id }}">+</button>
-                                </div>
-                            </p>
-                            
-                            <p>
-                                <label for="edit-form-url-{{ pub.id }}">Посилання</label>
-                                <div id="edit-add-url-container-{{ pub.id }}" class="edit-add-url-container">
-                                    <div id='edit-add-url-wrap-{{ pub.id }}' class="edit-add-url-wrap">
-                                        <input type="text" name="url" id="edit-form-url-{{ pub.id }}" value="{% if pub.link_set.all %}{{ pub.link_set.all.0.url }}{% endif %}">
-                                        <div id="edit-urls-list-{{ pub.id }}" class="edit-urls-list">
-                                            {% for link in pub.link_set.all %}
-                                                {% if not forloop.first %}
-                                                    <input type="text" name="extra_urls" value="{{ link.url }}" readonly class="url-input-added">
-                                                {% endif %}
-                                            {% endfor %}
+                                        <div style="display: none;" id='edit-new-tag-form-container-{{ pub.id }}' class="edit-new-tag-form-container">
+                                            <input type="text" name="tag" id="edit-new-tag-input-{{ pub.id }}" value="" placeholder="#tag">
+                                            <button type="button" id="edit-submit-new-tag-{{ pub.id }}" class="edit-submit-new-tag" data-pub-id="{{ pub.id }}"><img src="/placeholder.svg" alt=""></button>
                                         </div>
-
-                                        <div id="edit-new-url-form-container-{{ pub.id }}" class="edit-new-url-form-container" style="display: none;">
-                                            <input type="text" name="extra_url" id="edit-new-url-input-{{ pub.id }}" placeholder="https://example.com">
-                                            <button type="button" id="edit-submit-new-url-{{ pub.id }}" class="edit-submit-new-url" data-pub-id="{{ pub.id }}"><img src="/placeholder.svg" alt=""></button>
-                                        </div>
+                                        <button type="button" id="edit-add-tag-button-{{ pub.id }}" class="edit-add-tag-button" data-pub-id="{{ pub.id }}">+</button>
                                     </div>
-                                    <button type="button" id="edit-add-url-button-{{ pub.id }}" class="edit-add-url-button" data-pub-id="{{ pub.id }}">+</button>
-                                </div>
-                            </p>
-                            
-                            <p style="display: none;">
-                                <label for="edit-form-images-{{ pub.id }}">Зображення</label>
-                                <input type="file" name="images" id="edit-form-images-{{ pub.id }}" multiple accept="image/*">
-                            </p>
+                                </p>
+                                
+                                <p>
+                                    <label for="edit-form-url-{{ pub.id }}">Посилання</label>
+                                    <div id="edit-add-url-container-{{ pub.id }}" class="edit-add-url-container">
+                                        <div id='edit-add-url-wrap-{{ pub.id }}' class="edit-add-url-wrap">
+                                            <input type="text" name="url" id="edit-form-url-{{ pub.id }}" value="{% if pub.link_set.all %}{{ pub.link_set.all.0.url }}{% endif %}">
+                                            <div id="edit-urls-list-{{ pub.id }}" class="edit-urls-list">
+                                                {% for link in pub.link_set.all %}
+                                                    {% if not forloop.first %}
+                                                        <input type="text" name="extra_urls" value="{{ link.url }}" readonly class="url-input-added">
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
 
-                            
-                            
-                            <div id='edit-publication-form-buttons-{{ pub.id }}' class="edit-publication-form-buttons">
-                                <button type="button" id="edit-add-image-button-{{ pub.id }}" class="edit-add-image-button" data-pub-id="{{ pub.id }}">
-                                    <img src="{% static 'img/image.png' %}">
-                                </button>
-                                <button type="submit" id="edit-create-publication-button-{{ pub.id }}" class="edit-create-publication-button">Публікація<img src="/placeholder.svg" alt=""></button>
+                                            <div id="edit-new-url-form-container-{{ pub.id }}" class="edit-new-url-form-container" style="display: none;">
+                                                <input type="text" name="extra_url" id="edit-new-url-input-{{ pub.id }}" placeholder="https://example.com">
+                                                <button type="button" id="edit-submit-new-url-{{ pub.id }}" class="edit-submit-new-url" data-pub-id="{{ pub.id }}"><img src="/placeholder.svg" alt=""></button>
+                                            </div>
+                                        </div>
+                                        <button type="button" id="edit-add-url-button-{{ pub.id }}" class="edit-add-url-button" data-pub-id="{{ pub.id }}">+</button>
+                                    </div>
+                                </p>
+                                
+                                <p style="display: none;">
+                                    <label for="edit-form-images-{{ pub.id }}">Зображення</label>
+                                    <input type="file" name="images" id="edit-form-images-{{ pub.id }}" multiple accept="image/*">
+                                </p>
+
+                                
+                                
+                                <div id='edit-publication-form-buttons-{{ pub.id }}' class="edit-publication-form-buttons">
+                                    <button type="button" id="edit-add-image-button-{{ pub.id }}" class="edit-add-image-button" data-pub-id="{{ pub.id }}">
+                                        <img src="{% static 'img/image.png' %}">
+                                    </button>
+                                    <button type="submit" id="edit-create-publication-button-{{ pub.id }}" class="edit-create-publication-button">Публікація<img src="/placeholder.svg" alt=""></button>
+                                </div>
+                            </div>
+
+                            {% if pub.images.all %}
+                                <div id='edit-current-images-{{ pub.id }}' class="edit-current-images">
+                                    <h4>Поточні зображення:</h4>
+                                    <div class="current-images-container" id="current-images-container-{{ pub.id }}">
+                                        {% for image in pub.images.all %}
+                                            <div class="current-image-item" data-image-id="{{ image.id }}" id="current-image-{{ image.id }}-{{ pub.id }}">
+                                                <img src="{{ image.file.url }}" alt="Фото публікації" class="publication-image-edit">
+                                                <button type="button" class="remove-current-image-btn" data-image-id="{{ image.id }}" data-pub-id="{{ pub.id }}">🗑</button>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <input type="hidden" name="images_to_delete" id="images-to-delete-{{ pub.id }}" value="">
+                                </div>
+                            {% endif %}
+                        </form>
+                    </div>
+
+                    <div class="publication-card" data-id="{{ pub.id }}"
+                          data-title="{{ pub.title|default:'' }}"
+                          data-theme="{{ pub.theme|default:'' }}"
+                          data-tags="{% for tag in pub.tags.all %}{{ tag.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                          data-text="{{ pub.content|default:'' }}"
+                          data-url="{% if pub.link_set.all %}{{ pub.link_set.all.0.url }}{% endif %}"
+                          data-extra-urls="{% for link in pub.link_set.all %}{% if not forloop.first %}{{ link.url }}{% if not forloop.last %}|||{% endif %}{% endif %}{% endfor %}">
+                        <div class="publication-header">
+                            <div id='creator-data'>
+                                {% if author_avatar %}
+                                    <img src="{{ author_avatar.image.url }}" alt="userPhoto" id='user-photo-publication'>
+                                {% else %}
+                                    <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id='user-photo-publication'>
+                                {% endif %}
+                                <h4 id='user-name-publication'>{{ pub.author.user.username }}</h4>
+                            </div>
+                            <button class='publication-dots'><img src="{% static 'img/dots.png' %}"></button>
+                            <div class='dots-menu'>
+                                <div class='publication-dots-close'></div>
+                                <button id='edit-publication' class='dots-menu-button edit' data-id="{{ pub.id }}">Редагувати допис</button>
+                                <hr>
+                                <form action="{% url 'delete_publication' pub.id %}" method="post" onsubmit="return confirm('Точно видалити?');" id="delete-publication-form-{{ pub.id }}">
+                                    {% csrf_token %}
+                                    <button type="submit" id='delete-publication' class='dots-menu-button delete' data-id="{{ pub.id }}">Видалити публікацію</button>
+                                </form>             
                             </div>
                         </div>
+                        <hr>
+                        {% if pub.title %}
+                            <h3>{{ pub.title }}</h3>
+                        {% endif %}
+
+                        {% if pub.content %}
+                            <p>{{ pub.content }}</p>
+                        {% endif %}
+
+                        {% if pub.tags.all %}
+                            <p class="tag-text">
+                                {% for tag in pub.tags.all %}
+                                    #{{ tag.name }}{% if not forloop.last %} {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+
+                        {% if pub.link_set.all %}
+                            <p>
+                                {% for link in pub.link_set.all %}
+                                    <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
+                                {% endfor %}
+                            </p>
+                        {% endif %}
 
                         {% if pub.images.all %}
-                            <div id='edit-current-images-{{ pub.id }}' class="edit-current-images">
-                                <h4>Поточні зображення:</h4>
-                                <div class="current-images-container" id="current-images-container-{{ pub.id }}">
-                                    {% for image in pub.images.all %}
-                                        <div class="current-image-item" data-image-id="{{ image.id }}" id="current-image-{{ image.id }}-{{ pub.id }}">
-                                            <img src="{{ image.file.url }}" alt="Фото публікації" class="publication-image-edit">
-                                            <button type="button" class="remove-current-image-btn" data-image-id="{{ image.id }}" data-pub-id="{{ pub.id }}">🗑</button>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <input type="hidden" name="images_to_delete" id="images-to-delete-{{ pub.id }}" value="">
+                            <div class="publication-images-container count-{{ pub.images.all|length }}">
+                                {% for image in pub.images.all %}
+                                    <img src="{{ image.file.url }}" alt="Зображення публікації" class="publication-image">
+                                {% endfor %}
                             </div>
                         {% endif %}
-                    </form>
-                </div>
-
-                <div class="publication-card" data-id="{{ pub.id }}"
-                      data-title="{{ pub.title|default:'' }}"
-                      data-theme="{{ pub.theme|default:'' }}"
-                      data-tags="{% for tag in pub.tags.all %}{{ tag.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
-                      data-text="{{ pub.content|default:'' }}"
-                      data-url="{% if pub.link_set.all %}{{ pub.link_set.all.0.url }}{% endif %}"
-                      data-extra-urls="{% for link in pub.link_set.all %}{% if not forloop.first %}{{ link.url }}{% if not forloop.last %}|||{% endif %}{% endif %}{% endfor %}">
-                    <div class="publication-header">
-                        <div id='creator-data'>
-                            <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id='user-photo-publication'>
-                            <h4 id='user-name-publication'>{{ pub.author.user.username }}</h4>
-                        </div>
-                        <button class='publication-dots'><img src="{% static 'img/dots.png' %}"></button>
-                        <div class='dots-menu'>
-                            <div class='publication-dots-close'></div>
-                            <button id='edit-publication' class='dots-menu-button edit' data-id="{{ pub.id }}">Редагувати допис</button>
-                            <hr>
-                            <form action="{% url 'delete_publication' pub.id %}" method="post" onsubmit="return confirm('Точно видалити?');" id="delete-publication-form-{{ pub.id }}">
-                                {% csrf_token %}
-                                <button type="submit" id='delete-publication' class='dots-menu-button delete' data-id="{{ pub.id }}">Видалити публікацію</button>
-                            </form>             
-                        </div>
                     </div>
-                    <hr>
-                    {% if pub.title %}
-                        <h3>{{ pub.title }}</h3>
-                    {% endif %}
-
-                    {% if pub.content %}
-                        <p>{{ pub.content }}</p>
-                    {% endif %}
-
-                    {% if pub.tags.all %}
-                        <p class="tag-text">
-                            {% for tag in pub.tags.all %}
-                                #{{ tag.name }}{% if not forloop.last %} {% endif %}
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-
-                    {% if pub.link_set.all %}
-                        <p>
-                            {% for link in pub.link_set.all %}
-                                <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-
-                    {% if pub.images.all %}
-                        <div class="publication-images-container count-{{ pub.images.all|length }}">
-                            {% for image in pub.images.all %}
-                                <img src="{{ image.file.url }}" alt="Зображення публікації" class="publication-image">
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
+                {% endwith %}
             {% empty %}
                 <p>Публікацій ще немає</p>
             {% endfor %}

@@ -4,12 +4,14 @@ from .models import Post, Tag, Image, Link
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileUpdateForm
 from .models import Profile
+from user.models import  Friendship
 from user.models import Avatar
 from chats.models import ChatGroup, ChatMessage
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from datetime import date
+from django.db import models
 
 @require_POST
 def add_tag(request):
@@ -70,9 +72,13 @@ def render_main_page(request):
                     "form": CreatePublicationsForm(),
                     "publications": [],
                     "user_publications_count": 0,
+                    "user_followers_count": 0,
+                    "user_friends_count": 0,
+                    "user_avatar": None,
                     "show_additional_info_modal": True,
                     "profile_form": profile_form,
                     "user_chats": [],
+                    "user_friend_requests_count": 0,
                 })
         
         elif user_profile:
@@ -80,10 +86,21 @@ def render_main_page(request):
             if form.is_valid():
                 publication = form.save(commit=False)
                 publication.author = user_profile
-                publication.save()
-
+                
+                # Получаем выбранные теги для установки topic
                 selected_tags = request.POST.get('selected_tags', '')
                 tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
+                
+                # Устанавливаем topic как последний выбранный тег
+                if tag_ids:
+                    last_tag = Tag.objects.filter(id=tag_ids[-1]).first()
+                    if last_tag:
+                        publication.topic = last_tag.name
+                else:
+                    publication.topic = ''
+                
+                publication.save()
+
                 if tag_ids:
                     publication.tags.set(tag_ids)
                 else:
@@ -115,14 +132,46 @@ def render_main_page(request):
             "form": CreatePublicationsForm(),
             "publications": [],
             "user_publications_count": 0,
+            "user_followers_count": 0,
+            "user_friends_count": 0,
+            "user_avatar": None,
             "show_additional_info_modal": True,
             "profile_form": profile_form,
             "user_chats": [],
+            "user_friend_requests_count": 0,
         })
 
     form = CreatePublicationsForm()
     user_publications_count = Post.objects.filter(author=user_profile).count()
+    
+    # Получаем количество друзей (принятые запросы дружбы)
+    user_friends_count = Friendship.objects.filter(
+        models.Q(profile1=user_profile, accepted=True) | 
+        models.Q(profile2=user_profile, accepted=True)
+    ).count()
+
+    # Получаем количество входящих запросов на дружбу
+    user_friend_requests_count = Friendship.objects.filter(
+        profile2=user_profile, 
+        accepted=False
+    ).count()
+
+    # Пока что заглушка для подписчиков (можно добавить логику позже)
+    user_followers_count = 0
+    
+    # Получаем аватар пользователя
+    user_avatar = user_profile.avatar_set.filter(active=True).first() if user_profile else None
+    
     publications = Post.objects.all().prefetch_related('tags', 'images', 'link_set').order_by('-id')
+    
+    # Добавляем аватары авторов к публикациям
+    publications_with_avatars = []
+    for pub in publications:
+        pub_data = {
+            'publication': pub,
+            'author_avatar': pub.author.avatar_set.filter(active=True).first() if pub.author else None
+        }
+        publications_with_avatars.append(pub_data)
     
     user_chats = ChatGroup.objects.filter(
         members=user_profile
@@ -155,7 +204,12 @@ def render_main_page(request):
         "user": user,
         "form": form,
         "publications": publications,
+        "publications_with_avatars": publications_with_avatars,
         "user_publications_count": user_publications_count,
+        "user_followers_count": user_followers_count,
+        "user_friends_count": user_friends_count,
+        "user_friend_requests_count": user_friend_requests_count,
+        "user_avatar": user_avatar,
         "show_additional_info_modal": False,
         "profile_form": UserProfileUpdateForm(instance=user),
         "user_chats": chats_data,

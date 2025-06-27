@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   // Створення публікації
   const openBtn = document.getElementById("publication-button")
   const modal = document.getElementById("create-publication-form-background")

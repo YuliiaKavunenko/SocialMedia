@@ -376,7 +376,7 @@ button {
 }
 
 #chat1 {
-  background-color: #e9e5ee;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -415,7 +415,7 @@ button {
 }
 
 #chat2 {
-  background-color: #e9e5ee;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 16px;

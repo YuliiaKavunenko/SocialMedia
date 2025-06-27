@@ -411,6 +411,13 @@ hr{
     align-items: flex-start;
     gap: 16px;
 }
+#password-inputs{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
 #edit-password-inputs p{
     display: flex;
     flex-direction: column;
@@ -446,4 +453,146 @@ hr{
 #avatar-buttons button:hover{
     background-color: #E9E5EE;
     cursor: pointer;
+}
+/* Контейнер модального вікна */
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    padding: 44px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Контент модального вікна */
+.modal-content-custom {
+    width: 100%;
+}
+
+/* Заголовок */
+.modal-content-custom h2 {
+    font-size: 34px;
+    text-align: center;
+}
+
+/* Параграф */
+.modal-content-custom p {
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 36px;
+}
+
+/* Інпут-коди */
+#inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+#inputs input {
+    width: 50px;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #CDCED2;
+    font-family: 'GT Walsheim Pro', sans-serif;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Кнопки */
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 36px;
+    width: 100%;
+}
+
+.modal-buttons button {
+    height: 52px;
+    border: none;
+    border-radius: 1234px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal-buttons button[type="submit"] {
+    background-color: #543C52;
+    color: white;
+}
+
+.modal-buttons #closeModal {
+    background-color: #ffffff;
+    color: #543C52;
+    height: 32px;
+}
+
+/* Помилка */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#login-page-content{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+}
+#photoLapTop{
+    z-index: -1;
+    position: relative;
+    left: -5vw; /* Смещение немного влево */
+    top: 6vh; /* Небольшой заход под форму */
+
+}
+#registration-page-content{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+}
+.code-input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top:6px;
+    width: 50px;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #CDCED2;
+    margin-right: 10px;
+    font-family: 'GT Walsheim Pro', sans-serif;
+    font-size: 24px;
+    text-align: center;
 }

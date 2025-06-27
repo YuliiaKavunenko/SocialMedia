@@ -14,7 +14,11 @@
         <div id = "user-frames">
             <div id = "user-frame">
                 <div id = "profile">
-                    <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id = "user-photo">
+                    {% if user_avatar %}
+                        <img src="{{ user_avatar.image.url }}" alt="фото юзера" id = "user-photo">
+                    {% else %}
+                        <img src="{% static '../static/img/avatarka.png' %}" alt="фото юзера" id = "user-photo">
+                    {% endif %}
                     <div id = "nickname">
                         <h3>{{ user.first_name }}</h3>
                         <h4>@{{ user.username }}</h4>
@@ -22,15 +26,15 @@
                 </div>
                 <div id = "profile-data">
                     <div id = "subscribers">
-                        <h3>{{ user_publications_count}}</h3>
+                        <h3 id="posts-count">{{ user_publications_count}}</h3>
                         <h4>Дописи</h4>
                     </div>
                     <div id = "readers">
-                        <h3>0</h3>
+                        <h3 id="followers-count">{{ user_followers_count }}</h3>
                         <h4>Читачі</h4>
                     </div>
                     <div id = "friends">
-                        <h3>0</h3>
+                        <h3 id="friends-count">{{ user_friends_count }}</h3>
                         <h4>Друзі</h4>
                     </div>
                 </div>
@@ -39,7 +43,7 @@
                 <div id = "search">
                     <div id = "requests">
                         <img src="{% static 'img/people.png' %}" alt="people" id = "people-icon">
-                        <h3>Запити</h3>
+                        <h3>Запити (<span id="requests-count">{{ user_friend_requests_count }}</span>)</h3>
                     </div>
                     <button type='submit' id = "View-all-requests">Дивитись всі</button>
                 </div>
@@ -196,50 +200,56 @@
                 </form>
             </div>
 
-            {% for pub in publications %}
-                <div class="publication-card" data-id="{{ pub.id }}"
-                      data-title="{{ pub.title|default:'' }}"
-                      data-text="{{ pub.content|default:'' }}">
-                    <div class="publication-header">
-                        <div id='creator-data'>
-                            <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id='user-photo-publication'>
-                            <h4 id='user-name-publication'>{{ pub.author.user.username }}</h4>
+            {% for pub_data in publications_with_avatars %}
+                {% with pub=pub_data.publication author_avatar=pub_data.author_avatar %}
+                    <div class="publication-card" data-id="{{ pub.id }}"
+                          data-title="{{ pub.title|default:'' }}"
+                          data-text="{{ pub.content|default:'' }}">
+                        <div class="publication-header">
+                            <div id='creator-data'>
+                                {% if author_avatar %}
+                                    <img src="{{ author_avatar.image.url }}" alt="userPhoto" id='user-photo-publication'>
+                                {% else %}
+                                    <img src="{% static '../static/img/avatarka.png' %}" alt="userPhoto" id='user-photo-publication'>
+                                {% endif %}
+                                <h4 id='user-name-publication'>{{ pub.author.user.username }}</h4>
+                            </div>
+                            
                         </div>
-                        
+                        <hr>
+                        {% if pub.title %}
+                            <h3>{{ pub.title }}</h3>
+                        {% endif %}
+
+                        {% if pub.content %}
+                            <p>{{ pub.content }}</p>
+                        {% endif %}
+
+                        {% if pub.tags.all %}
+                            <p class="tag-text">
+                                {% for tag in pub.tags.all %}
+                                    #{{ tag.name }}{% if not forloop.last %} {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+
+                        {% if pub.link_set.all %}
+                            <p>
+                                {% for link in pub.link_set.all %}
+                                    <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+
+                        {% if pub.images.all %}
+                            <div class="publication-images-container count-{{ pub.images.all|length }}">
+                                {% for image in pub.images.all %}
+                                    <img src="{{ image.file.url }}" alt="Зображення публікації" class="publication-image">
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
-                    <hr>
-                    {% if pub.title %}
-                        <h3>{{ pub.title }}</h3>
-                    {% endif %}
-
-                    {% if pub.content %}
-                        <p>{{ pub.content }}</p>
-                    {% endif %}
-
-                    {% if pub.tags.all %}
-                        <p class="tag-text">
-                            {% for tag in pub.tags.all %}
-                                #{{ tag.name }}{% if not forloop.last %} {% endif %}
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-
-                    {% if pub.link_set.all %}
-                        <p>
-                            {% for link in pub.link_set.all %}
-                                <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-
-                    {% if pub.images.all %}
-                        <div class="publication-images-container count-{{ pub.images.all|length }}">
-                            {% for image in pub.images.all %}
-                                <img src="{{ image.file.url }}" alt="Зображення публікації" class="publication-image">
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
+                {% endwith %}
             {% empty %}
                 <p>Публікацій ще немає</p>
             {% endfor %}

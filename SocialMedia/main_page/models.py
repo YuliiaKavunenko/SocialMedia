@@ -10,7 +10,8 @@ class Post(models.Model):
     images = models.ManyToManyField('Image', blank = True, related_name='posts_authored')
     views = models.ManyToManyField(Profile, blank = True, related_name='posts_viewed')
     likes = models.ManyToManyField(Profile, blank = True, related_name='posts_liked')
-    tags = models.ManyToManyField('Tag', blank = True)
+    tags = models.ManyToManyField('Tag', blank=True)
+    topic = models.CharField(max_length=255)
 
     def __str__(self):
         return self.title
@@ -30,6 +31,7 @@ class Album(models.Model):
     images = models.ManyToManyField(Image, blank=True)
     shown = models.BooleanField(default = True) # Чи відображається цей альбом
     topic = models.ForeignKey('Tag', on_delete = models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete = models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -46,23 +48,3 @@ class Link(models.Model):
 
     def __str__(self):
         return f'Посилання для поста "{self.post}"'
-
-# class UserPublications(models.Model):
-#     user = models.ForeignKey(User, on_delete = models.CASCADE)
-#     title = models.CharField(max_length = 100)
-#     theme = models.CharField(max_length = 255)
-#     tags = models.ManyToManyField('StandartTags', blank = True)
-#     text = models.TextField()
-#     url = models.TextField(blank = True)
-#     images = models.ImageField(upload_to = 'images/')
-#     views = models.IntegerField()
-#     likes = models.IntegerField()
-
-#     def __str__(self):
-#         return self.title
-
-# class StandartTags(models.Model):
-#     tag = models.CharField(max_length = 100)
-
-#     def __str__(self):
-#         return self.tag

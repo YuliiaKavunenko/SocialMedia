@@ -23,7 +23,7 @@
                     <h4>Мої фото</h4>
                     <form id="add-photo-button">
                         {% csrf_token %}
-                        <button type="submit" id="add-photo"><img src="" alt="">Додати фото</button>
+                        <button type="submit" id="add-photo"><img src="/placeholder.svg" alt="">Додати фото</button>
                     </form>
                 </div>
 
@@ -31,7 +31,10 @@
 
                     {% for avatar in user.profile.avatar_set.all %}
                         {% if avatar.shown %}
-                            <img src="{{ avatar.image.url }}" alt="avatar">
+                            <div class="user-photo-container">
+                                <img src="{{ avatar.image.url }}" alt="avatar">
+                                <button type="button" class="delete-user-photo-btn" data-avatar-id="{{ avatar.id }}">🗑</button>
+                            </div>
                         {% endif %}
                     {% endfor %}
 
@@ -51,7 +54,7 @@
                     {% endif %}
                     <form id="create-albums-button">
                         {% csrf_token %}
-                        <button type="submit" id="create-albums"><img src="" alt="">Створити альбом</button>
+                        <button type="submit" id="create-albums"><img src="/placeholder.svg" alt="">Створити альбом</button>
                     </form>
                 </div>
             </div>
@@ -77,7 +80,7 @@
                                     {% else %}
                                         <button type="button"
                                                 class = "hide-visibility-button menu-button"
-                                                data-album-id = "{{ album_data.album.id }}">👁 Цей альбом бачать всі</button>
+                                                data-album-id = "{{ album_data.album.id }}">👁 Цей альбом бачать всі</button>
                                     {% endif %}
 
                                     <button type="button"
@@ -105,7 +108,10 @@
 
                         <div class="photo-list" id="photo-list-{{ album_data.album.id }}">
                             {% for image in album_data.album.images.all %}
-                                <img src="{{ image.file.url }}" alt="{{ image.filename }}">
+                                <div class="album-photo-container">
+                                    <img src="{{ image.file.url }}" alt="{{ image.filename }}">
+                                    <button type="button" class="delete-album-photo-btn" data-image-id="{{ image.id }}" data-album-id="{{ album_data.album.id }}">🗑</button>
+                                </div>
                             {% endfor %}
                             
                             <button type="button"

@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class VerificationCode(models.Model):
-    username = models.CharField(max_length=150)
-    code = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,6 +20,7 @@ class Avatar(models.Model):
     def __str__(self):
         return f'Аватар для профілю {self.profile}'
 
+
 class Friendship(models.Model):
     profile1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='friendship_sent_request') # Той, хто надіслав запит на дружбу
     profile2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='friendship_accepted_request') # Той, хто має прийняти запит на дружбу
@@ -33,3 +30,8 @@ class Friendship(models.Model):
         return f'Дружба між {self.profile1} та {self.profile2}'
 
 
+
+class VerificationCode(models.Model):
+    username = models.CharField(max_length=150)
+    code = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)

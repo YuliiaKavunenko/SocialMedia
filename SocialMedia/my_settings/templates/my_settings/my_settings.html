@@ -70,7 +70,7 @@
                     <div id = 'header-info'>
                         <h4>Особиста інформація</h4>
                         <button type="submit" id="save-changes-button" style="display: none;">✎ Зберегти зміни</button>
-                        <button type="submit" id="edit-information2" class = 'button-edit-info'><img src="" alt="">✎ Редагувати інформацію</button>
+                        <button type="submit" id="edit-information2" class = 'button-edit-info'><img src="/placeholder.svg" alt="">✎ Редагувати інформацію</button>
                     </div>
                     
                     <div id="edit-personal-information">
@@ -103,7 +103,7 @@
                     <div id="header-password">
                         <h4>Пароль</h4>
                         <button type="submit" id="save-new-password-button" style="display: none;">✎ Зберегти пароль</button>
-                        <button type="button" id="edit-password" class="button-edit-info"><img src="" alt="">✎ Редагувати пароль</button>
+                        <button type="button" id="edit-password" class="button-edit-info"><img src="/placeholder.svg" alt="">✎ Редагувати пароль</button>
                     </div>
 
                     <input type="hidden" name="edit_password" value="1">
@@ -129,18 +129,46 @@
                 <form id="header-signature">
                     {% csrf_token %}
                     <h4>Варіанти підпису</h4>
-                    <button type="submit" id="edit-information3" class = 'button-edit-info'><img src="" alt="">✎ Редагувати інформацію</button>
+                    <button type="submit" id="edit-information3" class = 'button-edit-info'><img src="/placeholder.svg" alt="">✎ Редагувати інформацію</button>
                 </form>
                 <div id="edit-signature">
                     <div id="name-and-surname-button">
-                        <input type="checkbox" id="name-and-surname" checked disabled><img src="" alt=""><label for="name-and-surname">Ім'я та прізвище</label>
+                        <input type="checkbox" id="name-and-surname" checked disabled><img src="/placeholder.svg" alt=""><label for="name-and-surname">Ім'я та прізвище</label>
                         <h4>Lina Li</h4>
                     </div>
                     <div id="my-electronic-signature-button">
-                        <input type="checkbox" id="my-electronic-signature" checked disabled><img src="" alt=""><label for="my-electronic-signature">Мій електронний підпис</label>
-                        <img src="" alt="">
+                        <input type="checkbox" id="my-electronic-signature" checked disabled><img src="/placeholder.svg" alt=""><label for="my-electronic-signature">Мій електронний підпис</label>
+                        <img src="/placeholder.svg" alt="">
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для подтверждения смены пароля -->
+    <div id="password-overlay" class="modal-overlay" style="display: none;">
+        <div id="passwordCodeModal" class="custom-modal">
+            <div class="modal-content-custom">
+                <form id="passwordCodeForm" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="confirm_password_code">
+                    <input type="hidden" name="email" value="{{ user.email }}">
+                    <h2>Підтвердження зміни пароля</h2>
+                    <p>Ми надіслали 6-значний код на вашу пошту. Введіть його нижче, щоб підтвердити зміну пароля.</p>
+                    <label for="code">Код підтвердження:</label>
+                    <div id="password-inputs">
+                        {% for i in "123456" %}
+                        <input type="text" name="code{{ forloop.counter }}" maxlength="1" class="code-input" required>
+                        {% endfor %}
+                    </div>
+                    {% if password_code_error %}
+                        <p class="error">{{ password_code_error }}</p>
+                    {% endif %}
+                    <div class="modal-buttons">
+                        <button type="submit">Підтвердити</button>
+                        <button type="button" id="closePasswordModal">Назад</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -149,3 +177,5 @@
 
    
 {% endblock %}
+
+<body data-password-verified="{% if request.session.password_verified %}true{% else %}false{% endif %}">

@@ -3,10 +3,12 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from main_page.models import Post, Tag, Image, Link
 from user.models import Avatar
+from user.models import Friendship
 from main_page.forms import CreatePublicationsForm
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.db import models
 
 @login_required
 def edit_publication(request, pub_id):
@@ -17,11 +19,22 @@ def edit_publication(request, pub_id):
         if form.is_valid():
             publication = form.save(commit=False)
             publication.author = request.user.profile
+            
+            # Получаем выбранные теги для установки topic при редактировании
+            selected_tags = request.POST.get('selected_tags', '')
+            tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
+            
+            # Устанавливаем topic как последний выбранный тег
+            if tag_ids:
+                last_tag = Tag.objects.filter(id=tag_ids[-1]).first()
+                if last_tag:
+                    publication.topic = last_tag.name
+            else:
+                publication.topic = ''
+            
             publication.save()
 
             # Обработка тегов для редактирования
-            selected_tags = request.POST.get('selected_tags', '')
-            tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
             if tag_ids:
                 publication.tags.set(tag_ids)
             else:
@@ -96,11 +109,22 @@ def render_my_publications_page(request):
         if form.is_valid():
             publication = form.save(commit=False)
             publication.author = user.profile
+            
+            # Получаем выбранные теги для установки topic
+            selected_tags = request.POST.get('selected_tags', '')
+            tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
+            
+            # Устанавливаем topic как последний выбранный тег
+            if tag_ids:
+                last_tag = Tag.objects.filter(id=tag_ids[-1]).first()
+                if last_tag:
+                    publication.topic = last_tag.name
+            else:
+                publication.topic = ''
+            
             publication.save()
 
             # Теги
-            selected_tags = request.POST.get('selected_tags', '')
-            tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
             if tag_ids:
                 publication.tags.set(tag_ids)
             else:
@@ -132,11 +156,43 @@ def render_my_publications_page(request):
     # Подсчет публикаций пользователя для отображения в профиле
     user_posts_count = publications.count()
 
+    # Получаем количество друзей (принятые запросы дружбы)
+    user_friends_count = Friendship.objects.filter(
+        models.Q(profile1=user.profile, accepted=True) | 
+        models.Q(profile2=user.profile, accepted=True)
+    ).count()
+
+    # Получаем количество входящих запросов на дружбу
+    user_friend_requests_count = Friendship.objects.filter(
+        profile2=user.profile, 
+        accepted=False
+    ).count()
+
+    # Пока что заглушка для подписчиков (можно добавить логику позже)
+    user_followers_count = 0
+    
+    # Получаем аватар пользователя
+    user_avatar = user.profile.avatar_set.filter(active=True).first() if hasattr(user, 'profile') else None
+    
+    # Добавляем аватары авторов к публикациям
+    publications_with_avatars = []
+    for pub in publications:
+        pub_data = {
+            'publication': pub,
+            'author_avatar': pub.author.avatar_set.filter(active=True).first() if pub.author else None
+        }
+        publications_with_avatars.append(pub_data)
+
     return render(request, "my_publications/my_publications.html", {
         "user": user,
         "form": form,
         "publications": publications,
+        "publications_with_avatars": publications_with_avatars,
         "user_posts_count": user_posts_count,
+        "user_friends_count": user_friends_count,
+        "user_followers_count": user_followers_count,
+        "user_friend_requests_count": user_friend_requests_count,
+        "user_avatar": user_avatar,
     })
 
 

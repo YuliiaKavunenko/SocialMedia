@@ -149,34 +149,34 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    function updateOnlineStatus(data) {
-      const chatTitle = document.getElementById("chat-title")
-      const existingStatus = chatTitle.querySelector(".online-status")
+    // function updateOnlineStatus(data) {
+    //   const chatTitle = document.getElementById("chat-title")
+    //   const existingStatus = chatTitle.querySelector(".online-status")
 
-      if (existingStatus) {
-        existingStatus.remove()
-      }
+    //   if (existingStatus) {
+    //     existingStatus.remove()
+    //   }
 
-      const statusDiv = document.createElement("div")
-      statusDiv.classList.add("online-status")
+    //   const statusDiv = document.createElement("div")
+    //   statusDiv.classList.add("online-status")
 
-      if (data.is_personal_chat) {
-        if (data.is_online) {
-          statusDiv.textContent = "онлайн"
-          statusDiv.classList.add("online")
-        } else if (data.last_seen) {
-          statusDiv.textContent = `був(ла) ${data.last_seen}`
-          statusDiv.classList.add("offline")
-        }
-      } else {
-        const onlineCount = data.online_count || 0
-        const totalCount = data.total_members || 0
-        statusDiv.textContent = `${onlineCount} з ${totalCount} онлайн`
-        statusDiv.classList.add("group-online")
-      }
+    //   if (data.is_personal_chat) {
+    //     if (data.is_online) {
+    //       statusDiv.textContent = "онлайн"
+    //       statusDiv.classList.add("online")
+    //     } else if (data.last_seen) {
+    //       statusDiv.textContent = `був(ла) ${data.last_seen}`
+    //       statusDiv.classList.add("offline")
+    //     }
+    //   } else {
+    //     const onlineCount = data.online_count || 0
+    //     const totalCount = data.total_members || 0
+    //     statusDiv.textContent = `${onlineCount} з ${totalCount} онлайн`
+    //     statusDiv.classList.add("group-online")
+    //   }
 
-      chatTitle.appendChild(statusDiv)
-    }
+    //   chatTitle.appendChild(statusDiv)
+    // }
 
     const messageForm = document.querySelector("#message-form")
     const messageInput = messageForm.querySelector("textarea[name='content']")
