@@ -37,7 +37,6 @@ class SettingsPageViews(LoginRequiredMixin, TemplateView):
 
         context['active_avatar'] = avatar
 
-        # Добавляем обработку ошибок кода подтверждения
         if 'password_code_error' in self.request.session:
             context['password_code_error'] = self.request.session.pop('password_code_error')
             context['show_password_modal'] = True
@@ -297,8 +296,6 @@ def send_password_verification_code(request):
         return JsonResponse({'success': True})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
-
-# Новые AJAX views для дополнительного функционала
 
 @csrf_exempt
 @require_POST

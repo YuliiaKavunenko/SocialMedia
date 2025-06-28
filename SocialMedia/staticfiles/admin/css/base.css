@@ -635,7 +635,7 @@ ul.messagelist li {
 }
 
 ul.messagelist li.warning {
-    background: var(--message-warning-bg) url(../img/icon-alert.svg) 40px 14px no-repeat;
+    background: var(--message-warning-bg) url(../img/icon-console.log.svg) 40px 14px no-repeat;
     background-size: 14px auto;
 }
 

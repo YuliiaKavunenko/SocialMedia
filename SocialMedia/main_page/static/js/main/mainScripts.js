@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const newTag = newTagInput.value.trim()
 
       if (!newTag) {
-        alert("Будь ласка, введіть тег.")
+        console.log("Будь ласка, введіть тег.")
         return
       }
 
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tagsContainer.insertBefore(tagElement, tagForm)
             newTagInput.value = ""
 
-            // Добавляем обработчик клика для нового тега
+            // Клік на тег
             tagElement.addEventListener("click", function () {
               const tagId = this.getAttribute("data-tag-id")
               if (this.classList.contains("selected")) {
@@ -84,16 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
               hiddenInput.value = Array.from(selectedTagIds).join(",")
             })
 
-            // Скрываем форму добавления тега и показываем кнопку
+            // Скриття форми і додаємо тег
             tagForm.style.display = "none"
             addTagButton.style.display = "flex"
           } else {
-            alert("Помилка: " + data.message)
+            console.log("Помилка: " + data.message)
           }
         })
         .catch((error) => {
           console.error("Помилка під час збереження тега:", error)
-          alert("Щось пішло не так при додаванні тега.")
+          console.log("Щось пішло не так при додаванні тега.")
         })
     })
   }
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Обработка множественного выбора изображений
+  // Вибір декількох зображень
   const addImageButton = document.getElementById("add-image-button")
   const imageInput = document.getElementById("id_images")
 
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     imageInput.addEventListener("change", () => {
       if (imageInput.files.length > 9) {
-        alert("Максимально можна додати 9 фотографій")
+        console.log("Максимально можна додати 9 фотографій")
         return
       }
       if (imageInput.files.length > 0) {
@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("Не знайдено кнопку або інпут для вибору файлу")
   }
 
-  // Функция для отображения превью изображений
+  // Відображення превью зображень
   function displayImagePreviews(files) {
     let previewContainer = document.getElementById("image-preview-container")
 
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Функция для удаления превью изображения
+  // Видалення превью зображення
   function removeImagePreview(index) {
     const imageInput = document.getElementById("id_images")
     const dt = new DataTransfer()
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Функция для применения адаптивных классов к галереям изображений в публікациях
+  // Адаптивні класи до зображень публікацій
   function applyImageGalleryLayout() {
     document.querySelectorAll(".publication-images-container").forEach((container) => {
       const images = container.querySelectorAll(".publication-image")

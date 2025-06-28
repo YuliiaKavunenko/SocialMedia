@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
               handleDeleteAlbumPhoto(this)
             })
           } else {
-            alert(data.error || "Помилка при завантаженні фото")
+            console.log(data.error || "Помилка при завантаженні фото")
           }
         })
     })
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.success) {
             button.closest(".album-content").remove()
           } else {
-            alert(data.error || "Не вдалося видалити альбом")
+            console.log(data.error || "Не вдалося видалити альбом")
           }
         })
     }
@@ -255,14 +255,11 @@ document.addEventListener("DOMContentLoaded", () => {
               handleDeleteUserPhoto(this)
             })
           } else {
-            alert(data.error || "Помилка при завантаженні")
+            console.log(data.error || "Помилка при завантаженні")
           }
         })
     })
   }
-
-  // Новые функции для дополнительного функционала
-
   // Функция переключения видимости альбома
   function handleToggleAlbumVisibility(button) {
     const albumId = button.dataset.albumId
@@ -293,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const menuButton = menu.parentElement.querySelector(".open-album-menu")
           menuButton.style.backgroundColor = "#FFFFFF"
         } else {
-          alert(data.error || "Не вдалося змінити видимість альбому")
+          console.log(data.error || "Не вдалося змінити видимість альбому")
         }
       })
   }
@@ -320,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.success) {
             button.closest(".album-photo-container").remove()
           } else {
-            alert(data.error || "Не вдалося видалити фото")
+            console.log(data.error || "Не вдалося видалити фото")
           }
         })
     }
@@ -344,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.success) {
             button.closest(".user-photo-container").remove()
           } else {
-            alert(data.error || "Не вдалося видалити фото")
+            console.log(data.error || "Не вдалося видалити фото")
           }
         })
     }

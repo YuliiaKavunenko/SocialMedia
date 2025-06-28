@@ -1,15 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from main_page.models import Profile
 from user.models import Avatar, Friendship
+from chats.models import ChatGroup, ChatMessage
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 import json
-
-
+from main_page.models import Post, Album
 
 class FriendsPageViews(View):
     template_name = 'friends/friends.html'
@@ -202,6 +202,83 @@ class RequestsPageViews(View):
 
         return render(request, self.template_name, {'friend_requests': requested_users})
 
+# Новый view для страницы пользователя
+class UserProfileView(View):
+    template_name = 'friends/friend_page.html'
+
+    def get(self, request, username):
+        try:
+            user = get_object_or_404(User, username=username)
+            profile = user.profile
+            avatar = profile.avatar_set.filter(active=True).first()
+            avatar_url = avatar.image.url if avatar else None
+            
+            # Получаем статистику пользователя
+            posts_count = Post.objects.filter(author=profile).count()
+            friends_count = Friendship.objects.filter(
+                Q(profile1=profile, accepted=True) | Q(profile2=profile, accepted=True)
+            ).count()
+            followers_count = friends_count  # В данной модели читачи = друзья
+
+            # Получаем посты пользователя
+            user_posts = Post.objects.filter(author=profile).order_by('-id')
+            posts_with_data = []
+            for post in user_posts:
+                post_author_avatar = post.author.avatar_set.filter(active=True).first()
+                posts_with_data.append({
+                    'post': post,
+                    'author_avatar': post_author_avatar
+                })
+
+            # Получаем альбомы пользователя
+            user_albums = Album.objects.filter(author=profile, shown=True).order_by('-created_at')
+            albums_with_images = []
+            for album in user_albums:
+                # Получаем последние 2 изображения из альбома
+                last_images = album.images.all().order_by('-uploaded_at')[:2]
+                albums_with_images.append({
+                    'album': album,
+                    'last_images': last_images
+                })
+            
+            # Проверяем отношения с текущим пользователем
+            current_profile = request.user.profile
+            friendship_status = None
+            
+            if current_profile != profile:
+                friendship = Friendship.objects.filter(
+                    Q(profile1=current_profile, profile2=profile) |
+                    Q(profile1=profile, profile2=current_profile)
+                ).first()
+                
+                if friendship:
+                    if friendship.accepted:
+                        friendship_status = 'friends'
+                    elif friendship.profile1 == current_profile:
+                        friendship_status = 'request_sent'
+                    else:
+                        friendship_status = 'request_received'
+                else:
+                    friendship_status = 'none'
+            
+            context = {
+                'profile_user': user,
+                'profile': profile,
+                'avatar_url': avatar_url,
+                'friendship_status': friendship_status,
+                'is_own_profile': current_profile == profile,
+                'posts_count': posts_count,
+                'friends_count': friends_count,
+                'followers_count': followers_count,
+                'user_posts': posts_with_data,
+                'user_albums': albums_with_images,
+            }
+            
+            return render(request, self.template_name, context)
+            
+        except Profile.DoesNotExist:
+            return render(request, self.template_name, {'error': 'Профиль не найден'})
+
 @method_decorator(login_required, name='dispatch')
 class AcceptFriendRequestView(View):
     def post(self, request):
@@ -362,5 +439,58 @@ class RemoveRecommendationView(View):
 
             return JsonResponse({'success': True, 'message': 'Рекомендация удалена'})
             
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+# Новый view для создания/поиска личного чата
+@method_decorator(login_required, name='dispatch')
+class CreateOrFindPersonalChatView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            
+            if not username:
+                return JsonResponse({'success': False, 'error': 'Username is required'})
+            
+            # Найти пользователя для чата
+            target_user = User.objects.get(username=username)
+            target_profile = target_user.profile
+            current_profile = request.user.profile
+            
+            # Проверить, существует ли уже личный чат между этими пользователями
+            existing_chat = ChatGroup.objects.filter(
+                is_personal_chat=True,
+                members__in=[current_profile]
+            ).filter(
+                members__in=[target_profile]
+            ).first()
+            
+            if existing_chat:
+                # Чат уже существует, возвращаем его ID
+                return JsonResponse({
+                    'success': True, 
+                    'chat_id': existing_chat.id,
+                    'message': 'Переход в существующий чат'
+                })
+            else:
+                # Создаем новый личный чат
+                new_chat = ChatGroup.objects.create(
+                    name=f"Чат между {current_profile.user.username} и {target_profile.user.username}",
+                    is_personal_chat=True,
+                    admin=current_profile
+                )
+                new_chat.members.add(current_profile, target_profile)
+                
+                return JsonResponse({
+                    'success': True, 
+                    'chat_id': new_chat.id,
+                    'message': 'Создан новый чат'
+                })
+            
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Пользователь не найден'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Профиль не найден'})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})

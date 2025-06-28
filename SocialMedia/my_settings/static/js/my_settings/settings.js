@@ -97,8 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault()
       console.log("Нажата кнопка редактирования пароля")
 
-      // Отправляем AJAX запрос для отправки кода
-      fetch("/ajax/send-password-code/", {
+=      fetch("/ajax/send-password-code/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,12 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
             // Показываем модалку
             showPasswordModal()
           } else {
-            alert("Помилка при відправці коду: " + data.error)
+            console.log("Помилка при відправці коду: " + data.error)
           }
         })
         .catch((error) => {
           console.error("Error:", error)
-          alert("Помилка при відправці коду")
+          console.log("Помилка при відправці коду")
         })
     })
   }
@@ -133,12 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const password2 = newPassword2Input.value.trim()
 
       if (!password1 || !password2) {
-        alert("Будь ласка, заповніть всі поля пароля")
+        console.log("Будь ласка, заповніть всі поля пароля")
         return
       }
 
       if (password1 !== password2) {
-        alert("Паролі не співпадають")
+        console.log("Паролі не співпадають")
         return
       }
 

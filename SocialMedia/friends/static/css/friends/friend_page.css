@@ -1,0 +1,509 @@
+
+img {
+  object-fit: cover;
+}
+
+button {
+  font-family: "GT Walsheim Pro", sans-serif;
+}
+
+#main-page-content {
+  width: 100%;
+  padding: 0 5.55vw;
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.4vw;
+  height: 100%;
+}
+
+#user-frames {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 104px; 
+  left: 5.55vw;
+  gap: 8px; 
+  width: 18.2%; 
+  height: 85%; 
+}
+
+#user-frame {
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  padding-top: 16px; 
+  padding-bottom: 16px;
+  gap: 16px; 
+  display: flex;
+  flex-direction: column;
+}
+
+#user-photo {
+  width: 96px; 
+  height: 96px;
+  border-radius: 50%;
+  margin-bottom: 24px; 
+}
+
+#profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#nickname {
+  color: #070a1c;
+  font-family: "GT Walsheim Pro";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  gap: 10px; 
+}
+
+#nickname h4 {
+  margin: 0;
+  color: #81818d;
+}
+
+#nickname h3 {
+  margin: 0;
+}
+
+#profile-data {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#profile-data div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#subscribers,
+#readers,
+#friends {
+  color: #070a1c;
+  font-family: "GT Walsheim Pro";
+}
+
+#subscribers h4,
+#readers h4,
+#friends h4 {
+  color: #81818d;
+}
+
+#profile-data div * {
+  margin: 0;
+}
+
+#friend-profile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+#friend-profile-buttons button {
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.message-friend,
+.confirm-request,
+.add-recommendation {
+  background-color: #543c52;
+  color: #ffffff;
+  border: none;
+}
+
+.message-friend:hover,
+.confirm-request:hover,
+.add-recommendation:hover {
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+}
+
+.delete-friend,
+.delete-request {
+  background-color: #ffffff;
+  color: #543c52;
+  border: 1px solid #543c52;
+}
+
+.delete-friend:hover,
+.delete-request:hover {
+  background-color: #e9e5ee;
+}
+
+.request-sent {
+  background-color: #e9e5ee;
+  color: #81818d;
+  border: 1px solid #cdced2;
+  cursor: not-allowed;
+}
+
+#friends-frame {
+  display: flex;
+  max-height: 22vh;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  gap: 12px; 
+  padding: 16px; 
+  flex: 1;
+}
+
+#search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#search * {
+  margin: 0;
+}
+
+#search button {
+  color: #543c52;
+  font-size: 16px; 
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+#search button:hover {
+  text-decoration: underline;
+}
+
+#albums {
+  color: #81818d;
+  font-family: "GT Walsheim Pro";
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px; 
+}
+
+#albums-icon {
+  width: 20px; 
+  height: 20px;
+  margin-right: 4px; 
+}
+
+#albums h3 {
+  font-size: 16px;
+}
+
+hr {
+  height: 1px;
+  background-color: #cdced2;
+  color: #cdced2;
+  margin: 0;
+}
+
+#albums-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  overflow-y: auto;
+}
+
+#albums-list::-webkit-scrollbar {
+  display: none;
+}
+
+.album-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.album-item:last-child {
+  border-bottom: none;
+}
+
+.album-item h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #070a1c;
+  font-weight: bold;
+}
+
+.album-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.album-description h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #070a1c;
+}
+
+.album-description h5 {
+  margin: 0;
+  font-size: 12px;
+  color: #81818d;
+}
+
+.album-images {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.album-images img,
+.no-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.no-albums {
+  text-align: center;
+  color: #81818d;
+  padding: 16px 0;
+}
+
+.no-albums h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+#publications {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 69vw; 
+  margin-left: 390px; 
+  margin-top: 16px; 
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.publication-card {
+  width: 99.4%; 
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  padding-top: 16px; 
+  padding-bottom: 16px;
+  padding-left: 20px; 
+  padding-right: 20px;
+  gap: 16px; 
+  box-sizing: border-box;
+}
+
+.publication-card * {
+  font-family: "GT Walsheim Pro", sans-serif;
+  font-size: 16px; 
+  color: #070a1c;
+  margin: 0;
+  justify-content: flex-end;
+  text-align: start;
+}
+
+#user-photo-publication {
+  width: 46px; 
+  height: 46px;
+  border-radius: 50%;
+}
+
+.publication-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; 
+  position: relative;
+}
+
+#creator-data {
+  gap: 8px; 
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.tag-text {
+  color: #543c52;
+}
+
+.publication-images-container {
+  display: grid;
+  gap: 16px; 
+  width: 100%;
+  margin-top: 16px; 
+}
+
+.publication-images-container .publication-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+
+.publication-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px; 
+  border: none;
+}
+
+.publication-images-container.count-1 {
+  grid-template-columns: 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-1 .publication-image {
+  height: 350px; 
+}
+
+.publication-images-container.count-2 {
+  grid-template-columns: 1fr 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-2 .publication-image {
+  height: 350px; 
+}
+
+.publication-images-container.count-3 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 350px 300px; 
+  max-width: 100%;
+}
+
+.publication-images-container.count-3 .publication-image:first-child {
+  grid-column: 1 / -1;
+  height: 350px; 
+}
+
+.publication-images-container.count-3 .publication-image:not(:first-child) {
+  height: 300px; 
+}
+
+.publication-images-container.count-4 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  max-width: 100%;
+}
+
+.publication-images-container.count-4 .publication-image {
+  height: 300px; 
+}
+
+.reactions-to-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px; 
+  border-top: 1px solid #f0f0f0;
+}
+
+.preferences,
+.views {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preferences h4,
+.views h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #81818d;
+}
+
+.preferences img,
+.views img {
+  width: 20px; 
+  height: 20px;
+}
+
+.no-posts {
+  width: 99.4%; 
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #cdced2;
+  border-radius: 10px;
+  padding-top: 16px; 
+  padding-bottom: 16px;
+  padding-left: 20px; 
+  padding-right: 20px;
+  gap: 16px; 
+  box-sizing: border-box;
+}
+
+.no-posts h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  color: #543c52;
+  font-size: 24px;
+}
+
+.error-message h3 {
+  margin: 0;
+  text-align: center;
+}
+.reactions-to-post svg {
+  color: #81818d;
+  transition: color 0.2s ease;
+}
+
+.preferences:hover svg,
+.views:hover svg {
+  color: #543c52;
+}
+
+.preferences svg {
+  margin-left: 8px;
+  color: #81818d;
+}
+
+.views svg {
+  margin-left: 8px;
+}
+
+.preferences img,
+.views img {
+  display: none;
+}

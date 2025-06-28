@@ -93,7 +93,6 @@ img {
   align-items: flex-start;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -164,7 +163,6 @@ img {
   box-sizing: border-box;
 }
 
-/* Стили для заголовка чата */
 #chat-header {
   width: 100%;
   display: flex;
@@ -182,7 +180,6 @@ img {
   padding: 8px 0;
 }
 
-/* Убираем стили онлайн статуса */
 .online-status {
   display: none !important;
 }
@@ -379,7 +376,6 @@ img {
   gap: 16px;
   padding: 16px;
   box-sizing: border-box;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -429,7 +425,6 @@ img {
   justify-content: flex-start;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -453,7 +448,6 @@ img {
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -777,7 +771,6 @@ img {
   cursor: pointer;
 }
 
-/* модалка для изображений */
 .image-modal {
   display: none;
   position: fixed;
@@ -892,7 +885,6 @@ img {
   justify-content: center;
 }
 
-/* Стили для модального окна подтверждения удаления */
 .delete-confirm-modal {
   display: none;
   position: fixed;
@@ -979,7 +971,6 @@ img {
   color: #543c52;
 }
 
-/* Стили для модальных окон создания группы */
 .create-group-modal {
   display: none;
   position: fixed;
@@ -1026,7 +1017,6 @@ img {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 20px;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -1043,7 +1033,6 @@ img {
   border-top: 1px solid #e9e5ee;
 }
 
-/* Стили для первого шага - выбор пользователей */
 .search-container {
   margin-bottom: 16px;
 }
@@ -1076,7 +1065,6 @@ img {
   border: 1px solid #e9e5ee;
   border-radius: 10px;
   padding: 8px;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -1148,7 +1136,6 @@ img {
   font-weight: bold;
 }
 
-/* Стили для второго шага - настройка группы */
 .group-name-section {
   margin-bottom: 24px;
 }
@@ -1253,7 +1240,6 @@ img {
   border: 1px solid #e9e5ee;
   border-radius: 10px;
   padding: 8px;
-  /* Добавляем скрытую полосу прокрутки */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -1308,7 +1294,6 @@ img {
   background-color: #fff5f5;
 }
 
-/* Стили для кнопок действий */
 .next-btn,
 .create-btn {
   background-color: #543c52;
@@ -1338,7 +1323,6 @@ img {
   cursor: not-allowed;
 }
 
-/* Стили для редактирования группы */
 .participants-header {
   display: flex;
   justify-content: space-between;
@@ -1426,4 +1410,11 @@ img {
   .avatar-buttons {
     flex-direction: row;
   }
+}
+
+#edit-avatar-image{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
 }

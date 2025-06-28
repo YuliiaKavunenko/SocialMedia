@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteButtons = document.querySelectorAll(".delete-request, .delete-recommendation, .delete-friend")
   const confirmButtons = document.querySelectorAll(".confirm-request")
   const addButtons = document.querySelectorAll(".add-recommendation")
+  const messageButtons = document.querySelectorAll(".message-friend")
 
   let currentUserToDelete = null
   let currentAction = null
@@ -35,27 +36,51 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // function showNotification(message, isSuccess = true) {
-  //   // Создаем простое уведомление
-  //   const notification = document.createElement("div")
-  //   notification.style.cssText = `
-  //           position: fixed;
-  //           top: 20px;
-  //           right: 20px;
-  //           padding: 15px 20px;
-  //           background-color: ${isSuccess ? "#4CAF50" : "#f44336"};
-  //           color: white;
-  //           border-radius: 5px;
-  //           z-index: 10000;
-  //           font-family: "GT Walsheim Pro", sans-serif;
-  //       `
-  //   notification.textContent = message
-  //   document.body.appendChild(notification)
+  messageButtons.forEach((button) => {
+    button.addEventListener("click", async function (e) {
+      e.preventDefault()
 
-  //   setTimeout(() => {
-  //     notification.remove()
-  //   }, 3000)
-  // }
+      const card = this.closest(".card")
+      const userHandle = card.querySelector("h4").textContent.replace("@", "")
+
+      try {
+        const result = await sendAjaxRequest("/friends/create-personal-chat/", {
+          username: userHandle,
+        })
+
+        if (result.success) {
+          window.location.href = `/chats/chats/?chat_id=${result.chat_id}`
+        } else {
+          console.log(result.error || "Произошла ошибка при создании чата")
+        }
+      } catch (error) {
+        console.error("Error:", error)
+        console.log("Произошла ошибка при создании чата")
+      }
+    })
+  })
+
+  document.addEventListener("click", (e) => {
+    const target = e.target
+
+    if ((target.tagName === "H3" || target.tagName === "H4") && target.textContent.includes("@")) {
+      const username = target.textContent.replace("@", "")
+      window.location.href = `/friends/user/${username}/`
+    } else if (target.tagName === "H3" && target.closest(".card")) {
+      const card = target.closest(".card")
+      const nicknameElement = card.querySelector("h4")
+      if (nicknameElement && nicknameElement.textContent.includes("@")) {
+        const username = nicknameElement.textContent.replace("@", "")
+        window.location.href = `/friends/user/${username}/`
+      }
+    }
+  })
+
+  const userNames = document.querySelectorAll(".card h3, .card h4")
+  userNames.forEach((element) => {
+    element.style.cursor = "pointer"
+
+  })
 
   function showModal(userData = null, action = null) {
     currentUserToDelete = userData
@@ -113,19 +138,17 @@ document.addEventListener("DOMContentLoaded", () => {
       })
 
       if (result.success) {
-        // showNotification("Запрос на дружбу принят!")
         card.remove()
 
         setTimeout(() => {
           window.location.reload()
         }, 1000)
       } else {
-        showNotification(result.error || "Произошла ошибка", false)
+        console.log(result.error || "Произошла ошибка")
       }
     })
   })
 
-  // Обработчики для кнопок добавления в друзья
   addButtons.forEach((button) => {
     button.addEventListener("click", async function (e) {
       e.preventDefault()
@@ -138,15 +161,13 @@ document.addEventListener("DOMContentLoaded", () => {
       })
 
       if (result.success) {
-        // showNotification("Запрос на дружбу отправлен!")
         card.remove()
       } else {
-        showNotification(result.error || "Произошла ошибка", false)
+        console.log(result.error || "Произошла ошибка")
       }
     })
   })
 
-  // Обработчики модального окна
   closeBtn.addEventListener("click", hideModal)
   cancelBtn.addEventListener("click", (e) => {
     e.preventDefault()
@@ -165,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  // Обработчик подтверждения удаления
   confirmBtn.addEventListener("click", async (e) => {
     e.preventDefault()
 
@@ -194,17 +214,15 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         if (result.success) {
-        //   showNotification(successMessage)
           currentUserToDelete.element.remove()
 
-          // Для удаления друга обновляем страницу
           if (currentAction === "remove-friend") {
             setTimeout(() => {
               window.location.reload()
             }, 1000)
           }
         } else {
-          showNotification(result.error || "Произошла ошибка", false)
+          console.log(result.error || "Произошла ошибка")
         }
       }
     }

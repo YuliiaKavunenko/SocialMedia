@@ -11,6 +11,5 @@ urlpatterns = [
     path('add-members/<int:chat_id>/', views.add_members, name='add_members'),
     path('remove-member/<int:chat_id>/', views.remove_member, name='remove_member'),
     path('leave-group/<int:chat_id>/', views.leave_group, name='leave_group'),
-    # path('chats/', views.ChatPageViews.as_view(), name = 'chats'),
-    # path('send/<int:chat_id>/', views.SendMessageView.as_view(), name='send_message'),
+    path('search-contacts/', views.search_contacts, name='search_contacts'),
 ]

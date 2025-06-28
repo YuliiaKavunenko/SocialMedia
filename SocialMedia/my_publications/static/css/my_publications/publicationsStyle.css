@@ -129,6 +129,7 @@ button {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1.4vw;
+  height: 100%;
 }
 #publications {
   display: flex;
@@ -141,6 +142,7 @@ button {
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+  height: 100%;
 }
 
 #new-publication-input {
@@ -1278,4 +1280,56 @@ textarea {
   display: flex;
   text-align: flex-start;
   box-sizing: border-box;
+}
+
+.reactions-to-post svg {
+  color: #81818d;
+  transition: color 0.2s ease;
+}
+
+.preferences:hover svg,
+.views:hover svg {
+  color: #543c52;
+}
+
+.preferences svg {
+  margin-left: 8px;
+  color: #81818d;
+}
+
+.views svg {
+  margin-left: 8px;
+}
+
+.preferences img,
+.views img {
+  display: none;
+}
+
+.reactions-to-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px; 
+  border-top: 1px solid #f0f0f0;
+}
+
+.preferences,
+.views {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preferences h4,
+.views h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #81818d;
+}
+
+.preferences img,
+.views img {
+  width: 20px; 
+  height: 20px;
 }

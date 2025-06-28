@@ -161,6 +161,8 @@ button {
   flex-direction: row;
   justify-content: flex-start;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 #profile {
   display: flex;
@@ -455,6 +457,7 @@ button {
 }
 
 #chat3 {
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -463,8 +466,10 @@ button {
 
 #name-and-message3 {
   color: #070a1c;
+  width: 100%;
   font-family: "GT Walsheim Pro";
   size: 14px;
+  box-sizing: border-box;
 }
 
 #name-and-message3 h5 {
@@ -472,8 +477,8 @@ button {
 }
 
 #name-and-time3 {
+  width: 100%;
   size: 16px;
-  margin: 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -487,7 +492,6 @@ button {
   color: #81818d;
   size: 12px;
   font-weight: normal;
-  margin-left: 157px;
 }
 #people-icon {
   width: 20px;
@@ -508,7 +512,8 @@ button {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 1.4vw;
+  margin-bottom: 1.4vh;
+  height: 100%;
 }
 #publications {
   display: flex;
@@ -521,6 +526,8 @@ button {
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+  
+  height: 100%;
 }
 
 #new-publication-input {
@@ -1314,4 +1321,56 @@ textarea {
 }
 #chats div a {
   text-decoration: none;
+}
+
+.reactions-to-post svg {
+  color: #81818d;
+  transition: color 0.2s ease;
+}
+
+.preferences:hover svg,
+.views:hover svg {
+  color: #543c52;
+}
+
+.preferences svg {
+  margin-left: 8px;
+  color: #81818d;
+}
+
+.views svg {
+  margin-left: 8px;
+}
+
+.preferences img,
+.views img {
+  display: none;
+}
+
+.reactions-to-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px; 
+  border-top: 1px solid #f0f0f0;
+}
+
+.preferences,
+.views {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preferences h4,
+.views h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #81818d;
+}
+
+.preferences img,
+.views img {
+  width: 20px; 
+  height: 20px;
 }

@@ -17,21 +17,31 @@
             <div id="contacts-window">
                 <div id="contact-header">
                     <img src="/placeholder.svg" alt="">
-                    <h4>Контакти</h4>
+                    <h4>Друзі</h4>
                 </div>
                 <input type="text" name="" id="search" placeholder="Пошук">
-                <div id="contacts">
+                <div id="contacts" style="overflow-y: auto; max-height: 400px;">
                     {% for contact in contacts %}
                         <a href="?contact_id={{ contact.id }}" class="contact-link">
                             <div class="contact">
-                                {% with contact.avatar_set.all|first as avatar %}
-                                    <img src="{% if avatar and avatar.active %}{{ avatar.image.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" class='user-photo' alt="{{ contact.user.username }}">
+                                {% with contact.avatar_set.all as avatars %}
+                                    {% with avatars|dictsortreversed:"id" as sorted_avatars %}
+                                        {% for avatar in sorted_avatars %}
+                                            {% if avatar.active %}
+                                                <img src="{{ avatar.image.url }}" class="user-photo" alt="{{ contact.user.username }}">
+                                                
+                                            {% endif %}
+                                        {% empty %}
+                                            <img src="{% static 'img/avatarka.png' %}" class="user-photo" alt="{{ contact.user.username }}">
+                                        {% endfor %}
+                                    {% endwith %}
                                 {% endwith %}
                                 <h4>{{ contact.user.get_full_name|default:contact.user.username }}</h4>
                             </div>
                         </a>
                     {% endfor %}
                 </div>
+
             </div>
         </div>
         
@@ -42,7 +52,11 @@
                         <button id="back-button" class="header-button">
                             <span>&lt;</span>
                         </button>
-                        <img class = 'chats-avatar-img' src="{% if active_chat.avatar %}{{ active_chat.avatar.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="">
+                        {% if active_chat.is_personal_chat %}
+                            <img class='chats-avatar-img' src="{% if active_chat.other_member_avatar %}{{ active_chat.other_member_avatar }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="">
+                        {% else %}
+                            <img class='chats-avatar-img' src="{% if active_chat.avatar %}{{ active_chat.avatar.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="">
+                        {% endif %}
                         <div id="chat-title">
                             <h4>{{ active_chat.display_name|default:active_chat.name }}</h4>
                         </div>
@@ -94,7 +108,7 @@
                     <hr>
                 </div>
 
-                <div id="chat-messages" style="overflow-y: auto;">
+                <div id="chat-messages" style="overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;">
                     {% for item in grouped_messages %}
                         {% if item.type == 'date' %}
                             <div class = 'date-container'>
@@ -104,8 +118,18 @@
                             </div>
                         {% else %}
                             <div class="message {% if item.message.author == request.user.profile %}sent{% else %}received{% endif %}">
-                                {% with item.message.author.avatar_set.all|first as avatar %}
-                                    <img src="{% if avatar and avatar.active %}{{ avatar.image.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="{{ item.message.author.user.username }}" class="message-avatar">
+                                {% with item.message.author.avatar_set.all as avatars %}
+                                    {% for avatar in avatars %}
+                                        {% if avatar.active %}
+                                            <img src="{{ avatar.image.url }}" alt="{{ item.message.author.user.username }}" class="message-avatar">
+                                            
+                                        {% endif %}
+                                    {% empty %}
+                                        <img src="{% static 'img/avatarka.png' %}" alt="{{ item.message.author.user.username }}" class="message-avatar">
+                                    {% endfor %}
+                                    {% if not avatars or not avatars|length %}
+                                        <img src="{% static 'img/avatarka.png' %}" alt="{{ item.message.author.user.username }}" class="message-avatar">
+                                    {% endif %}
                                 {% endwith %}
                                 <div class="message-content">
                                     <div class = 'image-and-text'>
@@ -158,19 +182,11 @@
                         <button type="submit" id="see-all1" class="see-all">Дивитись всі</button>
                     </form>
                 </div>
-                <div id="chats">
+                <div id="chats" style="overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;">
                     {% for chat in personal_chats %}
                         <a href="?chat_id={{ chat.id }}">
                             <div class="chat {% if chat.id == active_chat.id %}active-chat{% endif %}">
-                                {% with chat.members.all as members %}
-                                    {% for member in members %}
-                                        {% if member != request.user.profile %}
-                                            {% with member.avatar_set.all|first as avatar %}
-                                                <img src="{% if avatar and avatar.active %}{{ avatar.image.url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="{{ chat.display_name }}" class='chat-avatar'>
-                                            {% endwith %}
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endwith %}
+                                <img src="{% if chat.other_member_avatar %}{{ chat.other_member_avatar }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="{{ chat.display_name }}" class='chat-avatar'>
                                 <div class="chat-info">
                                     <div class="user">
                                         <h4>{{ chat.display_name }}</h4>
@@ -212,7 +228,7 @@
                         <button type="submit" id="see-all2" class="see-all">Дивитись всі</button>
                     </form>
                 </div>
-                <div id="groups">
+                <div id="groups" style="overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;">
                     {% for chat in group_chats %}
                         <a href="?chat_id={{ chat.id }}">
                             <div class="group {% if chat.id == active_chat.id %}active-chat{% endif %}">

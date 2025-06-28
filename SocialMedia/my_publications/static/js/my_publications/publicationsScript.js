@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const newTag = editNewTagInput.value.trim()
 
         if (!newTag) {
-          alert("Будь ласка, введіть тег.")
+          console.log("Будь ласка, введіть тег.")
           return
         }
 
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
               tagElement.setAttribute("data-pub-id", pubId)
               tagElement.textContent = data.tag
 
-              // Добавляем обработчик клика для нового тега
+              // Клік на тег
               tagElement.addEventListener("click", function () {
                 const tagId = this.getAttribute("data-tag-id")
 
@@ -211,16 +211,16 @@ document.addEventListener("DOMContentLoaded", () => {
               editTagsContainer.insertBefore(tagElement, editTagForm)
               editNewTagInput.value = ""
 
-              // Скрываем форму добавления тега и показываем кнопку
+              // Скриття форми і додаємо тег
               editTagForm.style.display = "none"
               editAddTagButton.style.display = "flex"
             } else {
-              alert("Помилка: " + data.message)
+              console.log("Помилка: " + data.message)
             }
           })
           .catch((error) => {
             console.error("Помилка під час збереження тега:", error)
-            alert("Щось пішло не так при додаванні тега.")
+            console.log("Щось пішло не так при додаванні тега.")
           })
       })
     }
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       editImageInput.addEventListener("change", () => {
         if (editImageInput.files.length > 9) {
-          alert("Максимально можна додати 9 фотографій")
+          console.log("Максимально можна додати 9 фотографій")
           return
         }
         if (editImageInput.files.length > 0) {
@@ -316,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Функция для отображения превью изображений в форме редагування
+  // Функція для відображення прев'ю зображень
   function displayEditImagePreviews(files, pubId) {
     let previewContainer = document.getElementById(`edit-image-preview-container-${pubId}`)
 
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Функция для удаления превью изображения в форме редагування
+  // Функція для видалення зображення
   function removeEditImagePreview(index, pubId) {
     const imageInput = document.getElementById(`edit-form-images-${pubId}`)
     const dt = new DataTransfer()
@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Додавання тега (для форми створення)
+  // Додавання тега, форма створення
   const addTagButton = document.getElementById("add-tag-button")
   const tagForm = document.getElementById("new-tag-form-container")
 
@@ -438,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const newTag = newTagInput.value.trim()
 
       if (!newTag) {
-        alert("Будь ласка, введіть тег.")
+        console.log("Будь ласка, введіть тег.")
         return
       }
 
@@ -481,12 +481,12 @@ document.addEventListener("DOMContentLoaded", () => {
             tagForm.style.display = "none"
             addTagButton.style.display = "flex"
           } else {
-            alert("Помилка: " + data.message)
+            console.log("Помилка: " + data.message)
           }
         })
         .catch((error) => {
           console.error("Помилка під час збереження тега:", error)
-          alert("Щось пішло не так при додаванні тега.")
+          console.log("Щось пішло не так при додаванні тега.")
         })
     })
   }
@@ -548,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Обработка множественного выбора изображений (для форми створення)
+  // Вибір декількох зображень, форма створення
   const addImageButton = document.getElementById("add-image-button")
   const imageInput = document.getElementById("id_images")
 
@@ -562,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     imageInput.addEventListener("change", () => {
       if (imageInput.files.length > 9) {
-        alert("Максимально можна додати 9 фотографій")
+        console.log("Максимально можна додати 9 фотографій")
         return
       }
       if (imageInput.files.length > 0) {
@@ -571,7 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Функция для отображения превью изображений (для форми створення)
+  // Форма створення, превью зображень
   function displayImagePreviews(files) {
     let previewContainer = document.getElementById("image-preview-container")
 
@@ -616,7 +616,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Функция для удаления превью изображения (для форми створення)
+  // ФОрма створення, видалення превью зображень
   function removeImagePreview(index) {
     const imageInput = document.getElementById("id_images")
     const dt = new DataTransfer()
@@ -639,7 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Функция для применения адаптивных классов к галереям изображений в публікациях
+  // Адаптивні класи до зображень публікацій
   function applyImageGalleryLayout() {
     document.querySelectorAll(".publication-images-container").forEach((container) => {
       const images = container.querySelectorAll(".publication-image")

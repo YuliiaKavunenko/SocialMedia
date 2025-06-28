@@ -87,11 +87,11 @@ def render_main_page(request):
                 publication = form.save(commit=False)
                 publication.author = user_profile
                 
-                # Получаем выбранные теги для установки topic
+                # Получаем выбранные теги для установки темы
                 selected_tags = request.POST.get('selected_tags', '')
                 tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
                 
-                # Устанавливаем topic как последний выбранный тег
+                # Устанавливаем тему как последний выбранный тег
                 if tag_ids:
                     last_tag = Tag.objects.filter(id=tag_ids[-1]).first()
                     if last_tag:
@@ -144,7 +144,7 @@ def render_main_page(request):
     form = CreatePublicationsForm()
     user_publications_count = Post.objects.filter(author=user_profile).count()
     
-    # Получаем количество друзей (принятые запросы дружбы)
+    # Получаем количество друзей
     user_friends_count = Friendship.objects.filter(
         models.Q(profile1=user_profile, accepted=True) | 
         models.Q(profile2=user_profile, accepted=True)
@@ -156,7 +156,7 @@ def render_main_page(request):
         accepted=False
     ).count()
 
-    # Пока что заглушка для подписчиков (можно добавить логику позже)
+    # подписчики пока 0
     user_followers_count = 0
     
     # Получаем аватар пользователя

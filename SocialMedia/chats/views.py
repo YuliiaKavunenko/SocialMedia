@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 import json
 from .models import ChatGroup, ChatMessage
-from user.models import Profile
+from user.models import Profile, Friendship
 from datetime import timedelta
 from django.utils import timezone
 
@@ -24,8 +25,20 @@ def chat_view(request):
         is_personal_chat = False
     ).distinct().order_by('-id')
     
-    # Получаем контакты
-    contacts = Profile.objects.exclude(id = user_profile.id)
+    # Получаем только друзей пользователя (принятые заявки в дружбу)
+    friendships = Friendship.objects.filter(
+        Q(profile1=user_profile, accepted=True) | 
+        Q(profile2=user_profile, accepted=True)
+    )
+    
+    friend_ids = []
+    for friendship in friendships:
+        if friendship.profile1 == user_profile:
+            friend_ids.append(friendship.profile2.id)
+        else:
+            friend_ids.append(friendship.profile1.id)
+    
+    contacts = Profile.objects.filter(id__in=friend_ids)
     
     active_chat = None
     messages = []
@@ -46,7 +59,9 @@ def chat_view(request):
             # Группируем сообщения по датам
             current_date = None
             for message in messages:
-                message_date = message.sent_at.date()
+                # Сразу добавляем 3 часа к времени
+                adjusted_time = message.sent_at + timedelta(hours=3)
+                message_date = adjusted_time.date()
                 if current_date != message_date:
                     grouped_messages.append({
                         'type': 'date',
@@ -56,7 +71,7 @@ def chat_view(request):
                 grouped_messages.append({
                     'type': 'message',
                     'message': message,
-                    'adjusted_sent_at': message.sent_at + timedelta(hours = 3)
+                    'adjusted_sent_at': adjusted_time
                 })
         except ChatGroup.DoesNotExist:
             pass
@@ -67,53 +82,66 @@ def chat_view(request):
         try:
             contact = get_object_or_404(Profile, id=contact_id)
             
-            # Ищем существующий чат между пользователями
-            existing_chats = ChatGroup.objects.filter(
-                is_personal_chat=True, 
-                members=user_profile
-            )
+            # Проверяем, что контакт является другом
+            is_friend = Friendship.objects.filter(
+                Q(profile1=user_profile, profile2=contact, accepted=True) |
+                Q(profile1=contact, profile2=user_profile, accepted=True)
+            ).exists()
             
-            for chat in existing_chats:
-                if chat.members.filter(id=contact.id).exists():
-                    active_chat = chat
-                    break
-            
-            # Если чат не найден, создаем новый
-            if not active_chat:
-                # Имя чата по собеседнику
-                chat_name = contact.user.get_full_name() or contact.user.username
-                active_chat = ChatGroup.objects.create(
-                    name=chat_name,
-                    is_personal_chat=True,
-                    admin=user_profile
+            if not is_friend:
+                # Если не друг, перенаправляем на главную страницу чатов
+                pass
+            else:
+                # Ищем существующий чат между пользователями
+                existing_chats = ChatGroup.objects.filter(
+                    is_personal_chat=True, 
+                    members=user_profile
                 )
-                active_chat.members.add(user_profile, contact)
                 
-                # Обновляем список персональных чатов
-                personal_chats = ChatGroup.objects.filter(
-                    members=user_profile, 
-                    is_personal_chat=True
-                ).distinct().order_by('-id')
-            
-            # Получаем сообщения для активного чата
-            messages = ChatMessage.objects.filter(
-                chat_group=active_chat
-            ).order_by('sent_at')
-            
-            # Группируем сообщения по датам
-            current_date = None
-            for message in messages:
-                message_date = message.sent_at.date()
-                if current_date != message_date:
+                for chat in existing_chats:
+                    if chat.members.filter(id=contact.id).exists():
+                        active_chat = chat
+                        break
+                
+                # Если чат не найден, создаем новый
+                if not active_chat:
+                    # Имя чата по собеседнику
+                    chat_name = contact.user.get_full_name() or contact.user.username
+                    active_chat = ChatGroup.objects.create(
+                        name=chat_name,
+                        is_personal_chat=True,
+                        admin=user_profile
+                    )
+                    active_chat.members.add(user_profile, contact)
+                    
+                    # Обновляем список персональных чатов
+                    personal_chats = ChatGroup.objects.filter(
+                        members=user_profile, 
+                        is_personal_chat=True
+                    ).distinct().order_by('-id')
+                
+                # Получаем сообщения для активного чата
+                messages = ChatMessage.objects.filter(
+                    chat_group=active_chat
+                ).order_by('sent_at')
+                
+                # Группируем сообщения по датам
+                current_date = None
+                for message in messages:
+                    # Сразу добавляем 3 часа к времени
+                    adjusted_time = message.sent_at + timedelta(hours=3)
+                    message_date = adjusted_time.date()
+                    if current_date != message_date:
+                        grouped_messages.append({
+                            'type': 'date',
+                            'date': message_date
+                        })
+                        current_date = message_date
                     grouped_messages.append({
-                        'type': 'date',
-                        'date': message_date
+                        'type': 'message',
+                        'message': message,
+                        'adjusted_sent_at': adjusted_time
                     })
-                    current_date = message_date
-                grouped_messages.append({
-                    'type': 'message',
-                    'message': message
-                })
                 
         except Profile.DoesNotExist:
             pass
@@ -125,32 +153,45 @@ def chat_view(request):
             other_member = chat.members.exclude(id=user_profile.id).first()
             if other_member:
                 chat.display_name = other_member.user.get_full_name() or other_member.user.username
+                # Получаем аватарку собеседника
+                avatar = other_member.avatar_set.filter(active=True).first()
+                chat.other_member_avatar = avatar.image.url if avatar else None
             else:
                 chat.display_name = chat.name
+                chat.other_member_avatar = None
         else:
             chat.display_name = chat.name
+            chat.other_member_avatar = None
             
         last_msg = chat.chatmessage_set.last()
         if last_msg:
             chat.last_message = last_msg
-            chat.last_message_time = last_msg.sent_at + timedelta(hours = 3)
+            # Добавляем 3 часа к времени последнего сообщения
+            chat.last_message_time = last_msg.sent_at + timedelta(hours=3)
 
     for chat in group_chats:
         chat.display_name = chat.name
+        chat.other_member_avatar = None
         last_msg = chat.chatmessage_set.last()
         if last_msg:
             chat.last_message = last_msg
-            chat.last_message_time = last_msg.sent_at + timedelta(hours = 3)
+            # Добавляем 3 часа к времени последнего сообщения
+            chat.last_message_time = last_msg.sent_at + timedelta(hours=3)
 
     # Устанавливаем правильное название для активного чата
     if active_chat and active_chat.is_personal_chat:
         other_member = active_chat.members.exclude(id=user_profile.id).first()
         if other_member:
             active_chat.display_name = other_member.user.get_full_name() or other_member.user.username
+            # Получаем аватарку собеседника для активного чата
+            avatar = other_member.avatar_set.filter(active=True).first()
+            active_chat.other_member_avatar = avatar.image.url if avatar else None
         else:
             active_chat.display_name = active_chat.name
+            active_chat.other_member_avatar = None
     elif active_chat:
         active_chat.display_name = active_chat.name
+        active_chat.other_member_avatar = None
     
     context = {
         'personal_chats': personal_chats,
@@ -162,6 +203,97 @@ def chat_view(request):
     }
     
     return render(request, 'chats/chats.html', context)
+
+@login_required
+def search_contacts(request):
+    """AJAX поиск контактов среди друзей"""
+    search_query = request.GET.get('q', '').strip()
+    user_profile = request.user.profile
+    
+    # Получаем только друзей пользователя
+    friendships = Friendship.objects.filter(
+        Q(profile1=user_profile, accepted=True) | 
+        Q(profile2=user_profile, accepted=True)
+    )
+    
+    friend_ids = []
+    for friendship in friendships:
+        if friendship.profile1 == user_profile:
+            friend_ids.append(friendship.profile2.id)
+        else:
+            friend_ids.append(friendship.profile1.id)
+    
+    if search_query:
+        contacts = Profile.objects.filter(id__in=friend_ids).filter(
+            Q(user__username__icontains=search_query) |
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query)
+        )
+    else:
+        contacts = Profile.objects.filter(id__in=friend_ids)
+    
+    contacts_data = []
+    for contact in contacts:
+        # Получаем активную аватарку
+        avatar = contact.avatar_set.filter(active=True).first()
+        avatar_url = avatar.image.url if avatar else None
+        
+        contacts_data.append({
+            'id': contact.id,
+            'name': contact.user.get_full_name() or contact.user.username,
+            'username': contact.user.username,
+            'avatar': avatar_url
+        })
+    
+    return JsonResponse({
+        'success': True,
+        'contacts': contacts_data
+    })
+
+@login_required
+def get_users(request):
+    """Получение списка друзей для создания группы"""
+    try:
+        user_profile = request.user.profile
+        
+        # Получаем только друзей пользователя
+        friendships = Friendship.objects.filter(
+            Q(profile1=user_profile, accepted=True) | 
+            Q(profile2=user_profile, accepted=True)
+        )
+        
+        friend_ids = []
+        for friendship in friendships:
+            if friendship.profile1 == user_profile:
+                friend_ids.append(friendship.profile2.id)
+            else:
+                friend_ids.append(friendship.profile1.id)
+        
+        users = Profile.objects.filter(id__in=friend_ids).select_related('user')
+        
+        users_data = []
+        for profile in users:
+            # Получаем активную аватарку пользователя
+            avatar = profile.avatar_set.filter(active=True).first()
+            avatar_url = avatar.image.url if avatar else None
+            
+            users_data.append({
+                'id': profile.id,
+                'name': profile.user.get_full_name() or profile.user.username,
+                'username': profile.user.username,
+                'avatar': avatar_url
+            })
+        
+        return JsonResponse({
+            'success': True,
+            'users': users_data
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': 'Помилка при завантаженні користувачів'
+        })
 
 @login_required
 @require_POST
@@ -199,39 +331,6 @@ def delete_chat(request, chat_id):
         return JsonResponse({
             'success': False,
             'error': 'Помилка при видаленні чату'
-        })
-
-@login_required
-def get_users(request):
-    """Получение списка пользователей для создания группы"""
-    try:
-        user_profile = request.user.profile
-        
-        # Получаем всех пользователей кроме текущего
-        users = Profile.objects.exclude(id=user_profile.id).select_related('user')
-        
-        users_data = []
-        for profile in users:
-            # Получаем активную аватарку пользователя
-            avatar = profile.avatar_set.filter(active=True).first()
-            avatar_url = avatar.image.url if avatar else None
-            
-            users_data.append({
-                'id': profile.id,
-                'name': profile.user.get_full_name() or profile.user.username,
-                'username': profile.user.username,
-                'avatar': avatar_url
-            })
-        
-        return JsonResponse({
-            'success': True,
-            'users': users_data
-        })
-        
-    except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'error': 'Помилка при завантаженні користувачів'
         })
 
 @login_required
@@ -573,20 +672,3 @@ def leave_group(request, chat_id):
             'success': False,
             'error': 'Помилка при виході з групи'
         })
-
-# class SendMessageView(LoginRequiredMixin, View):
-#     def post(self, request, chat_id):
-#         chat = get_object_or_404(ChatGroup, id = chat_id)
-#         content = request.POST.get('content')
-#         image = request.FILES.get('attached_image')
-#         profile = request.user.profile
-
-#         if content or image:
-#             ChatMessage.objects.create(
-#                 content = content,
-#                 author = profile,
-#                 chat_group = chat,
-#                 attached_image = image
-#             )
-
-#         return redirect(f'/chats/?chat_id = {chat.id}')

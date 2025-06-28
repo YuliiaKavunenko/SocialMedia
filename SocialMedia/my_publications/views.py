@@ -20,11 +20,11 @@ def edit_publication(request, pub_id):
             publication = form.save(commit=False)
             publication.author = request.user.profile
             
-            # Получаем выбранные теги для установки topic при редактировании
+            # Получаем выбранные теги для установки темі при редактировании
             selected_tags = request.POST.get('selected_tags', '')
             tag_ids = [int(tid) for tid in selected_tags.split(',') if tid.isdigit()]
             
-            # Устанавливаем topic как последний выбранный тег
+            # Устанавливаем тему как последний выбранный тег
             if tag_ids:
                 last_tag = Tag.objects.filter(id=tag_ids[-1]).first()
                 if last_tag:
@@ -91,7 +91,7 @@ def edit_publication(request, pub_id):
 
 @login_required
 def delete_publication(request, pub_id):
-    publication = get_object_or_404(Post, id=pub_id, author__user=request.user)  # Добавлена проверка автора
+    publication = get_object_or_404(Post, id=pub_id, author__user=request.user)  # проверка автора
 
     if request.method == "POST":
         publication.delete()
@@ -156,7 +156,7 @@ def render_my_publications_page(request):
     # Подсчет публикаций пользователя для отображения в профиле
     user_posts_count = publications.count()
 
-    # Получаем количество друзей (принятые запросы дружбы)
+    # Получаем количество друзей
     user_friends_count = Friendship.objects.filter(
         models.Q(profile1=user.profile, accepted=True) | 
         models.Q(profile2=user.profile, accepted=True)
@@ -168,7 +168,7 @@ def render_my_publications_page(request):
         accepted=False
     ).count()
 
-    # Пока что заглушка для подписчиков (можно добавить логику позже)
+    # Подписчиков пока 0
     user_followers_count = 0
     
     # Получаем аватар пользователя

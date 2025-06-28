@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/friends/friend_page.css' %}">
+{% endblock %}
+
+{% block title %}
+    {% if profile_user %}{{ profile_user.username }}{% else %}Сторінка користувача{% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if error %}
+        <div class="error-message">
+            <h3>{{ error }}</h3>
+        </div>
+    {% else %}
+        <div id="main-page-content">
+            <div id="user-frames">
+                <div id="user-frame">
+                    <div id="profile">
+                        <img src="{% if avatar_url %}{{ avatar_url }}{% else %}{% static 'img/avatarka.png' %}{% endif %}" alt="фото юзера" id="user-photo">
+                        <div id="nickname">
+                            <h3>{{ profile_user.first_name }} {{ profile_user.last_name|default:profile_user.username }}</h3>
+                            <h4>@{{ profile_user.username }}</h4>
+                        </div>
+                    </div>
+                    <div id="profile-data">
+                        <div id="subscribers">
+                            <h3>{{ posts_count }}</h3>
+                            <h4>Дописи</h4>
+                        </div>
+                        <div id="readers">
+                            <h3>{{ followers_count }}</h3>
+                            <h4>Читачі</h4>
+                        </div>
+                        <div id="friends">
+                            <h3>{{ friends_count }}</h3>
+                            <h4>Друзі</h4>
+                        </div>
+                    </div>
+                    {% if not is_own_profile %}
+                        <div id="friend-profile-buttons">
+                            {% if friendship_status == 'friends' %}
+                                <button type="button" id="message-user" class="message-friend">Повідомлення</button>
+                                <button type="button" id="remove-friend" class="delete-friend">Видалити з друзів</button>
+                            {% elif friendship_status == 'request_sent' %}
+                                <button type="button" disabled class="request-sent">Запит надіслано</button>
+                            {% elif friendship_status == 'request_received' %}
+                                <button type="button" id="accept-request" class="confirm-request">Підтвердити</button>
+                                <button type="button" id="decline-request" class="delete-request">Відхилити</button>
+                            {% else %}
+                                <button type="button" id="send-request" class="add-recommendation">Додати в друзі</button>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div id="friends-frame">
+                    <div id="search">
+                        <div id="albums">
+                            <img src="{% static 'img/Picture.png' %}" alt="albums" id="albums-icon">
+                            <h3>Альбоми</h3>
+                        </div>
+                        <button type="submit" id="watch-all">Дивитись всі</button>
+                    </div>
+                    <hr>
+                    <div id="albums-list">
+                        {% for album_data in user_albums %}
+                            {% with album=album_data.album last_images=album_data.last_images %}
+                                <div class="album-item">
+                                    <h4>{{ album.name }}</h4>
+                                    <div class="album-description">
+                                        <h4>{{ album.topic.name }}</h4>
+                                        <h5>{{ album.created_at.year }} рік</h5>
+                                    </div>
+                                    {% if last_images %}
+                                        <div class="album-images">
+                                            {% for image in last_images %}
+                                                <img src="{{ image.file.url }}" alt="{{ album.name }}">
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <img src="{% static 'img/avatarka.png' %}" alt="Немає зображень" class="no-image">
+                                    {% endif %}
+                                </div>
+                            {% endwith %}
+                        {% empty %}
+                            <div class="no-albums">
+                                <h4>Альбомів ще немає</h4>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div id="publications">
+                {% for post_data in user_posts %}
+                    {% with post=post_data.post author_avatar=post_data.author_avatar %}
+                        <div class="publication-card">
+                            <div class="publication-header">
+                                <div id="creator-data">
+                                    {% if author_avatar %}
+                                        <img src="{{ author_avatar.image.url }}" alt="userPhoto" id="user-photo-publication">
+                                    {% else %}
+                                        <img src="{% static 'img/avatarka.png' %}" alt="userPhoto" id="user-photo-publication">
+                                    {% endif %}
+                                    <h4 id="user-name-publication">{{ post.author.user.username }}</h4>
+                                </div>
+                            </div>
+                            <hr>
+                            {% if post.title %}
+                                <h3>{{ post.title }}</h3>
+                            {% endif %}
+
+                            {% if post.content %}
+                                <p>{{ post.content }}</p>
+                            {% endif %}
+
+                            {% if post.tags.all %}
+                                <p class="tag-text">
+                                    {% for tag in post.tags.all %}
+                                        #{{ tag.name }}{% if not forloop.last %} {% endif %}
+                                    {% endfor %}
+                                </p>
+                            {% endif %}
+
+                            {% if post.link_set.all %}
+                                <p>
+                                    {% for link in post.link_set.all %}
+                                        <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
+                                    {% endfor %}
+                                </p>
+                            {% endif %}
+
+                            {% if post.images.all %}
+                                <div class="publication-images-container count-{{ post.images.all|length }}">
+                                    {% for image in post.images.all %}
+                                        <img src="{{ image.file.url }}" alt="Зображення публікації" class="publication-image">
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="reactions-to-post">
+                                <div class="preferences">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#81818d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 10v12"/>
+                                        <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
+                                    </svg>
+                                    <h4>{{ post.likes.count }} Вподобань</h4>
+                                    
+                                </div>
+                                <div class="views">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#81818d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                    <h4>{{ post.views.count }} Переглядів</h4>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    {% endwith %}
+                {% empty %}
+                    <div class="no-posts">
+                        <h4>Поки що немає дописів...</h4>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        window.profileUsername = '{{ profile_user.username|escapejs }}';
+    </script>
+    <script src="{% static 'js/friends/friend_page.js' %}"></script>
+{% endblock %}

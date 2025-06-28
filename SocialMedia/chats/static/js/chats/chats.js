@@ -1,6 +1,62 @@
 document.addEventListener("DOMContentLoaded", () => {
   const chatPanel = document.getElementById("chat-panel")
 
+  // поиск контактов
+  const searchInput = document.getElementById("search")
+  const contactsContainer = document.getElementById("contacts")
+
+  if (searchInput && contactsContainer) {
+    let searchTimeout
+
+    searchInput.addEventListener("input", (e) => {
+      clearTimeout(searchTimeout)
+      const query = e.target.value.trim()
+
+      searchTimeout = setTimeout(() => {
+        searchContacts(query)
+      }, 300)
+    })
+
+    async function searchContacts(query) {
+      try {
+        const response = await fetch(`/chats/search-contacts/?q=${encodeURIComponent(query)}`)
+        const data = await response.json()
+
+        if (data.success) {
+          displayContacts(data.contacts)
+        }
+      } catch (error) {
+        console.error("Error searching contacts:", error)
+      }
+    }
+
+    function displayContacts(contacts) {
+      contactsContainer.innerHTML = ""
+
+      contacts.forEach((contact) => {
+        const contactLink = document.createElement("a")
+        contactLink.href = `?contact_id=${contact.id}`
+        contactLink.className = "contact-link"
+
+        const contactDiv = document.createElement("div")
+        contactDiv.className = "contact"
+
+        const img = document.createElement("img")
+        img.src = contact.avatar || "/static/img/avatarka.png"
+        img.className = "user-photo"
+        img.alt = contact.username
+
+        const h4 = document.createElement("h4")
+        h4.textContent = contact.name
+
+        contactDiv.appendChild(img)
+        contactDiv.appendChild(h4)
+        contactLink.appendChild(contactDiv)
+        contactsContainer.appendChild(contactLink)
+      })
+    }
+  }
+
   if (chatPanel) {
     const currentUserId = Number.parseInt(chatPanel.dataset.userId)
     const chatId = chatPanel.dataset.chatId
@@ -12,11 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chatSocket.onopen = (e) => {
       console.log("WebSocket connection established")
-      chatSocket.send(
-        JSON.stringify({
-          type: "get_online_status",
-        }),
-      )
     }
 
     chatSocket.onclose = (e) => {
@@ -35,8 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
           handleNewMessage(data)
         } else if (data.type === "chat_list_update") {
           updateChatList(data)
-        } else if (data.type === "online_status") {
-          updateOnlineStatus(data)
         }
       } catch (error) {
         console.error("Error parsing message:", error)
@@ -114,69 +163,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateChatList(data) {
       const chatsList = document.getElementById("chats")
-      const existingChat = chatsList.querySelector(`a[href*="chat_id=${data.chat_id}"]`)
+      const groupsList = document.getElementById("groups")
+      const targetList = data.is_personal ? chatsList : groupsList
+
+      if (!targetList) return
+
+      const existingChat = targetList.querySelector(`a[href*="chat_id=${data.chat_id}"]`)
 
       if (existingChat) {
-        const timeElement = existingChat.querySelector(".user h5")
-        const messageElement = existingChat.querySelector(".chat-info > h5")
+        const timeElement = existingChat.querySelector(".user h5, .info h5")
+        const messageElement = existingChat.querySelector(".chat-info > h5, .group-info > h5")
+        const avatarElement = existingChat.querySelector(".chat-avatar, .group img")
 
         if (timeElement) timeElement.textContent = data.last_message_time
         if (messageElement)
           messageElement.textContent =
             data.last_message.length > 30 ? data.last_message.substring(0, 30) + "..." : data.last_message
 
-        chatsList.insertBefore(existingChat, chatsList.firstChild)
+        // аватарка для персональных чатов
+        if (data.is_personal && avatarElement && data.other_member_avatar) {
+          avatarElement.src = data.other_member_avatar
+        }
+
+        targetList.insertBefore(existingChat, targetList.firstChild)
       } else {
         const newChatLink = document.createElement("a")
         newChatLink.href = `?chat_id=${data.chat_id}`
 
         const newChatDiv = document.createElement("div")
-        newChatDiv.classList.add("chat")
+        newChatDiv.classList.add(data.is_personal ? "chat" : "group")
 
-        newChatDiv.innerHTML = `
-          <img src="/static/img/avatarka.png" alt="${data.chat_name}" class="chat-avatar">
-          <div class="chat-info">
-            <div class="user">
-              <h4>${data.chat_name}</h4>
-              <h5>${data.last_message_time}</h5>
+        if (data.is_personal) {
+          newChatDiv.innerHTML = `
+            <img src="${data.other_member_avatar || "/static/img/avatarka.png"}" alt="${data.chat_name}" class="chat-avatar">
+            <div class="chat-info">
+              <div class="user">
+                <h4>${data.chat_name}</h4>
+                <h5>${data.last_message_time}</h5>
+              </div>
+              <h5>${data.last_message.length > 30 ? data.last_message.substring(0, 30) + "..." : data.last_message}</h5>
             </div>
-            <h5>${data.last_message.length > 30 ? data.last_message.substring(0, 30) + "..." : data.last_message}</h5>
-          </div>
-        `
+          `
+        } else {
+          newChatDiv.innerHTML = `
+            <img src="/placeholder.svg?height=40&width=40" alt="${data.chat_name}">
+            <div class="group-info">
+              <div class="info">
+                <h4>${data.chat_name}</h4>
+                <h5>${data.last_message_time}</h5>
+              </div>
+              <h5>${data.last_message.length > 30 ? data.last_message.substring(0, 30) + "..." : data.last_message}</h5>
+            </div>
+          `
+        }
 
         newChatLink.appendChild(newChatDiv)
-        chatsList.insertBefore(newChatLink, chatsList.firstChild)
+        targetList.insertBefore(newChatLink, targetList.firstChild)
       }
     }
-
-    // function updateOnlineStatus(data) {
-    //   const chatTitle = document.getElementById("chat-title")
-    //   const existingStatus = chatTitle.querySelector(".online-status")
-
-    //   if (existingStatus) {
-    //     existingStatus.remove()
-    //   }
-
-    //   const statusDiv = document.createElement("div")
-    //   statusDiv.classList.add("online-status")
-
-    //   if (data.is_personal_chat) {
-    //     if (data.is_online) {
-    //       statusDiv.textContent = "онлайн"
-    //       statusDiv.classList.add("online")
-    //     } else if (data.last_seen) {
-    //       statusDiv.textContent = `був(ла) ${data.last_seen}`
-    //       statusDiv.classList.add("offline")
-    //     }
-    //   } else {
-    //     const onlineCount = data.online_count || 0
-    //     const totalCount = data.total_members || 0
-    //     statusDiv.textContent = `${onlineCount} з ${totalCount} онлайн`
-    //     statusDiv.classList.add("group-online")
-    //   }
-
-    //   chatTitle.appendChild(statusDiv)
-    // }
 
     const messageForm = document.querySelector("#message-form")
     const messageInput = messageForm.querySelector("textarea[name='content']")
@@ -287,14 +331,14 @@ document.addEventListener("DOMContentLoaded", () => {
             hideDeleteConfirm()
             window.location.href = window.location.pathname
           } else {
-            alert("Помилка: " + data.error)
+            console.log("Помилка: " + data.error)
           }
         } else {
-          alert("Помилка при виконанні операції")
+          console.log("Помилка при виконанні операції")
         }
       } catch (error) {
         console.error("Error:", error)
-        alert("Помилка при виконанні операції")
+        console.log("Помилка при виконанні операції")
       }
     }
 
@@ -364,7 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Error loading group data:", error)
-        alert("Помилка при завантаженні даних групи")
+        console.log("Помилка при завантаженні даних групи")
       }
     }
 
@@ -428,11 +472,11 @@ document.addEventListener("DOMContentLoaded", () => {
           currentGroupData.members = currentGroupData.members.filter((m) => m.id !== memberId)
           displayEditParticipants()
         } else {
-          alert("Помилка при видаленні учасника: " + data.error)
+          console.log("Помилка при видаленні учасника: " + data.error)
         }
       } catch (error) {
         console.error("Error removing participant:", error)
-        alert("Помилка при видаленні учасника")
+        console.log("Помилка при видаленні учасника")
       }
     }
 
@@ -456,7 +500,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Error loading users:", error)
-        alert("Помилка при завантаженні користувачів")
+        console.log("Помилка при завантаженні користувачів")
       }
     }
 
@@ -547,11 +591,11 @@ document.addEventListener("DOMContentLoaded", () => {
           addParticipantsModal.style.display = "none"
           editGroupModal.style.display = "flex"
         } else {
-          alert("Помилка при додаванні учасників: " + data.error)
+          console.log("Помилка при додаванні учасників: " + data.error)
         }
       } catch (error) {
         console.error("Error adding participants:", error)
-        alert("Помилка при додаванні учасників")
+        console.log("Помилка при додаванні учасників")
       }
     }
 
@@ -571,7 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function saveGroupChanges() {
       const groupName = editGroupNameInput.value.trim()
       if (!groupName) {
-        alert("Введіть назву групи")
+        console.log("Введіть назву групи")
         return
       }
 
@@ -597,13 +641,12 @@ document.addEventListener("DOMContentLoaded", () => {
           editGroupModal.style.display = "none"
           // Обновляем название в заголовке чата
           document.querySelector("#chat-title h4").textContent = groupName
-          alert("Зміни збережено успішно")
         } else {
-          alert("Помилка при збереженні змін: " + data.error)
+          console.log("Помилка при збереженні змін: " + data.error)
         }
       } catch (error) {
         console.error("Error saving group changes:", error)
-        alert("Помилка при збереженні змін")
+        console.log("Помилка при збереженні змін")
       }
     }
 
@@ -627,11 +670,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.success) {
           window.location.href = window.location.pathname
         } else {
-          alert("Помилка при виході з групи: " + data.error)
+          console.log("Помилка при виході з групи: " + data.error)
         }
       } catch (error) {
         console.error("Error leaving group:", error)
-        alert("Помилка при виході з групи")
+        console.log("Помилка при виході з групи")
       }
     }
 
@@ -989,19 +1032,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const initials = words.length > 1 ? words[0][0] + words[1][0] : words[0][0] + (words[0][1] || "")
       avatarInitials.textContent = initials.toUpperCase()
     } else {
-      avatarInitials.textContent = "NG"
+      avatarInitials.textContent = ""
     }
   }
 
   async function createGroup() {
     const groupName = groupNameInput.value.trim()
     if (!groupName) {
-      alert("Введіть назву групи")
+      
       return
     }
 
     if (selectedUsers.length === 0) {
-      alert("Оберіть учасників групи")
+     
       return
     }
 
@@ -1027,11 +1070,11 @@ document.addEventListener("DOMContentLoaded", () => {
         hideCreateGroupModals()
         window.location.href = `?chat_id=${data.chat_id}`
       } else {
-        alert("Помилка при створенні групи: " + data.error)
+        console.log("Помилка при створенні групи: " + data.error)
       }
     } catch (error) {
       console.error("Error creating group:", error)
-      alert("Помилка при створенні групи")
+      console.log("Помилка при створенні групи")
     }
   }
 
