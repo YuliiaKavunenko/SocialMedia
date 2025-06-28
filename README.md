@@ -68,7 +68,7 @@
 ## Структура проєкту
 
 ```mermaid
-%%{ init : { "theme" : "forest", "flowchart" : { "curve" : "basis" }, "themeVariables": { "fontFamily": "Nunito" } }}%%
+%%{ init : { "theme" : "default", "flowchart" : { "curve" : "basis" }, "themeVariables": { "fontFamily": "Nunito" } }}%%
 flowchart LR
     A(SocialMedia) --> B(chats)
     A --> C(friends)
