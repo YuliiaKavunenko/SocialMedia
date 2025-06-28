@@ -33,7 +33,11 @@
                         {% if avatar.shown %}
                             <div class="user-photo-container">
                                 <img src="{{ avatar.image.url }}" alt="avatar">
-                                <button type="button" class="delete-user-photo-btn" data-avatar-id="{{ avatar.id }}">🗑</button>
+                                <button type="button" class="delete-user-photo-btn" data-avatar-id="{{ avatar.id }}">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                    </svg>
+                                </button>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -91,7 +95,9 @@
 
                                     <button type="button"
                                             class = "delete-album-in-menu-button"
-                                            data-album-id = "{{ album_data.album.id }}">🗑 Видалити альбом</button>
+                                            data-album-id = "{{ album_data.album.id }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+          </svg> Видалити альбом</button>
                             </div>
                                 
                             </div>
@@ -110,7 +116,11 @@
                             {% for image in album_data.album.images.all %}
                                 <div class="album-photo-container">
                                     <img src="{{ image.file.url }}" alt="{{ image.filename }}">
-                                    <button type="button" class="delete-album-photo-btn" data-image-id="{{ image.id }}" data-album-id="{{ album_data.album.id }}">🗑</button>
+                                    <button type="button" class="delete-album-photo-btn" data-image-id="{{ image.id }}" data-album-id="{{ album_data.album.id }}">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                        </svg>
+                                    </button>
                                 </div>
                             {% endfor %}
                             

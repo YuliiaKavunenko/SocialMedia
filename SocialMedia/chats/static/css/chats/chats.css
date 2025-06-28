@@ -63,7 +63,8 @@ img {
 #contact-header {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 6px;
   align-items: center;
 }
 #contact-header h4 {
@@ -481,6 +482,20 @@ img {
   color: #81818d;
   size: 20px;
   font-family: "GT Walsheim Pro";
+}
+#messages{
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+#group-chats{
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
 }
 .chat-info h5 {
   color: #070a1c;

@@ -13,13 +13,17 @@
 {% block content %}
     <div id="chat-page-content">
         <div id="contact-panel">
-            <button type="button" id="create-group"><img src="/placeholder.svg" alt="">Створити груповий чат</button>
+            <button type="button" id="create-group">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 4v12m-6-6h12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
+                Створити груповий чат</button>
             <div id="contacts-window">
                 <div id="contact-header">
-                    <img src="/placeholder.svg" alt="">
-                    <h4>Друзі</h4>
+                    <img src="{% static '../static/img/people.png' %}" alt="">
+                    <h4>Контакти</h4>
                 </div>
-                <input type="text" name="" id="search" placeholder="Пошук">
+                <input type="text" name="" id="search" placeholder="🔎 Пошук">
                 <div id="contacts" style="overflow-y: auto; max-height: 400px;">
                     {% for contact in contacts %}
                         <a href="?contact_id={{ contact.id }}" class="contact-link">
@@ -174,7 +178,7 @@
             <div id="messages-window">
                 <div id="chats-header">
                     <div id="messages">
-                        <img src="/placeholder.svg" alt="">
+                        <img src="{% static '../static/img/Chat.png' %}" alt="">
                         <h4>Повідомлення</h4>
                     </div>
                     <form action="" method="post">
@@ -220,7 +224,7 @@
             <div id="groups-window">
                 <div id="groups-header">
                     <div id="group-chats">
-                        <img src="/placeholder.svg" alt="">
+                        <img src="{% static '../static/img/Chat.png' %}" alt="">
                         <h4>Групові чати</h4>
                     </div>
                     <form action="" method="post">

@@ -676,6 +676,7 @@ textarea {
   border: 1px solid #cdced2;
   border-radius: 20px;
   padding: 24px 44px 44px 44px;
+  z-index: 9999;
 }
 #edit-publication-form-inputs {
   display: flex;
